@@ -40,18 +40,12 @@ singlefile.tex: $(filter-out singlefile.tex,$(TEX))
 	echo "" > singlefile.tex
 	while read line; do if [ "`echo $$line | grep '^\\input{' | tr '{' ' ' | tr '}' ' ' | awk '{print $$2}'`" == "" ]; then echo $$line >> singlefile.tex; else cat `echo $$line | grep '^\\input{' | tr '{' ' ' | tr '}' ' ' | awk '{print $$2}'`.tex >> singlefile.tex; fi; done < paper.tex
 
-
-test_build:
-	rm -rf _test_build
-	mkdir _test_build
-	(REPO=$$(svn info | grep URL | sed 's/URL: //');\
-	 DIR=$$(svn info | grep URL | sed 's/.*\///');\
-	 cd _test_build; \
-	 svn checkout $$REPO;\
-	 cd $$DIR;\
-	 make;\
-	 open paper.pdf;\
-	)	
+.PHONY: test
+test:
+	rm -rf .test_build
+	git clone . ./.test_build
+	git clone libpaper ./.test_build/libpaper
+	(cd .test_build; make paper.pdf; open paper.pdf || true)
 
 pdf: $(PDF_TARGETS)
 
