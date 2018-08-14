@@ -31,7 +31,10 @@ GENERATED = draft.tex rev.tex draft.pdf paper.pdf diff-preamble.tex diff-preambl
 
 .PHONY: test_build clean
 
-all: $(ALL)
+all: check_env $(ALL)
+
+check_env:
+	@if ! env| grep TEXINPUT; then echo "You should do 'export TEXINPUTS=./:./libpaper//:'"; false; else true; fi
 
 paper.pdf:  $(TEX) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
 
