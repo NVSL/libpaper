@@ -1,0 +1,33 @@
+\usepackage{tightenum}
+\usepackage{setspace}
+%\usepackage{epsf}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{times}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsmath}
+\usepackage[compact]{titlesec}
+\usepackage{url}
+\urlstyle{rm}
+\usepackage{multirow}
+
+  \let\oldthebibliography=\thebibliography
+  \let\endoldthebibliography=\endthebibliography
+  \renewenvironment{thebibliography}[1]{%
+    \begin{oldthebibliography}{#1}%
+      \setlength{\parskip}{0ex}%
+      \setlength{\itemsep}{0ex}%
+  }%
+  {%
+    \end{oldthebibliography}%
+  }
+
+\sloppy
+\input{libpaper/macros}
+\input{libpaper/remark}
+
+\newcommand{\shortenum}{\vspace*{-0.1in}}
+\newcommand{\sparagraph}[1]{\vspace*{0.0in}\paragraph{#1}}
+
+\input{libpaper/defs}
