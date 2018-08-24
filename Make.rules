@@ -26,17 +26,19 @@ TEX=$(wildcard *.tex libpaper/*.tex libpaper/*.sty libpaper/*.cls)
 FIGS=$(wildcard Figures/*.pdf)
 GRAPHS=$(wildcard Graphs/*.pdf)
 
+PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode
+
 PANDOC=pandoc
 
 PDF_TARGETS= paper.pdf
 GENERATED = draft.tex rev.tex draft.pdf paper.pdf diff-preamble.tex diff-preamble-new.tex
 
+PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
+
 .PHONY: test_build clean
 
-all: check_env $(ALL)
+all: $(ALL)
 
-check_env:
-	@if ! env| grep TEXINPUT; then echo "You should do 'export TEXINPUTS=./:./libpaper//:'"; false; else true; fi
 
 paper.pdf:  $(TEX) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
 
@@ -59,14 +61,14 @@ test:
 pdf: $(PDF_TARGETS)
 
 %.aux : %.tex $(TEX_STUFF)
-	pdflatex $(PDFLATEX_BATCH_OPTIONS) $* 
+	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $* 
 
 %.bbl : %.aux 
 	bibtex $* || true
 
 %.pdf : %.bbl
-	pdflatex $(PDFLATEX_BATCH_OPTIONS) $*
-	pdflatex $(PDFLATEX_BATCH_OPTIONS) $*
+	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
+	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 
 clean:
 	rm -rf *.aux *.log *.bbl *.blg *.out $(GENERATED)
