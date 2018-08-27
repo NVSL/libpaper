@@ -37,7 +37,7 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
 .PHONY: test_build clean
 
-all:check $(ALL)
+all: check $(ALL)
 
 
 paper.pdf:  $(TEX) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
@@ -71,7 +71,6 @@ pdf: $(PDF_TARGETS)
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 
 .PHONY: clean
-
 clean:
 	rm -rf *.aux *.log *.bbl *.blg *.out $(GENERATED)
 	rm -rf paper_abbrv.bib 
