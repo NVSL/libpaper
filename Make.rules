@@ -70,6 +70,12 @@ pdf: $(PDF_TARGETS)
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 
+%.docx: $(TEX)
+	$(PANDOC) $*.tex -w docx -o $@
+
+%.txt: $(TEX)
+	$(PANDOC) $*.tex -w plain -o $@
+
 clean:
 	rm -rf *.aux *.log *.bbl *.blg *.out $(GENERATED)
 	rm -rf paper_abbrv.bib 
