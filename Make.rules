@@ -37,7 +37,7 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
 .PHONY: test_build clean
 
-all: $(ALL)
+all: check $(ALL)
 
 
 paper.pdf:  $(TEX) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
@@ -76,8 +76,12 @@ pdf: $(PDF_TARGETS)
 %.txt: $(TEX)
 	$(PANDOC) $*.tex -w plain -o $@
 
+.PHONY: clean
 clean:
 	rm -rf *.aux *.log *.bbl *.blg *.out $(GENERATED)
 	rm -rf paper_abbrv.bib 
 	rm -rf _test_build
 
+.PHONY: check
+check:
+	@if ! [ -d libpaper/.git ]; then echo "Your libpaper is not in its own git repo.  You _should_not_ include the contents of libpaper in your paper directory.  You should checkout libpaper, so the improvement you make will be available to other students"; false; fi
