@@ -30,8 +30,7 @@ PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode
 
 PANDOC=pandoc
 
-PDF_TARGETS= paper.pdf
-GENERATED = draft.tex rev.tex draft.pdf paper.pdf diff-preamble.tex diff-preamble-new.tex
+PDF_TARGETS ?= paper.pdf
 
 PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
@@ -78,7 +77,7 @@ pdf: $(PDF_TARGETS)
 
 .PHONY: clean
 clean:
-	rm -rf *.aux *.log *.bbl *.blg *.out $(GENERATED)
+	rm -rf *.aux *.log *.bbl *.blg *.out $(PDF_TARGETS)
 	rm -rf paper_abbrv.bib 
 	rm -rf _test_build
 
