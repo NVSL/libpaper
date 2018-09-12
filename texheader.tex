@@ -1,13 +1,35 @@
-\usepackage{tightenum}
+
+%% This stuff is for compatibility with amsart on arxiv: https://medium.com/@rvprasad/typesetting-a-document-in-acm-style-for-arxiv-46967b306f2f
+%% If you need to remove it, the right solution is to factor it out into another file.
+\makeatletter                   %1
+\def\mdseries@tt{m}             %1
+\makeatother                    %1
+
+\usepackage[plain]{fancyref}
+\usepackage[draft=true]{minted} %2
+\usepackage{color}
+\usepackage{hyperref}           %5
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=red,      
+    urlcolor=magenta,
+    breaklinks=true,            %3
+}
+\usepackage{breakurl}           %3
+%%
+%%
+
 \usepackage{setspace}
-%\usepackage{epsf}
+\usepackage{epsf}
 \usepackage{epsfig}
 \usepackage{graphicx}
 \usepackage{times}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{amsmath}
-\usepackage[compact]{titlesec}
+
+
 \usepackage{url}
 \urlstyle{rm}
 \usepackage{multirow}
@@ -23,7 +45,6 @@
     \end{oldthebibliography}%
   }
 
-\sloppy
 \input{libpaper/macros}
 \input{libpaper/remark}
 

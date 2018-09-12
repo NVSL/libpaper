@@ -22,12 +22,11 @@ endif
 endif
 
 
-
-TEX+=$(wildcard *.tex libpaper/*.tex libpaper/*.sty libpaper/*/*.cls)
+TEX_FILES+=$(wildcard *.tex libpaper/*.tex libpaper/*.sty libpaper/*/*.cls)
 FIGS=$(wildcard Figures/*.pdf)
 GRAPHS=$(wildcard Graphs/*.pdf)
 
-ARXIV_FILES=$(TEX) $(FIGS) $(GRAPHS)
+ARXIV_FILES=$(TEX_FILES) $(FIGS) $(GRAPHS) 00README.XXX
 
 PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode
 
@@ -43,14 +42,14 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 all: check $(ALL)
 
 
-paper.pdf:  $(TEX) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
+paper.pdf:  $(TEX_FILES) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
 
 .PHONY: wc
 wc:
 	@if ! which -s $(PANDOC); then echo You need to install $(PANDOC);  false; fi;
 	@$(PANDOC)  $(TEX_TARGETS)  -w plain -o - |wc
 
-singlefile.tex: $(filter-out singlefile.tex,$(TEX))
+singlefile.tex: $(filter-out singlefile.tex,$(TEX_FILES))
 	echo "" > singlefile.tex
 	while read line; do if [ "`echo $$line | grep '^\\input{' | tr '{' ' ' | tr '}' ' ' | awk '{print $$2}'`" == "" ]; then echo $$line >> singlefile.tex; else cat `echo $$line | grep '^\\input{' | tr '{' ' ' | tr '}' ' ' | awk '{print $$2}'`.tex >> singlefile.tex; fi; done < paper.tex
 
@@ -73,22 +72,22 @@ pdf: $(PDF_TARGETS)
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 
-%.docx: $(TEX)
+%.docx: $(TEX_FILES)
 	$(PANDOC) $*.tex -w docx -o $@
 
-%.txt: $(TEX)
+%.txt: $(TEX_FILES)
 	$(PANDOC) $*.tex -w plain -o $@
 
 ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
 
 .PHONY: arxiv
-arxiv: $(TEX) paper.bbl
+arxiv: $(TEX_FILES) paper.bbl
+	rm -rf $(ARXIV_NAME)*
 	mkdir -p $(ARXIV_NAME)
-	tar cf - $(ARXIV_FILES) $< | (cd $(ARXIV_NAME); tar xf -)
+	tar cf - $(ARXIV_FILES) paper.bbl | (cd $(ARXIV_NAME); tar xf -)
 	(cd $(ARXIV_NAME); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
-	(cd $(ARXIV_NAME); $(PDFLATEX) $(TEX_TARGETS))
+	(cd $(ARXIV_NAME);  $(PDFLATEX) $(TEX_TARGETS);  $(PDFLATEX) $(TEX_TARGETS); )
 	tar czf $(ARXIV_NAME).tgz $(ARXIV_NAME)
-	
 
 .PHONY: clean
 clean:
