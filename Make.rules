@@ -22,15 +22,19 @@ endif
 endif
 
 
-TEX=$(wildcard *.tex libpaper/*.tex libpaper/*.sty libpaper/*.cls)
+
+TEX+=$(wildcard *.tex libpaper/*.tex libpaper/*.sty libpaper/*/*.cls)
 FIGS=$(wildcard Figures/*.pdf)
 GRAPHS=$(wildcard Graphs/*.pdf)
+
+ARXIV_FILES=$(TEX) $(FIGS) $(GRAPHS)
 
 PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode
 
 PANDOC=pandoc
 
 PDF_TARGETS ?= paper.pdf
+TEX_TARGETS = $(patsubst %.pdf,%.tex,$(PDF_TARGETS))
 
 PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
@@ -44,7 +48,7 @@ paper.pdf:  $(TEX) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
 .PHONY: wc
 wc:
 	@if ! which -s $(PANDOC); then echo You need to install $(PANDOC);  false; fi;
-	@$(PANDOC)  paper.tex  -w plain -o - |wc
+	@$(PANDOC)  $(TEX_TARGETS)  -w plain -o - |wc
 
 singlefile.tex: $(filter-out singlefile.tex,$(TEX))
 	echo "" > singlefile.tex
@@ -59,7 +63,7 @@ test:
 
 pdf: $(PDF_TARGETS)
 
-%.aux : %.tex $(TEX_STUFF)
+%.aux : %.tex 
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $* 
 
 %.bbl : %.aux 
@@ -74,6 +78,17 @@ pdf: $(PDF_TARGETS)
 
 %.txt: $(TEX)
 	$(PANDOC) $*.tex -w plain -o $@
+
+ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
+
+.PHONY: arxiv
+arxiv: $(TEX) paper.bbl
+	mkdir -p $(ARXIV_NAME)
+	tar cf - $(ARXIV_FILES) $< | (cd $(ARXIV_NAME); tar xf -)
+	(cd $(ARXIV_NAME); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
+	(cd $(ARXIV_NAME); $(PDFLATEX) $(TEX_TARGETS))
+	tar czf $(ARXIV_NAME).tgz $(ARXIV_NAME)
+	
 
 .PHONY: clean
 clean:
