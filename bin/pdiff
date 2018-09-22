@@ -10,8 +10,8 @@ fi
 
 (
 echo Using $REV
-
-git diff --stat --unified=1000000 --word-diff=porcelain $REV $*| perl -e '
+echo $*
+git diff --stat --unified=1000000 --word-diff=porcelain $REV $* | perl -e'
 while(<>) {
   if (/^(.*\(-\)|diff|index|\+\+\+|\-\-\-|\@\@| .*\|( Bin)?\s+\d+\s+)/) {
     print;
@@ -19,7 +19,7 @@ while(<>) {
   } elsif (/^-/) {
     s/^-.*//g;
   } elsif(/\+(.*)/) {
-    s/\+(.*)/$REV/g; 
+    s/\+(.*)/$1/g; 
     $_ = "\033[101;1m$_\033[0m";
   } elsif (/^ /) {
     s/^ //g;
