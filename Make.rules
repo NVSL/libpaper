@@ -23,8 +23,8 @@ endif
 
 
 TEX_FILES+=$(wildcard *.tex libpaper/*.tex libpaper/*.sty libpaper/*/*.cls)
-FIGS=$(wildcard Figures/*.pdf)
-GRAPHS=$(wildcard Graphs/*.pdf)
+FIGS+=$(wildcard Figures/*.pdf)
+GRAPHS+=$(wildcard Graphs/*.pdf)
 
 ARXIV_FILES=$(TEX_FILES) $(FIGS) $(GRAPHS) 00README.XXX
 
