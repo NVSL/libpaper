@@ -1,9 +1,30 @@
 #!/usr/bin/env bash
 
-if [ ".$1" = "." ]; then
-   REV=`git tag -l $USER-reviewed | tail -1`
+if [ "${1%.tex}" != "$1" ]; then
+   echo here
+   REV=`git tag -l $USER-reviewed* | tail -1`
 else
-   REV=shift
+   REV=$1
+   shift
 fi
 
-git diff --stat --unified=1000000 --word-diff=porcelain  $*| perl -e' while(<>) {if (/^(.*\(-\)|diff|index|\+\+\+|\-\-\-|\@\@| .*\|( Bin)?\s+\d+\s+)/) {print;next;} elsif (/^-/) {s/^-.*//g} elsif(/\+(.*)/) {s/\+(.*)/$REV/g; $_ = "\033[101;1m$_\033[0m";} elsif (/^ /) {s/^ //g;}  s/\n//g; s/\~/\n/g;print "$_"}'|less -R
+(
+echo Using $REV
+
+git diff --stat --unified=1000000 --word-diff=porcelain $REV $*| perl -e '
+while(<>) {
+  if (/^(.*\(-\)|diff|index|\+\+\+|\-\-\-|\@\@| .*\|( Bin)?\s+\d+\s+)/) {
+    print;
+    next;
+  } elsif (/^-/) {
+    s/^-.*//g;
+  } elsif(/\+(.*)/) {
+    s/\+(.*)/$REV/g; 
+    $_ = "\033[101;1m$_\033[0m";
+  } elsif (/^ /) {
+    s/^ //g;
+  } 
+  s/\n//g; 
+  s/\~/\n/g;
+  print "$_"}'
+)|less -R
