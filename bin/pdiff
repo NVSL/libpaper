@@ -6,5 +6,4 @@ else
    REV=shift
 fi
 
-
-git diff --stat --unified=1000000 --word-diff=porcelain  $*| perl -e' while(<>) {if (/^(.*\(-\)|diff|index|\+\+\+|\-\-\-|\@\@| .*\|( Bin)?\s+\d+\s+)/) {print;next;} elsif (/^-/) {s/^-.*//g} elsif(/\+(.*)/) {s/\+(.*)/$REV/g; $_ = "\033[101;1m$_\033[0m";} elsif (/^ /) {s/^ //g;}  s/\n//g; s/\~/\n/g;print "$_"}'|less
+git diff --stat --unified=1000000 --word-diff=porcelain  $*| perl -e' while(<>) {if (/^(.*\(-\)|diff|index|\+\+\+|\-\-\-|\@\@| .*\|( Bin)?\s+\d+\s+)/) {print;next;} elsif (/^-/) {s/^-.*//g} elsif(/\+(.*)/) {s/\+(.*)/$REV/g; $_ = "\033[101;1m$_\033[0m";} elsif (/^ /) {s/^ //g;}  s/\n//g; s/\~/\n/g;print "$_"}'|less -R
