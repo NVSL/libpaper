@@ -23,8 +23,8 @@ endif
 
 
 TEX_FILES+=$(wildcard *.tex libpaper/*.tex libpaper/*.sty libpaper/*/*.cls)
-FIGS=$(wildcard Figures/*.pdf)
-GRAPHS=$(wildcard Graphs/*.pdf)
+FIGS+=$(wildcard Figures/*.pdf)
+GRAPHS+=$(wildcard Graphs/*.pdf)
 
 ARXIV_FILES=$(TEX_FILES) $(FIGS) $(GRAPHS) 00README.XXX
 
@@ -75,14 +75,26 @@ pdf: $(PDF_TARGETS)
 %.docx: $(TEX_FILES)
 	$(PANDOC) $*.tex -w docx -o $@
 
+TEMP_DIR=/tmp/$(shell basename $(CURDIR))
+
+%.grammarly.txt: $(TEX_FILES)
+	rm -rf $(TEMP_DIR)
+	mkdir -p $(TEMP_DIR)
+	tar cf - $(ARXIV_FILES) paper.bbl | (cd $(TEMP_DIR); tar xf -)
+	(cd $(TEMP_DIR); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -ne 's/\~\\(footnote|cite)/\\$$1/g;print;' < $$i.bak > $$i;done)
+	(cd $(TEMP_DIR); $(PANDOC) $*.tex -w plain -o - --wrap=none) > $@
+
 %.txt: $(TEX_FILES)
-	$(PANDOC) $*.tex -w plain -o $@
+	$(PANDOC) $*.tex -w plain -o $@ 
+
+#%%-strip.tex:  $(TEX_FILES)
+#	$(PANDOC) $*.tex -w latex -o $@
 
 ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
 
 .PHONY: arxiv
 arxiv: $(TEX_FILES) paper.bbl
-	rm -rf $(ARXIV_NAME)*
+	rm -rf $(ARXIV_NAME)
 	mkdir -p $(ARXIV_NAME)
 	tar cf - $(ARXIV_FILES) paper.bbl | (cd $(ARXIV_NAME); tar xf -)
 	(cd $(ARXIV_NAME); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
