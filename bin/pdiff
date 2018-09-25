@@ -29,5 +29,5 @@ while(<>) {
   } 
   s/\n//g; 
   s/\~/\n/g;
-  print "$_"}'
+  print "$_"}' #| perl -ne 's/[^\%]\%.*\n//g;print'
 )|less -R

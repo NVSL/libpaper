@@ -8,7 +8,6 @@ If you need to modify something for your specific paper, you could create a bran
 
 By default, `Make.rules` builds `paper.pdf` but you can have it build anything else by setting `PDF_TARGETS` in your paper's make file.
 
-
 ## Submitting to ArXiv
 
 To build a version to submit to Arxiv, you need to change the top line of `paper.tex` to 

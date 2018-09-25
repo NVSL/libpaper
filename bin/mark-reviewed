@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+git tag $USER-reviewed-`date +"%Y-%m-%d-%H-%M-%S"`
