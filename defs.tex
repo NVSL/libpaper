@@ -36,8 +36,8 @@
 \newcommand{\x}[1]{$\times$}
 \newcommand{\figtitle}[1]{\textbf{#1}}
 
+% Never modify these to hide text.
 \newcommand{\fixme}[1]{{\color{red}\textbf{#1}}}
-
 \newcommand{\jian}[1]{{\color{green}\textbf{#1}}}
 \newcommand{\lu}[1]{{\color{orange}\textbf{#1}}}
 \newcommand{\juno}[1]{{\color{red}\textbf{#1}}}
@@ -61,3 +61,7 @@
 \newcommand{\cfunc}[1]{\csym{#1}()}
 
 \newcommand{\eg}{e.g.}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1.05pt] (char) {#1};}}
+

@@ -14,20 +14,19 @@ fi
 (
 echo Diffing against: `git log -n 1 --oneline $REV`
 echo Files:  $*
-git diff --stat --unified=1000000 --word-diff=porcelain $REV $REV2 $* | perl -e'
+git diff --stat --unified=1000000 --word-diff=porcelain $REV $REV2 $* |
+perl -e'
 while(<>) {
-  if (/^(.*\(-\)|diff|index|\+\+\+|\-\-\-|\@\@| .*\|( Bin)?\s+\d+\s+)/) {
-    print;
+  if (/^\~$/) {
     next;
-  } elsif (/^-/) {
-    s/^-.*//g;
-  } elsif(/\+(.*)/) {
+  } elsif(/^\+([^+].*)/) {
     s/\+(.*)/$1/g; 
+    $_ = "\033[42;1m$_\033[0m";
+  } elsif(/^\-([^-].*)/) {
+    s/\-(.*)/$1/g; 
     $_ = "\033[101;1m$_\033[0m";
-  } elsif (/^ /) {
-    s/^ //g;
-  } 
-  s/\n//g; 
-  s/\~/\n/g;
-  print "$_"}' #| perl -ne 's/[^\%]\%.*\n//g;print'
-)|less -R
+  }
+  print
+}
+') |less -R
+
