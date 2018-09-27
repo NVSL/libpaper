@@ -22,7 +22,7 @@ endif
 endif
 
 
-TEX_FILES+=$(wildcard *.tex libpaper/*.tex libpaper/*.sty libpaper/*/*.cls)
+TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls)
 FIGS+=$(wildcard Figures/*.pdf)
 GRAPHS+=$(wildcard Graphs/*.pdf)
 
