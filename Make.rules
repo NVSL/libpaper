@@ -97,7 +97,8 @@ libpaper_metadata.tex:
 	check_release > $@ || true
 
 .PHONY: release
-release: $(patsubst PDF_TARGETS %.pdf,%-release.pdf,$(PDF_TARGETS))
+release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
+
 
 %-release.pdf:
 	@if check_release > /dev/null; then $(MAKE) default; else echo "Committed changes first" ;fi
