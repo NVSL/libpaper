@@ -1,30 +1,12 @@
-MY_DATE := $(strip $(shell date +"%F_%H_%M_%S"))
-LATEXDIFF=./latexdiff-so
 
-ifeq ($(OS),Windows_NT)
-$(warning Windows NT detected "$(USER)")
-DVI = yap
-DVIBIN = yap
-DISTILL = "$(HOME)"/bin/acrodist.exe
-
-PREFIX=c:\\cygwin\\home\\$(USER)\\papers\\2008SASP-arsenal\\
-ACROREAD = "$(HOME)"/bin/acroread.exe
-ALL = show_nt
-else # mac
-
-ifeq ($(USER),mbt)
-ALL = show_nt
-ACROREAD = kpdf
-else
-ALL =  pdf
-endif
-
-endif
+ALL=pdf
+OS=$(shell uname -s)
+TAR=tar
 
 
 TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls) libpaper_metadata.tex
-FIGS+=$(wildcard Figures/*.pdf)
-GRAPHS+=$(wildcard Graphs/*.pdf)
+FIGS+=$(wildcard Figures/*.pdf Figures/*.png)
+GRAPHS+=$(wildcard Graphs/*.pdf Graphs/*.png)
 
 ARXIV_FILES=$(TEX_FILES) $(FIGS) $(GRAPHS) 00README.XXX
 
@@ -82,7 +64,7 @@ TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 %.grammarly.txt: $(TEX_FILES)
 	rm -rf $(TEMP_DIR)
 	mkdir -p $(TEMP_DIR)
-	tar cf - $(ARXIV_FILES) paper.bbl | (cd $(TEMP_DIR); tar xf -)
+	$(TAR) cf - $(ARXIV_FILES) paper.bbl | (cd $(TEMP_DIR); $(TAR) xf -)
 	(cd $(TEMP_DIR); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -ne 's/\~\\(footnote|cite)/\\$$1/g;print;' < $$i.bak > $$i;done)
 	(cd $(TEMP_DIR); $(PANDOC) $*.tex -w plain -o - --wrap=none) > $@
 
@@ -110,10 +92,10 @@ ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
 arxiv: $(TEX_FILES) paper.bbl
 	rm -rf $(ARXIV_NAME)
 	mkdir -p $(ARXIV_NAME)
-	tar cf - $(ARXIV_FILES) paper.bbl | (cd $(ARXIV_NAME); tar xf -)
+	$(TAR) cf - $(ARXIV_FILES) paper.bbl | (cd $(ARXIV_NAME); $(TAR) xf -)
 	(cd $(ARXIV_NAME); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
 	(cd $(ARXIV_NAME);  $(PDFLATEX) $(TEX_TARGETS);  $(PDFLATEX) $(TEX_TARGETS); $(PDFLATEX) $(TEX_TARGETS); )
-	tar czHf $(ARXIV_NAME).tgz $(ARXIV_NAME)
+	$(TAR) czf $(ARXIV_NAME).tgz $(ARXIV_NAME)
 
 .PHONY: clean
 clean:
