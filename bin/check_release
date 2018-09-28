@@ -4,6 +4,6 @@ if git status --porcelain | grep -q ^' M '; then
    echo "\newcommand{\gitcommit}{Uncommitted changes}"
    exit 1
 else
-   echo "\newcommand{\gitcommit}{$(git log -n 1 --date=local  --pretty=format:"%cd %H")}"
+   echo "\newcommand{\gitcommit}{$(git log -n 1 --date=short --pretty=format:"%cd %h")}"
    exit 0
 fi
