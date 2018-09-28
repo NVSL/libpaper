@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+if [ "$1." = "." ] || [ "${1%.tex}" != "$1" ]; then # if the first arg is a .tex  (i.e., not a hash)
+   REV=`git tag -l $USER-reviewed* | tail -1`
+else
+   REV=$1
+   shift
+   if [ "${1%.tex}" == "$1" ]; then # if the first arg is not a .tex  (i.e.,  a hash)
+       REV2=$1
+       shift
+   fi
+fi
+
+(
+echo Diffing against: `git log -n 1 --oneline $REV`
+echo Files:  $*
+git diff --stat --unified=30 --word-diff=porcelain $REV $REV2 $* |
+perl -e'
+while(<>) {
+  if (/^\~$/) {
+    next;
+  } elsif(/^\+([^+].*)/) {
+    s/\+(.*)/$1/g; 
+    $_ = "\033[42;1m$_\033[0m";
+  } elsif(/^\-([^-].*)/) {
+    s/\-(.*)/$1/g; 
+    $_ = "\033[101;1m$_\033[0m";
+  }
+  print
+}
+') |less -R
+

@@ -23,7 +23,6 @@ endif
 
 
 TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls) libpaper_metadata.tex
-
 FIGS+=$(wildcard Figures/*.pdf)
 GRAPHS+=$(wildcard Graphs/*.pdf)
 
@@ -61,6 +60,7 @@ test:
 	git clone libpaper ./.test_build/libpaper
 	(cd .test_build; make paper.pdf; open paper.pdf || true)
 
+.PHONY: pdf
 pdf: $(PDF_TARGETS)
 
 %.aux : %.tex $(TEX_FILES)
@@ -70,6 +70,7 @@ pdf: $(PDF_TARGETS)
 	bibtex $* || true
 
 %.pdf : %.bbl
+	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
 
@@ -96,13 +97,17 @@ libpaper_metadata.tex:
 	check_release > $@ || true
 
 .PHONY: release
-release:
-	@if check_release; $(MAKE) default; else echo Committed changes first;fi
+release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
+
+
+%-release.pdf:
+	@if check_release > /dev/null; then $(MAKE) default; else echo "Committed changes first" ;fi
+	mv $*.pdf $@	
 
 ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
 
 .PHONY: arxiv
-arxiv: clean $(TEX_FILES) paper.bbl
+arxiv: $(TEX_FILES) paper.bbl
 	rm -rf $(ARXIV_NAME)
 	mkdir -p $(ARXIV_NAME)
 	tar cf - $(ARXIV_FILES) paper.bbl | (cd $(ARXIV_NAME); tar xf -)
@@ -112,7 +117,7 @@ arxiv: clean $(TEX_FILES) paper.bbl
 
 .PHONY: clean
 clean:
-	rm -rf *.aux *.log *.bbl *.blg *.out $(PDF_TARGETS)
+	rm -rf *.aux *.log *.bbl *.blg *.out $(PDF_TARGETS) libpaper_metadata.tex
 	rm -rf paper_abbrv.bib 
 	rm -rf _test_build
 
