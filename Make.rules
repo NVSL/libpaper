@@ -23,6 +23,7 @@ endif
 
 
 TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls) libpaper_metadata.tex
+
 FIGS+=$(wildcard Figures/*.pdf)
 GRAPHS+=$(wildcard Graphs/*.pdf)
 
@@ -101,13 +102,13 @@ release:
 ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
 
 .PHONY: arxiv
-arxiv: $(TEX_FILES) paper.bbl
+arxiv: clean $(TEX_FILES) paper.bbl
 	rm -rf $(ARXIV_NAME)
 	mkdir -p $(ARXIV_NAME)
 	tar cf - $(ARXIV_FILES) paper.bbl | (cd $(ARXIV_NAME); tar xf -)
 	(cd $(ARXIV_NAME); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
-	(cd $(ARXIV_NAME);  $(PDFLATEX) $(TEX_TARGETS);  $(PDFLATEX) $(TEX_TARGETS); )
-	tar czf $(ARXIV_NAME).tgz $(ARXIV_NAME)
+	(cd $(ARXIV_NAME);  $(PDFLATEX) $(TEX_TARGETS);  $(PDFLATEX) $(TEX_TARGETS); $(PDFLATEX) $(TEX_TARGETS); )
+	tar czHf $(ARXIV_NAME).tgz $(ARXIV_NAME)
 
 .PHONY: clean
 clean:
