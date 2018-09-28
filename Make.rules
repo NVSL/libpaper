@@ -22,7 +22,7 @@ endif
 endif
 
 
-TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls)
+TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls) libpaper_metadata.tex
 FIGS+=$(wildcard Figures/*.pdf)
 GRAPHS+=$(wildcard Graphs/*.pdf)
 
@@ -40,7 +40,7 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 .PHONY: test_build clean
 
 all: check $(ALL)
-
+default: all
 
 paper.pdf:  $(TEX_FILES) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
 
@@ -62,7 +62,7 @@ test:
 
 pdf: $(PDF_TARGETS)
 
-%.aux : %.tex 
+%.aux : %.tex $(TEX_FILES)
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $* 
 
 %.bbl : %.aux 
@@ -89,6 +89,14 @@ TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 
 #%%-strip.tex:  $(TEX_FILES)
 #	$(PANDOC) $*.tex -w latex -o $@
+
+.PHONY: libpaper_metadata.tex
+libpaper_metadata.tex:
+	check_release > $@ || true
+
+.PHONY: release
+release:
+	@if check_release; $(MAKE) default; else echo Committed changes first;fi
 
 ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
 

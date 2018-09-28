@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if git status --porcelain | grep -q ^' M '; then
+   echo "\newcommand{\gitcommit}{Uncommitted changes}"
+   exit 1
+else
+   echo "\newcommand{\gitcommit}{$(git log -n 1 --date=local  --pretty=format:"%cd %H")}"
+   exit 0
+fi
