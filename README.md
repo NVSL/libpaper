@@ -20,8 +20,9 @@ To prepare a paper for submission to the ArXiv (or for distribution to companies
 6. Check the paper output does not include any copyright information (e.g., for ACM or USENIX)
 7. Remove all the comments and `\ignore{}`s -- Everything that does not appear in the paper output.
 8. Make sure the paper looks good (E.g., all the figures and tables fit in their columns).
-9. Create an account on http://arxiv.org and test that it builds properly there. **__do not__** submit it (this is very important).
-10. Commit the changes to the branch.
+9. Add the authors and affiliations.  Arxiv is not blind.
+10. Create an account on http://arxiv.org and test that it builds properly there. **__do not__** submit it (this is very important).
+11. Commit the changes to the branch.
 
 ## Grammar Checking
 
