@@ -11,7 +11,7 @@ LIBPAPER_BIN='./libpaper/bin/'
 
 ARXIV_FILES=$(TEX_FILES) $(FIGS) $(GRAPHS) 00README.XXX
 
-PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode
+PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode -halt-on-error
 
 PANDOC=pandoc
 
@@ -38,10 +38,10 @@ singlefile.tex: $(filter-out singlefile.tex,$(TEX_FILES))
 
 .PHONY: test
 test:
-	rm -rf .test_build
-	git clone . ./.test_build
-	git clone libpaper ./.test_build/libpaper
-	(cd .test_build; make paper.pdf; open paper.pdf || true)
+	rm -rf /tmp/test_build
+	git clone . /tmp/test_build
+	git clone ./libpaper/ /tmp/test_build/libpaper
+	(cd /tmp/test_build; $(MAKE) ; open paper.pdf || true)
 
 .PHONY: pdf
 pdf: $(PDF_TARGETS)
