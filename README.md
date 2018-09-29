@@ -21,8 +21,17 @@ To prepare a paper for submission to the ArXiv (or for distribution to companies
 7. Remove all the comments and `\ignore{}`s -- Everything that does not appear in the paper output.
 8. Make sure the paper looks good (E.g., all the figures and tables fit in their columns).
 9. Add the authors and affiliations.  Arxiv is not blind.
+11. Add an acknowledgemnts section in `acks.tex`  Acknowledge who you think should be acknowledged.  Send draft to Steve to verify.
 10. Create an account on http://arxiv.org and test that it builds properly there. **__do not__** submit it (this is very important).
 11. Commit the changes to the branch.
+
+## Submitting to SRC
+
+For some of our work, we need to submit to SRC (https://www.src.org/app/publication/submit/step/1/).  You might need to register with SRC.  If so, ask Steve which task(s) you are working on.  The first step is to prepare a version of the paper according the guidelines for ArXiv (see above).
+
+You need to add this to acknowledgements section: "This work was supported in part by CRISP, one of six centers in JUMP, a Semiconductor Research Corporation (SRC) program sponsored by DARPA.”
+
+Sync up with Steve if you have any questions about how to answer the questions the SRC site asks.
 
 ## Grammar Checking
 
