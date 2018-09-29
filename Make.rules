@@ -7,6 +7,7 @@ TAR=tar
 TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls) libpaper_metadata.tex
 FIGS+=$(wildcard Figures/*.pdf Figures/*.png)
 GRAPHS+=$(wildcard Graphs/*.pdf Graphs/*.png)
+LIBPAPER_BIN='./libpaper/bin/'
 
 ARXIV_FILES=$(TEX_FILES) $(FIGS) $(GRAPHS) 00README.XXX
 
@@ -76,14 +77,14 @@ TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 
 .PHONY: libpaper_metadata.tex
 libpaper_metadata.tex:
-	check_release > $@ || true
+	$(LIBPAPER_BIN)/check_release > $@ || true
 
 .PHONY: release
 release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
 
 
 %-release.pdf:
-	@if check_release > /dev/null; then $(MAKE) default; else echo "Committed changes first" ;fi
+	@if $(LIBPAPER_BIN)/check_release > /dev/null; then $(MAKE) default; else echo "Committed changes first" ;fi
 	mv $*.pdf $@	
 
 ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
