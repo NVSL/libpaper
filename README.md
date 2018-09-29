@@ -33,6 +33,8 @@ You need to add this to acknowledgements section: "This work was supported in pa
 
 Sync up with Steve if you have any questions about how to answer the questions the SRC site asks.
 
+Record the date on which you submitted the paper to SRC in your paper's `README.md`.
+
 ## Grammar Checking
 
 Grammerly (https://app.grammarly.com/) is a free and very good grammar checker.  It can't understand TeX, but you can still use it to check the grammar in your papers by exporting the paper as text and uploading.  Create an Grammarly account and then do 
