@@ -44,6 +44,16 @@ For some of our work, we need to submit to SRC (https://www.src.org/app/publicat
 
 You need to add this to acknowledgements section: "This work was supported in part by CRISP, one of six centers in JUMP, a Semiconductor Research Corporation (SRC) program sponsored by DARPA.”
 
+Here’s a general set of answers to the questions on the submission form:
+
+* Venue: **Conference**
+* Is this publication related to an SRC event? **No**
+* Earliest anticipated publication or release date: **60 days from from the date of submission or the conference date, whichever is sooner.**
+* Destination details: **Conference name (e.g., FAST 2019)**
+* Was this publication reviewed by a refereed selection committee? **For accepted papers, yes, otherwise no.**
+* I agree to make this publication available to other university participants currently funded by SRC: **Yes**
+* Is new, potentially patentable Intellectual Property (IP) disclosed in this publication? **Ask Steve**
+
 Sync up with Steve if you have any questions about how to answer the questions the SRC site asks.
 
 Record the date on which you submitted the paper to SRC in your paper's `README.md`.
