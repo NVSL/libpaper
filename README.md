@@ -40,7 +40,7 @@ Once it's approved, submit it to Arxiv:
 
 ## Submitting to SRC
 
-For some of our work, we need to submit to SRC (https://www.src.org/app/publication/submit/step/1/).  You might need to register with SRC.  If so, ask Steve which task(s) you are working on.  The first step is to prepare a version of the paper according the guidelines for ArXiv (see above).
+For some of our work, we need to submit to SRC (https://www.src.org/app/publication/submit/step/1/).  You might need to register with SRC.  If so, ask Steve which task(s) you are working on.  The first step is to prepare a version of the paper according the guidelines for ArXiv (see above), but _do_not_ submit it to the arxiv.
 
 You need to add this to acknowledgements section: "This work was supported in part by CRISP, one of six centers in JUMP, a Semiconductor Research Corporation (SRC) program sponsored by DARPA.”
 
