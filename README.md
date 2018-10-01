@@ -34,9 +34,9 @@ Once it's approved, submit it to Arxiv:
 2. Make sure all changes are committed.
 3. Enter paper metadata (abstract, etc.)
 4. Submit the paper
-6. Track it's progress. Once it has been "announced" retrieve the paper password and commit it to the repo as `arxiv_paper_password.txt`
-5. Tag the repo as `axriv-<submission number>`.  Don't forget to push the tag: `git push origin <tag_name>`.
-7. Send email to authors with a pointer to the paper on `arxiv.org`. Don't include the paper password.
+6. Track it's progress. Once it has been "announced" retrieve the paper password and commit it to the repo as `arxiv_paper_password.txt`.  Not it's "official arXiv identifier"
+5. Tag the repo as `axriv-<arxiv-identifier>`.  Don't forget to push the tag: `git push origin <tag_name>`.
+7. Send email to authors with a pointer to the paper on `arxiv.org`, include the paper password.
 
 ## Submitting to SRC
 
