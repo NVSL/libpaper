@@ -39,9 +39,9 @@ singlefile.tex: $(filter-out singlefile.tex,$(TEX_FILES))
 .PHONY: test
 test:
 	rm -rf /tmp/test_build
-	git clone . /tmp/test_build
-	git clone ./libpaper/ /tmp/test_build/libpaper
-	(cd /tmp/test_build; $(MAKE) ; open paper.pdf || true)
+	git clone . /tmp/test_build -b $$(git rev-parse --abbrev-ref HEAD) # checkout and test the current branch
+	git clone ./libpaper/ /tmp/test_build/libpaper -b $$(cd libpaper; git rev-parse --abbrev-ref HEAD) # for libpaper too.
+	(cd /tmp/test_build; $(MAKE))
 
 .PHONY: pdf
 pdf: $(PDF_TARGETS)
@@ -84,7 +84,7 @@ release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
 
 
 %-release.pdf:
-	@if $(LIBPAPER_BIN)/check_release > /dev/null; then $(MAKE) default; else echo "Committed changes first" ;fi
+	@if $(LIBPAPER_BIN)/check_release > /dev/null; then $(MAKE) default; else echo "Commit changes first"; false ;fi
 	mv $*.pdf $@	
 
 ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
