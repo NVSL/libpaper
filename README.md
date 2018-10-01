@@ -19,11 +19,24 @@ To prepare a paper for submission to the ArXiv (or for distribution to companies
 5. Make any other changes necessary to make the paper build.
 6. Check the paper output does not include any copyright information (e.g., for ACM or USENIX)
 7. Remove all the comments and `\ignore{}`s -- Everything that does not appear in the paper output.
+8. Remove any files that are not needed to build the paper.  In particular, check for .tex files that we don't include anywhere.
 8. Make sure the paper looks good (E.g., all the figures and tables fit in their columns).
 9. Add the authors and affiliations.  Arxiv is not blind.
 11. Add an acknowledgemnts section in `acks.tex`  Acknowledge who you think should be acknowledged.  Send draft to Steve to verify.
-10. Create an account on http://arxiv.org and test that it builds properly there. **__do not__** submit it (this is very important).
+10. Create an account on http://arxiv.org and an ORCiD https://orcid.org/, if you don't have one.
+11. Test that it builds properly on arxiv. **__do not__** submit it (this is very important).  Select "non-exclusive and irrevocable license to distribute the article" as the license.
 11. Commit the changes to the branch.
+12. Let Steve know that it's ready for review, implement any changes.
+
+Once it's approved, submit it to Arxiv:
+
+1. Create a new tar ball, upload it and verify that it builds.
+2. Make sure all changes are committed.
+3. Enter paper metadata (abstract, etc.)
+4. Submit the paper
+6. Track it's progress. Once it has been "announced" retrieve the paper password and commit it to the repo as `arxiv_paper_password.txt`
+5. Tag the repo as `axriv-<submission number>`.  Don't forget to push the tag: `git push origin <tag_name>`.
+7. Send email to authors with a pointer to the paper on `arxiv.org`. Don't include the paper password.
 
 ## Submitting to SRC
 
