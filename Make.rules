@@ -46,9 +46,11 @@ test:
 .PHONY: pdf
 pdf: $(PDF_TARGETS)
 
+.PRECIOUS: %.aux
 %.aux : %.tex $(TEX_FILES)
 	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $* 
 
+.PRECIOUS: %.bbl
 %.bbl : %.aux 
 	bibtex $* || true
 
