@@ -22,11 +22,16 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
 .PHONY: test_build clean
 
-all: check $(ALL)
+all: check check_repo $(ALL)
 default: all
 
 # This is aux instead of pdf because we need these before we run latex the first time
 paper.aux:  $(TEX_FILES) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
+
+.PHONY: check_repo
+check_repo:
+	(cd $(LIBPAPER_BIN); ./check_repo)
+
 
 .PHONY: wc
 wc:
