@@ -1,7 +1,7 @@
 #!/usr/bin/env bash 
 
 # Skip check if internet is down
-curl http://www.msftncsi.com/ncsi.txt &>/dev/null || exit 0
+curl --max-time 1 http://www.msftncsi.com/ncsi.txt &>/dev/null || exit 0
 
 UPSTREAM="@{u}"
 
