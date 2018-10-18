@@ -1,8 +1,7 @@
-
+#-*- makefile -*-
 ALL=pdf
 OS=$(shell uname -s)
 TAR=tar
-
 
 TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls) libpaper_metadata.tex
 FIGS+=$(wildcard Figures/*.pdf Figures/*.png Figures/*.jpg)
@@ -26,7 +25,8 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 all: check $(ALL)
 default: all
 
-paper.pdf:  $(TEX_FILES) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
+# This is aux instead of pdf because we need these before we run latex the first time
+paper.aux:  $(TEX_FILES) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
 
 .PHONY: wc
 wc:
