@@ -15,7 +15,7 @@ To prepare a paper for submission to the ArXiv (or for distribution to companies
 1. Make sure the paper builds properly using `libpaper`
 2. Make sure the 'make arxiv' target works properly. It should give you a tar ball with everything you need to build the paper: `*-arxiv.tgz`. There are some variables you may need to set in your `Makefile`.  See `NVSL/paper-template` for an example.
 3. Create a branch for the arxiv submission with the name `arxiv`
-4. Change the first line of `paper.tex` to `\documentclass[twocolumn]{article}`.
+4. Change the first line of `paper.tex` to `\documentclass{arxiv}`.
 5. Make any other changes necessary to make the paper build.
 6. Check the paper output does not include any copyright information (e.g., for ACM or USENIX)
 7. Remove all the comments and `\ignore{}`s -- Everything that does not appear in the paper output.

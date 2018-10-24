@@ -23,8 +23,10 @@ paper.pdf
 *~
 *.bcf
 *.run.xml
-.#*
-#*
+.\#*
+\#*
 .test_build
 libpaper
 *-arxiv
+libpaper_metadata.tex
+paper.pdf

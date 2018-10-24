@@ -3,13 +3,14 @@ ALL=pdf
 OS=$(shell uname -s)
 TAR=tar
 
-TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*/*.cls) libpaper_metadata.tex
+GENERATED_TEX+=libpaper_metadata.tex
+
+TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*.cls libpaper/*/*.cls) $(GENERATED_TEX)
 FIGS+=$(wildcard Figures/*.pdf Figures/*.png Figures/*.jpg)
 GRAPHS+=$(wildcard Graphs/*.pdf Graphs/*.png Graphs/*.jpg)
 LIBPAPER_BIN='./libpaper/bin/'
 
 ALL_INPUTS=$(TEX_FILES) $(FIGS) $(GRAPHS)
-ARXIV_INPUTS=$(ALL_INPUTS) 00README.XXX
 
 PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode -halt-on-error
 
@@ -18,7 +19,10 @@ PANDOC=pandoc
 PDF_TARGETS ?= paper.pdf
 TEX_TARGETS = $(patsubst %.pdf,%.tex,$(PDF_TARGETS))
 
-GENERATED+=$(PDF_TARGETS) libpaper_metadata.tex
+GENERATED+=$(PDF_TARGETS) $(GENERATED_TEX)
+
+ARXIV_INPUTS=$(ALL_INPUTS) 00README.XXX
+
 
 PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
@@ -105,19 +109,24 @@ ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
 	(cat .gitignore; echo $(GENERATED) | perl -ne 's/ /\n/g;print' | sort |uniq) > .gitignore.new; mv .gitignore.new .gitignore
 
 .PHONY: arxiv
-arxiv: $(TEX_FILES) paper.bbl
-	rm -rf $(ARXIV_NAME)
-	mkdir -p $(ARXIV_NAME)
-	$(TAR) cf - $(ARXIV_INPUTS) paper.bbl | (cd $(ARXIV_NAME); $(TAR) xf -)
-	(cd $(ARXIV_NAME); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
-	(cd $(ARXIV_NAME);  $(PDFLATEX) $(TEX_TARGETS);  $(PDFLATEX) $(TEX_TARGETS); $(PDFLATEX) $(TEX_TARGETS); )
-	$(TAR) czf $(ARXIV_NAME).tgz $(ARXIV_NAME)
+arxiv: paper-arxiv.tgz
+	mv paper-arxiv.tgz $(ARXIV_NAME).tgz
+
+.PHONY: 
+%-arxiv.tgz:  %.bbl $(TEX_FILES)
+	rm -rf $*-arxiv
+	mkdir -p $*-arxiv
+	$(TAR) cf - $(ARXIV_INPUTS) $< | (cd $*-arxiv; $(TAR) xf -)
+	(cd $*-arxiv; for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
+	(cd $*-arxiv;  $(PDFLATEX) $(TEX_TARGETS);  $(PDFLATEX) $(TEX_TARGETS); $(PDFLATEX) $(TEX_TARGETS);)
+	$(TAR) czf $@ $*-arxiv
 
 .PHONY: clean
 clean:
-	rm -rf *.aux *.log *.bbl *.blg *.out $(PDF_TARGETS) libpaper_metadata.tex
+	rm -rf *.aux *.log *.bbl *.blg *.out
 	rm -rf paper_abbrv.bib 
 	rm -rf _test_build
+	rm -rf $(GENERATED)
 
 .PHONY: check
 check:
