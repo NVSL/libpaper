@@ -1,0 +1,23 @@
+#!/usr/bin/env bash 
+
+# Skip check if internet is down
+curl --max-time 1 http://www.msftncsi.com/ncsi.txt &>/dev/null || exit 0
+
+UPSTREAM="@{u}"
+
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+if [ $LOCAL = $REMOTE ]; then
+  : echo "Up-to-date"
+  elif [ $LOCAL = $BASE ]; then
+    echo "Updating libpaper..."
+    git pull
+  elif [ $REMOTE = $BASE ]; then
+    echo "Warning: local commits to libpaper not pushed."
+  else
+    echo "Warning: libpaper repo diverged."
+  fi
+
+exit 0
