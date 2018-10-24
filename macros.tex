@@ -549,3 +549,13 @@
 \end{minipage}
 }
 
+
+% reference macro
+\newcommand\dataref[1]{
+\IfFileExists{Data/#1}
+ {(see Data/#1 for data)}
+ {\IfFileExists{anc/#1}
+  {(See anc/#1 for data)}
+  {\PackageError{libpaper}{Referencing nonexisting data file}{Data file must be located in ./Data or ./anc subdirectory}}}
+}
+
