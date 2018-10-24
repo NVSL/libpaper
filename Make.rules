@@ -6,8 +6,12 @@ TAR=tar
 GENERATED_TEX+=libpaper_metadata.tex
 
 TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*.cls libpaper/*/*.cls) $(GENERATED_TEX)
-FIGS+=$(wildcard Figures/*.pdf Figures/*.png Figures/*.jpg)
-GRAPHS+=$(wildcard Graphs/*.pdf Graphs/*.png Graphs/*.jpg)
+FIGS+=$(shell find ./Figures -name '*.pdf' -o -name '*.jpg' -o -name '*.png')
+GRAPHS+=$(shell find ./Graphs -name '*.pdf' -o -name '*.jpg' -o -name '*.png')
+DATA+=$(wildcard ./Data/*.csv)
+
+# FIGS+= $(shell find ./Figures -name '*.pdf') $(shell find ./Figures -name '*.jpg')
+
 LIBPAPER_BIN='./libpaper/bin/'
 
 ALL_INPUTS=$(TEX_FILES) $(FIGS) $(GRAPHS)
@@ -117,13 +121,15 @@ arxiv: paper-arxiv.tgz
 	rm -rf $*-arxiv
 	mkdir -p $*-arxiv
 	$(TAR) cf - $(ARXIV_INPUTS) $< | (cd $*-arxiv; $(TAR) xf -)
+	$(if $(strip $(DATA)), mkdir -p $*-arxiv/anc && cp $(DATA) $*-arxiv/anc,)
 	(cd $*-arxiv; for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
 	(cd $*-arxiv;  $(PDFLATEX) $(TEX_TARGETS);  $(PDFLATEX) $(TEX_TARGETS); $(PDFLATEX) $(TEX_TARGETS);)
+	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc;)
 	$(TAR) czf $@ $*-arxiv
 
 .PHONY: clean
 clean:
-	rm -rf *.aux *.log *.bbl *.blg *.out
+	rm -rf *.aux *.log *.bbl *.blg *.out *.toc
 	rm -rf paper_abbrv.bib 
 	rm -rf _test_build
 	rm -rf $(GENERATED)

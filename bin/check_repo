@@ -5,6 +5,8 @@ curl --max-time 1 http://www.msftncsi.com/ncsi.txt &>/dev/null || exit 0
 
 UPSTREAM="@{u}"
 
+git fetch
+
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
