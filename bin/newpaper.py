@@ -51,7 +51,7 @@ def main(argv=None):
 
 
     assert not subprocess.check_call("git remote remove origin", shell=True, cwd=name), "Couldn't remove remote origin"
-    assert not subprocess.check_call("git remote add origin {}".format(r['clone_url']), shell=True, cwd=name), "Couldn't remove remote origin"
+    assert not subprocess.check_call("git remote add origin {}".format(r['ssh_url']), shell=True, cwd=name), "Couldn't remove remote origin"
     assert not subprocess.check_call("git push --set-upstream origin master", shell=True, cwd=name), "Couldn't set upstream branch"
     assert not subprocess.check_call("git push", shell=True, cwd=name), "Couldn't push"
     assert not subprocess.check_call("make test", shell=True, cwd=name), "Test build failed"
