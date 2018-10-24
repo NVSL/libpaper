@@ -18,6 +18,8 @@ PANDOC=pandoc
 PDF_TARGETS ?= paper.pdf
 TEX_TARGETS = $(patsubst %.pdf,%.tex,$(PDF_TARGETS))
 
+GENERATED+=$(PDF_TARGETS) libpaper_metadata.tex
+
 PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
 .PHONY: test_build clean
@@ -91,6 +93,11 @@ release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
 	mv $*.pdf $@	
 
 ARXIV_NAME=$(shell basename $(CURDIR))-arxiv
+
+.PHONY: .gitignore
+.gitignore:
+	if ! [ -e .gitignore ]; then touch .gitignore; git add .gitignore; fi
+	(cat .gitignore; echo $(GENERATED) | perl -ne 's/ /\n/g;print' | sort |uniq) > .gitignore.new; mv .gitignore.new .gitignore
 
 .PHONY: arxiv
 arxiv: $(TEX_FILES) paper.bbl
