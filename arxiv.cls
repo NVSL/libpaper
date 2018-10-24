@@ -1,4 +1,4 @@
-\LoadClass[twocolumn]{article}
+\LoadClassWithOptions{article}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{arxiv}[NVSL ArXiv submission class]
 \RequirePackage{times}
