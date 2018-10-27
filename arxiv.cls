@@ -1,6 +1,6 @@
 \LoadClassWithOptions{article}
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{arxiv}[NVSL ArXiv submission class]
+\ProvidesClass{arxiv}[2018/10/26 NVSL ArXiv submission class]
 \RequirePackage{times}
 
 
