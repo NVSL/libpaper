@@ -36,5 +36,6 @@
 \renewcommand{\headrulewidth}{0pt} % no line in header area
 \fancyfoot{} % clear all footer fields
 
+
 \fancyfoot[LE,RO]{\thepage}           % page number in ``outer'' position of footer line
 \fancyfoot[RE,LO]{\scriptsize Copyright \textcopyright~\the\year\ the authors.\\{\tiny \gitcommit}} % other info in ``inner'' position of footer line

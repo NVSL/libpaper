@@ -16,7 +16,7 @@ LIBPAPER_BIN='./libpaper/bin/'
 
 ALL_INPUTS=$(TEX_FILES) $(FIGS) $(GRAPHS)
 
-PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode -halt-on-error
+PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode -halt-on-error $(EXTRA_TEX_OPTIONS)
 
 PANDOC=pandoc
 
@@ -26,7 +26,6 @@ TEX_TARGETS = $(patsubst %.pdf,%.tex,$(PDF_TARGETS))
 GENERATED+=$(PDF_TARGETS) $(GENERATED_TEX)
 
 ARXIV_INPUTS=$(ALL_INPUTS) 00README.XXX
-
 
 PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
