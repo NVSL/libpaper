@@ -61,18 +61,8 @@ test:
 .PHONY: pdf
 pdf: $(PDF_TARGETS)
 
-.PRECIOUS: %.aux
-%.aux : %.tex $(TEX_FILES)
-	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $* 
-
-.PRECIOUS: %.bbl
-%.bbl : %.aux 
-	bibtex $* || true
-
-%.pdf : %.bbl
-	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
-	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
-	$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS) $*
+%.pdf : %.tex $(TEX_FILES)
+	latexmk -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*
 
 %.docx: $(TEX_FILES)
 	$(PANDOC) $*.tex -w docx -o $@
@@ -132,6 +122,7 @@ clean:
 	rm -rf paper_abbrv.bib 
 	rm -rf _test_build
 	rm -rf $(GENERATED)
+	latexmk -CA
 
 .PHONY: check
 check:
