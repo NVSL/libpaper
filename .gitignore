@@ -30,3 +30,5 @@ libpaper
 *-arxiv
 libpaper_metadata.tex
 paper.pdf
+*.fdb_latexmk
+*.fls

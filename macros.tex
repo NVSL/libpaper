@@ -101,6 +101,19 @@
 }
 }
 
+\def\scfigure[#1,#2,#3]{
+{
+\begin{figure*}
+\begin{center}
+\begin{minipage}[c]{3.5in}{
+\includegraphics[width=3.5in]{#1} 
+}\end{minipage}
+\caption[]{#2} \label{#3} \
+\end{center}
+\end{figure*}
+}
+}
+
 
 \def\tableByTable[#1,#2,#3,#4,#5,#6]{
 {
