@@ -22,6 +22,7 @@ PANDOC=pandoc
 
 PDF_TARGETS ?= paper.pdf
 TEX_TARGETS = $(patsubst %.pdf,%.tex,$(PDF_TARGETS))
+# Note that if there is more than one target, the rest won't get built - JI
 
 GENERATED+=$(PDF_TARGETS) $(GENERATED_TEX)
 
@@ -120,10 +121,13 @@ arxiv: paper-arxiv.tgz
 %-arxiv.tgz:  %.bbl $(TEX_FILES)
 	rm -rf $*-arxiv
 	mkdir -p $*-arxiv
-	$(TAR) cf - $(ARXIV_INPUTS) $< | (cd $*-arxiv; $(TAR) xf -)
-	$(if $(strip $(DATA)), mkdir -p $*-arxiv/anc && cp $(DATA) $*-arxiv/anc,)
+	$(TAR) cf - $(TEX_FILES) $< | (cd $*-arxiv; $(TAR) xf -)
 	(cd $*-arxiv; for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
-	(cd $*-arxiv;  $(PDFLATEX) $(TEX_TARGETS);  $(PDFLATEX) $(TEX_TARGETS); $(PDFLATEX) $(TEX_TARGETS);)
+	# copy over figs,graphs
+	(grep -q IncludeInArxiv $*.log && cat $*.log | awk -F"[ ',]+" '/IncludeInArxiv:/{print $$2}' | $(TAR) cf - -T -| (cd $*-arxiv; $(TAR) xf -) ) || true
+	# copy over data
+	(grep -q ArxivData $*.log && mkdir -p $*-arxiv/anc && cat $*.log | awk -F"[ ',]+" '/ArxivData:/{print $$2}' | $(TAR) cf - -T -| (cd $*-arxiv/anc; $(TAR) xf -)  ) || true
+	(cd $*-arxiv;  $(PDFLATEX) "\def\arxivbuild{}\input{$(TEX_TARGETS)}";  $(PDFLATEX) "\def\arxivbuild{}\input{$(TEX_TARGETS)}"; $(PDFLATEX) "\def\arxivbuild{}\input{$(TEX_TARGETS)}";)
 	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc;)
 	$(TAR) czf $@ $*-arxiv
 
