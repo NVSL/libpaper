@@ -25,12 +25,12 @@
 \write\arxivdeps{ArxivData: #1 As: #2}%
 }
 
+\DeclareUrlCommand\UScore{\urlstyle{rm}}
+
 % data reference macro
 \newcommand\dataref[2]{%
 \markforarxivdata{#1}{#2}%
-#2%
-}
-
+\UScore{#2}}
 
 %%%%% SINGLE FIGURE
 \def\cfigure[#1,#2,#3]{
