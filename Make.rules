@@ -133,5 +133,5 @@ check:
 	@if ! [ -d libpaper/.git ]; then echo "Your libpaper is not in its own git repo.  You _should_not_ include the contents of libpaper in your paper directory.  You should checkout libpaper, so the improvement you make will be available to other students"; false; fi
 
 .PHONY: git-hooks
-git-hooks:
-	git config core.hooksPath libpaper/git_hooks
+git-hooks: check
+	[ -d libpaper ] && (cd libpaper; git config core.hooksPath git_hooks))
