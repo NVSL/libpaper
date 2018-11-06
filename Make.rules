@@ -6,11 +6,9 @@ TAR=tar
 GENERATED_TEX+=libpaper_metadata.tex
 
 TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*.cls libpaper/*/*.cls) $(GENERATED_TEX)
-FIGS+=$(shell find ./Figures -name '*.pdf' -o -name '*.jpg' -o -name '*.png')
-GRAPHS+=$(shell find ./Graphs -name '*.pdf' -o -name '*.jpg' -o -name '*.png')
+FIGS+=$(shell find ./Figures -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
+GRAPHS+=$(shell find ./Graphs -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
 DATA+=$(wildcard ./Data/*.csv)
-
-# FIGS+= $(shell find ./Figures -name '*.pdf') $(shell find ./Figures -name '*.jpg')
 
 LIBPAPER_BIN='./libpaper/bin/'
 
