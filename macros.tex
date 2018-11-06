@@ -11,21 +11,24 @@
 % \fi
 % }
 
+% define arxivdeps
+\newwrite\arxivdeps
+\immediate\openout\arxivdeps=arxivdeps.log
 
 % Macro to mark a file to include
 % in arxiv tarball
 \newcommand\markforarxiv[1]{%
-\typeout{IncludeInArxiv: #1}%
+\write\arxivdeps{IncludeInArxiv: #1}%
 }
 
-\newcommand\markforarxivdata[1]{%
-\typeout{ArxivData: #1}%
+\newcommand\markforarxivdata[2]{%
+\write\arxivdeps{ArxivData: #1 As: #2}%
 }
 
 % data reference macro
-\newcommand\dataref[1]{%
-\markforarxivdata{#1}%
-#1%
+\newcommand\dataref[2]{%
+\markforarxivdata{#1}{#2}%
+#2%
 }
 
 
