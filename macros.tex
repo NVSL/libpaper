@@ -4,26 +4,34 @@
 % % data reference macro
 % \newcommand\dataref[1]{%
 % \typeout{Dataref: #1}%
-% \ifdefined\arxivbuild
-  % anc/#1
-% \else
-  % #1
-% \fi
-% }
+
 
 % Initialize arxivdeps.log file
 \newwrite\arxivdeps
 \immediate\openout\arxivdeps=arxivdeps.log
 
+\newcommand\verifymarkedforarxivfile[1]{%
+\ifdefined\arxivbuild
+\else
+\IfFileExists{#1}%
+{}%
+{\PackageError{libpaper-arxivdeps}%
+{Marked file (#1) for inclusion in arxiv build doesn't exist}%
+{Marked file (#1) for inclusion in arxiv build doesn't exist}}%
+\fi%
+}
+
 % Macro to mark a file to include
 % in arxiv tarball
 \newcommand\markforarxiv[1]{%
+\verifymarkedforarxivfile{#1}%
 \write\arxivdeps{IncludeInArxiv: #1}%
 }
 
 % Macro to mark data for for inclusion
 % in arxiv tarball
 \newcommand\markforarxivdata[1]{%
+\verifymarkedforarxivfile{#1}%
 \write\arxivdeps{ArxivData: #1 As: #1}%
 }
 
@@ -32,6 +40,7 @@
 % arg1: The relative path to the file
 % arg2: The path under anc in the tarball
 \newcommand\markforarxivdataas[2]{%
+\verifymarkedforarxivfile{#1}%
 \write\arxivdeps{ArxivData: #1 As: #2}%
 }
 
