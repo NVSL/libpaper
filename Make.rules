@@ -105,16 +105,16 @@ arxiv: paper-arxiv.tgz
 	mv paper-arxiv.tgz $(ARXIV_NAME).tgz
 
 .PHONY: 
-%-arxiv.tgz:  %.bbl $(TEX_FILES)
+%-arxiv.tgz:  %.pdf %.bbl $(TEX_FILES)
 	rm -rf $*-arxiv
 	mkdir -p $*-arxiv
 	$(TAR) cf - $(TEX_FILES) $< | (cd $*-arxiv; $(TAR) xf -)
 	(cd $*-arxiv; for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
 	# copy over figs,graphs
 	(grep -q IncludeInArxiv arxivdeps.log && cat arxivdeps.log | awk -F"[ ',]+" '/IncludeInArxiv:/{print $$2}' | $(TAR) cf - -T -| (cd $*-arxiv; $(TAR) xf -) ) || true
-	# copy over data
-	(grep -q ArxivData arxivdeps.log && mkdir -p $*-arxiv/anc && cat arxivdeps.log | awk -F"[ ',]+" '/ArxivData:/{print $$2}' | $(TAR) cf - -T -| (cd $*-arxiv/anc; $(TAR) xf -)  ) || true
 	(cd $*-arxiv;  $(PDFLATEX) "\def\arxivbuild{}\input{$(TEX_TARGETS)}";  $(PDFLATEX) "\def\arxivbuild{}\input{$(TEX_TARGETS)}"; $(PDFLATEX) "\def\arxivbuild{}\input{$(TEX_TARGETS)}";)
+	# copy over data
+	(grep -q ArxivData arxivdeps.log && mkdir -p $*-arxiv/anc && cat arxivdeps.log | awk -F"[ ',]+" '/ArxivData:/{print $$2 " " $$4}' | xargs -n 2 sh -c 'mkdir -p `dirname $*-arxiv/anc/"$$1"` && cp -Lr "$$0" $*-arxiv/anc/"$$1"' ) || true
 	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc;)
 	$(TAR) czf $@ $*-arxiv
 

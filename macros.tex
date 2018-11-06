@@ -21,16 +21,16 @@
 \write\arxivdeps{IncludeInArxiv: #1}%
 }
 
-\newcommand\markforarxivdata[2]{%
-\write\arxivdeps{ArxivData: #1 As: #2}%
+\newcommand\markforarxivdata[1]{%
+\write\arxivdeps{ArxivData: #1 As: #1}%
 }
 
 \DeclareUrlCommand\UScore{\urlstyle{rm}}
 
 % data reference macro
-\newcommand\dataref[2]{%
-\markforarxivdata{#1}{#2}%
-\UScore{#2}}
+\newcommand\dataref[1]{%
+\markforarxivdata{#1}%
+\UScore{#1}}
 
 %%%%% SINGLE FIGURE
 \def\cfigure[#1,#2,#3]{
