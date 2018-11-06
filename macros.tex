@@ -11,7 +11,7 @@
 % \fi
 % }
 
-% define arxivdeps
+% Initialize arxivdeps.log file
 \newwrite\arxivdeps
 \immediate\openout\arxivdeps=arxivdeps.log
 
@@ -21,21 +21,33 @@
 \write\arxivdeps{IncludeInArxiv: #1}%
 }
 
+% Macro to mark data for for inclusion
+% in arxiv tarball
 \newcommand\markforarxivdata[1]{%
 \write\arxivdeps{ArxivData: #1 As: #1}%
 }
 
+% Macro to mark data for inclusion
+% in arxiv tarball
+% arg1: The relative path to the file
+% arg2: The path under anc in the tarball
 \newcommand\markforarxivdataas[2]{%
 \write\arxivdeps{ArxivData: #1 As: #2}%
 }
 
 \DeclareUrlCommand\UScore{\urlstyle{rm}}
 
-% data reference macro
+% data reference macro for inclusion
+% in arxiv tarball (also prints arg1)
+% arg1: The relative path to the file
 \newcommand\dataref[1]{%
 \markforarxivdata{#1}%
 \UScore{#1}}
 
+% data reference macro for inclusion
+% in arxiv tarball (also prints arg2)
+% arg1: The relative path to the file
+% arg2: The path under anc in the tarball
 \newcommand\datarefas[2]{%
 \markforarxivdata{#1}{#2}%
 \UScore{#2}}
