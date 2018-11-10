@@ -8,16 +8,17 @@ app = Flask(__name__)
 @app.route('/', methods = ['POST'])
 def index():
         data = json.loads(request.data.decode('utf'))
-        # TODO: verify token
         try:
             commit = data['head_commit']['id']
+            repo = data['repository']['name']
             # LaTeX unsafe: & % $ # _ { } ~ ^ \
             # sed unsafe / \ &
-            message = re.sub('[/\&%$#_{}~^]', '', data['head_commit']['message'])
+            # message = re.sub('[/\&%$#_{}~^]', '', data['head_commit']['message'])
         except:
             return 'Invalid commit'
 
-        process = subprocess.Popen(['./buildpaper.sh', commit, message], stdout=subprocess.PIPE)
+        print(commit)
+        process = subprocess.Popen(['./buildpaper.sh', repo], stdout=subprocess.PIPE)
         output, error = process.communicate()
 
         print(output)
