@@ -133,4 +133,4 @@ check:
 
 .PHONY: git-hooks
 git-hooks: check
-	[ -d libpaper ] && (cd libpaper; git config core.hooksPath git_hooks))
+	[ -d libpaper ] && (cd libpaper; git config core.hooksPath git_hooks)

@@ -11,8 +11,12 @@ LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
 
+if [ ".$REMOTE" = "." ]; then
+    echo "You are on a branch."
+    exit 0
+fi
 if [ $LOCAL = $REMOTE ]; then
-  : echo "Up-to-date"
+    echo "Up-to-date"
   elif [ $LOCAL = $BASE ]; then
     echo "Updating libpaper..."
     git pull
