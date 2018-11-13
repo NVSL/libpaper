@@ -30,8 +30,11 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
 .PHONY: test_build clean
 
-all: check check_repo $(ALL)
 default: all
+	@echo "Built successfully"
+	@(cd libpaper; git rev-parse @) > .last_good_libpaper_build; git add .last_good_libpaper_build
+
+all: check check_repo $(ALL)
 
 # This is aux instead of pdf because we need these before we run latex the first time
 paper.aux:  $(TEX_FILES) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
