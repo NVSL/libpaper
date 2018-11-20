@@ -1,7 +1,7 @@
 #!/bin/bash
 PAPER_ROOT="$HOME/papers"
 PAPER=$1
-GS_BUCKET="gs://nvsl-paper"
+GS_BUCKET="gs://libpaper-autobuild/"
 SAVED_PWD=`pwd`
 
 buildonce()
