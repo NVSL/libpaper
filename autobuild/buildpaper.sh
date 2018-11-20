@@ -1,7 +1,7 @@
 #!/bin/bash
 PAPER_ROOT="$HOME/papers"
 PAPER=$1
-GS_BUCKET="gs://libpaper-autobuild/"
+GS_BUCKET="gs://libpaper-autobuild" # Don't add /
 SAVED_PWD=`pwd`
 
 buildonce()
@@ -9,6 +9,7 @@ buildonce()
     git pull
     make clean
     make
+    echo $GS_BUCKET/$PAPER
     gsutil cp *.pdf $GS_BUCKET/$PAPER/
     gsutil cp paper.pdf $GS_BUCKET/$PAPER.pdf
 }
