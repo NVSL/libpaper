@@ -63,7 +63,7 @@ test:
 .PHONY: pdf
 pdf: $(PDF_TARGETS)
 
-%.pdf : %.tex $(TEX_FILES)
+%.pdf %.log %.aux: %.tex $(TEX_FILES)
 	latexmk -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*
 
 %.docx: $(TEX_FILES)
@@ -108,18 +108,21 @@ arxiv: paper-arxiv.tgz
 	mv paper-arxiv.tgz $(ARXIV_NAME).tgz
 
 .PHONY: 
-%-arxiv.tgz:  %.pdf %.bbl $(TEX_FILES)
+%-arxiv.tgz:  %.pdf %.aux %.log $(TEX_FILES)
 	rm -rf $*-arxiv
 	mkdir -p $*-arxiv
 	$(TAR) cf - $(TEX_FILES) $< | (cd $*-arxiv; $(TAR) xf -)
 	(cd $*-arxiv; for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
 	# copy over figs,graphs
-	(grep -q IncludeInArxiv arxivdeps.log && cat arxivdeps.log | awk -F"[ ',]+" '/IncludeInArxiv:/{print $$2}' | $(TAR) cf - -T -| (cd $*-arxiv; $(TAR) xf -) ) || true
+	(grep -q IncludeInArxiv $*-arxivdeps.log && cat $*-arxivdeps.log | awk -F"[ ',]+" '/IncludeInArxiv:/{print $$2}' | $(TAR) cf - -T -| (cd $*-arxiv; $(TAR) xf -) ) || true
+	# copy over bib files
+	(grep -q bibdata $*.aux && cat $*.aux | awk -F",|[{}]" '/bibdata/{sep=""; for (i=2; i<NF; i++) {printf("%s%s.bib",sep,$$i); sep="\n"};}' | $(TAR) cf - -T -| (cd $*-arxiv; $(TAR) xf -) ) || true
 	# build arxiv pdf
-	(cd $*-arxiv && echo "\\def\\\arxivbuild{}\\input{$*}" > $*-arxiv.tex && latexmk -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*-arxiv.tex && mv $*-arxiv.pdf $*.pdf && rm $*-arxiv.tex)
+	(cd $*-arxiv && echo "\\def\\\arxivbuild{}\\input{$*}" > $*-arxiv.tex && latexmk -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*-arxiv.tex)
 	# copy over data
 	(grep -q ArxivData arxivdeps.log && mkdir -p $*-arxiv/anc && cat arxivdeps.log | awk -F"[ ',]+" '/ArxivData:/{print $$2 " " $$4}' | xargs -n 2 sh -c 'mkdir -p `dirname $*-arxiv/anc/"$$1"` && cp -Lr "$$0" $*-arxiv/anc/"$$1"' ) || true
-	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc;)
+	(cd $*-arxiv && mv $*-arxiv.pdf $*.pdf && rm $*-arxiv.tex && mv $*-arxiv.bbl $*.bbl)
+	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc *.fls *.fdb_latexmk)
 	$(TAR) czf $@ $*-arxiv
 
 .PHONY: clean
