@@ -3,7 +3,7 @@ ALL=pdf
 OS=$(shell uname -s)
 TAR=tar
 
-GENERATED_TEX+=libpaper_metadata.tex
+GENERATED_TEX+=libpaper_metadata.tex #REMOVE_FOR_ARXIV
 
 TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*.cls libpaper/*/*.cls) $(GENERATED_TEX)
 FIGS+=$(shell find ./Figures -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
@@ -32,7 +32,7 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
 default: all
 	@echo "Built successfully"
-	@(cd libpaper; git rev-parse @) > .last_good_libpaper_build; git add .last_good_libpaper_build
+	@(cd libpaper; git rev-parse @) > .last_good_libpaper_build; git add .last_good_libpaper_build #REMOVE_FOR_ARXIV
 
 all: check check_repo $(ALL)
 
@@ -41,7 +41,7 @@ paper.aux:  $(TEX_FILES) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bi
 
 .PHONY: check_repo
 check_repo:
-	(cd $(LIBPAPER_BIN); ./check_repo)
+	(cd $(LIBPAPER_BIN); ./check_repo) #REMOVE_FOR_ARXIV
 
 
 .PHONY: wc
@@ -84,9 +84,9 @@ TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 #%%-strip.tex:  $(TEX_FILES)
 #	$(PANDOC) $*.tex -w latex -o $@
 
-.PHONY: libpaper_metadata.tex
+.PHONY: libpaper_metadata.tex #REMOVE_FOR_ARXIV
 libpaper_metadata.tex:
-	$(LIBPAPER_BIN)/check_release > $@ || true
+	$(LIBPAPER_BIN)/check_release > $@ || true #REMOVE_FOR_ARXIV
 
 .PHONY: release
 release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
@@ -111,18 +111,27 @@ arxiv: paper-arxiv.tgz
 %-arxiv.tgz:  %.pdf %.aux %.log $(TEX_FILES)
 	rm -rf $*-arxiv
 	mkdir -p $*-arxiv
-	$(TAR) cf - $(TEX_FILES) $< | (cd $*-arxiv; $(TAR) xf -)
+	# copy over tex files
+	$(TAR) cf - Makefile libpaper/Make.rules $(TEX_FILES) $< | (cd $*-arxiv; $(TAR) xf -)
+	# remove comments
 	(cd $*-arxiv; for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
 	# copy over figs,graphs
 	(grep -q IncludeInArxiv $*-arxivdeps.log && cat $*-arxivdeps.log | awk -F"[ ',]+" '/IncludeInArxiv:/{print $$2}' | $(TAR) cf - -T -| (cd $*-arxiv; $(TAR) xf -) ) || true
 	# copy over bib files
 	(grep -q bibdata $*.aux && cat $*.aux | awk -F",|[{}]" '/bibdata/{sep=""; for (i=2; i<NF; i++) {printf("%s%s.bib",sep,$$i); sep="\n"};}' | $(TAR) cf - -T -| (cd $*-arxiv; $(TAR) xf -) ) || true
+	# define arxiv variables
+	(cd $*-arxiv && echo "\\def\\\arxivbuild{}" >> libpaper_metadata.tex)
 	# build arxiv pdf
-	(cd $*-arxiv && echo "\\def\\\arxivbuild{}\\input{$*}" > $*-arxiv.tex && latexmk -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*-arxiv.tex)
+	(cd $*-arxiv && latexmk -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*.tex)
 	# copy over data
-	(grep -q ArxivData arxivdeps.log && mkdir -p $*-arxiv/anc && cat arxivdeps.log | awk -F"[ ',]+" '/ArxivData:/{print $$2 " " $$4}' | xargs -n 2 sh -c 'mkdir -p `dirname $*-arxiv/anc/"$$1"` && cp -Lr "$$0" $*-arxiv/anc/"$$1"' ) || true
-	(cd $*-arxiv && mv $*-arxiv.pdf $*.pdf && rm $*-arxiv.tex && mv $*-arxiv.bbl $*.bbl)
-	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc *.fls *.fdb_latexmk)
+	(grep -q ArxivData $*-arxivdeps.log && mkdir -p $*-arxiv/anc && cat $*-arxivdeps.log | awk -F"[ ',]+" '/ArxivData:/{print $$2 " " $$4}' | xargs -n 2 sh -c 'mkdir -p `dirname $*-arxiv/anc/"$$1"` && cp -Lr "$$0" $*-arxiv/anc/"$$1"' ) || true
+	# remove libpaper checks in arxiv directory Makefile
+	(cd $*-arxiv; sed -i 's/.*REMOVE\_FOR\_ARXIV//g' libpaper/Make.rules)
+	#(cd $*-arxiv; sed -i -e 's/all\: check\ check\_repo/all\:/g' libpaper/Make.rules)
+	#(cd $*-arxiv; sed -i -e 's/.PHONY\:\ libpaper\_metadata.tex//g' libpaper/Make.rules)
+	#(cd $*-arxiv; sed -i -e 's/GENERATED\_TEX+=libpaper\_metadata.tex//g' libpaper/Make.rules)	
+	# clean build artifacts
+	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc *.fls *.fdb_latexmk *.bak)
 	$(TAR) czf $@ $*-arxiv
 
 .PHONY: clean
@@ -133,10 +142,10 @@ clean:
 	rm -rf $(GENERATED)
 	latexmk -CA
 
-.PHONY: check
+.PHONY: check #REMOVE_FOR_ARXIV
 check:
-	@if ! [ -d libpaper/.git ]; then echo "Your libpaper is not in its own git repo.  You _should_not_ include the contents of libpaper in your paper directory.  You should checkout libpaper, so the improvement you make will be available to other students"; false; fi
+	@if ! [ -d libpaper/.git ]; then echo "Your libpaper is not in its own git repo.  You _should_not_ include the contents of libpaper in your paper directory.  You should checkout libpaper, so the improvement you make will be available to other students"; false; fi #REMOVE_FOR_ARXIV
 
-.PHONY: git-hooks
+.PHONY: git-hooks #REMOVE_FOR_ARXIV
 git-hooks: check
-	[ -d libpaper ] && (cd libpaper; git config core.hooksPath git_hooks)
+	[ -d libpaper ] && (cd libpaper; git config core.hooksPath git_hooks) #REMOVE_FOR_ARXIV

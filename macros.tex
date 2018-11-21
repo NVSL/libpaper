@@ -1,11 +1,5 @@
 %%%%% arxiv reference macros
 
-
-% % data reference macro
-% \newcommand\dataref[1]{%
-% \typeout{Dataref: #1}%
-
-
 % Initialize arxivdeps.log file
 \newwrite\arxivdeps
 \immediate\openout\arxivdeps=\jobname-arxivdeps.log
@@ -15,7 +9,7 @@
 \else
 \IfFileExists{#1}%
 {}%
-{\typeout{WARNING: Marked file (#1) for inclusion in arxiv build doesn't exist}}%
+{\GenericWarning{Marked file (#1) for inclusion in arxiv build doesn't exist}}%
 \fi%
 }
 
