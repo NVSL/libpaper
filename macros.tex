@@ -1,23 +1,15 @@
 %%%%% arxiv reference macros
 
-
-% % data reference macro
-% \newcommand\dataref[1]{%
-% \typeout{Dataref: #1}%
-
-
 % Initialize arxivdeps.log file
 \newwrite\arxivdeps
-\immediate\openout\arxivdeps=arxivdeps.log
+\immediate\openout\arxivdeps=\jobname-arxivdeps.log
 
 \newcommand\verifymarkedforarxivfile[1]{%
 \ifdefined\arxivbuild
 \else
 \IfFileExists{#1}%
 {}%
-{\PackageError{libpaper-arxivdeps}%
-{Marked file (#1) for inclusion in arxiv build doesn't exist}%
-{Marked file (#1) for inclusion in arxiv build doesn't exist}}%
+{\GenericWarning{Marked file (#1) for inclusion in arxiv build doesn't exist}}%
 \fi%
 }
 
@@ -62,6 +54,19 @@
 \UScore{#2}%
 }
 
+% Redefine includegraphics commands
+% to mark file for arxiv tarball
+% See: https://tex.stackexchange.com/a/70556
+\LetLtxMacro\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+\markforarxiv{#2}%
+\oldincludegraphics[#1]{#2}}
+
+\LetLtxMacro\oldincludepdf\includepdf
+\renewcommand{\includepdf}[2][]{%
+\markforarxiv{#2}%
+\oldincludepdf[#1]{#2}}
+
 %%%%% SINGLE FIGURE
 \def\cfigure[#1,#2,#3]{
 \begin{figure}
@@ -69,7 +74,6 @@
 \begin{center}
 
 \includegraphics[width=3in]{#1} 
-\markforarxiv{#1}
 \vspace*{-3mm}\caption[]{#2
 } \label{#3}
  
@@ -86,7 +90,6 @@
 \begin{center}
 
 \includegraphics[width=4in]{#1} 
-\markforarxiv{#1}
 \vspace*{-3mm}\caption[]{#2
 } \label{#3}
  
@@ -103,7 +106,6 @@
 \begin{center}
 
 \includegraphics[width=3.5in]{#1} 
- \markforarxiv{#1}
 \vspace*{-3mm}\caption[]{#2
 } \label{#3}
  
@@ -119,7 +121,6 @@
 \vspace*{0mm}
 \begin{center}
  \includegraphics[width=\textwidth]{#1} 
- \markforarxiv{#1}
  \vspace*{-3mm}\caption[]{#2
 } \label{#3}
  
@@ -137,7 +138,6 @@
 \includegraphics[width=2in]{#1} & \includegraphics[width=2in]{#2} &  \includegraphics[width=2in]{#3} \\
 (a) & (b) & (c) \\
 \end{tabular}
-\markforarxiv{#1}\markforarxiv{#2}\markforarxiv{#3}
 \vspace*{-3mm}\caption[]{#4
 } \label{#5}
 
@@ -161,7 +161,6 @@
 \vspace*{0mm}\caption[]{#5}\label{#6} \
 }\end{minipage}
 \end{center}
-\markforarxiv{#1}\markforarxiv{#4}
 \end{figure*}
 }
 }
@@ -215,7 +214,6 @@
 \vspace*{0mm}\tabcaption[]{#5}\label{#6} \
 }\end{minipage}
 \end{center}
-\markforarxiv{#1}
 \end{figure*}
 }
 }
@@ -235,7 +233,6 @@
 \vspace*{-0.35in}\caption[]{#5}\label{#6} \
 }\end{minipage}
 \end{center}
-\markforarxiv{#4}
 \end{figure*}
 }
 }
@@ -257,7 +254,6 @@
 }\end{minipage}
 \vspace*{0mm}\caption[]{#3} \label{#4} \
 \end{center}
-\markforarxiv{#1}\markforarxiv{#2}
 \end{figure}
 }
 }
@@ -288,7 +284,6 @@
 }\end{minipage}
 \end{center}
 \caption[]{#5}\label{#6}
-\markforarxiv{#1}\markforarxiv{#2}\markforarxiv{#3}\markforarxiv{#4}
 \end{figure*}
 }
 }
@@ -318,7 +313,6 @@
 \caption[]{#4}\label{#5}
 \end{figure*}
 }
-\markforarxiv{#1}\markforarxiv{#2}\markforarxiv{#3}
 }
 
 \def\dwfigure[#1,#2,#3,#4]{
@@ -341,7 +335,6 @@
 \caption[]{#3}\label{#4}
 \end{figure*}
 }
-\markforarxiv{#1}\markforarxiv{#2}
 }
 
 
@@ -363,7 +356,6 @@
 \vspace*{-0.4in}\
 \end{figure*}
 }
-\markforarxiv{#1}\markforarxiv{#4}
 }
 
 
@@ -387,7 +379,6 @@
 \vspace*{-0.4in}\
 \end{figure*}
 }
-\markforarxiv{#1}\markforarxiv{#4}
 }
 
 
@@ -408,7 +399,6 @@
 \vspace*{-0.4in}\
 \end{figure*}
 }
-\markforarxiv{#1}\markforarxiv{#4}
 }
 
 \def\dyfigure[#1,#2,#3,#4,#5,#6]{
@@ -428,7 +418,6 @@
 \vspace*{-0.4in}\
 \end{figure*}
 }
-\markforarxiv{#1}\markforarxiv{#4}
 }
 
 %%%%%% DOUBLE FIGURE Y
@@ -488,7 +477,6 @@
 \vspace*{-5mm}
 \end{center}
 %\horizbar
-\markforarxiv{#1}
 \end{figure*}}
 
 %%%%% Single programmable size figure, rotated
@@ -505,7 +493,6 @@
 \vspace*{-5mm}
 \end{center}
 %\horizbar
-\markforarxiv{#1}
 \end{figure*}}
 
 
@@ -531,7 +518,6 @@
 \vspace*{-5mm}
 \end{center}
 \end{figure*}
-\markforarxiv{#1}\markforarxiv{#5}
 }
 
 
@@ -554,7 +540,6 @@
 \vspace*{-5mm}
 \end{center}
 \end{figure*}
-\markforarxiv{#1}\markforarxiv{#5}
 }
 
 
@@ -577,7 +562,6 @@
 \vspace*{-5mm}
 \end{center}
 \end{figure*}
-\markforarxiv{#1}\markforarxiv{#5}
 }
 
 
@@ -598,7 +582,6 @@
 }\end{minipage} \caption[]{#3}\label{#4}
 \end{center}
 \end{figure*}
-\markforarxiv{#1}\markforarxiv{#2}
 }
 
 \def\ddcfigureSlide[#1,#2,#3,#4,#5]{
@@ -614,7 +597,6 @@
 \end{center}
 \vspace*{-0.4in}\
 \end{figure*}
-\markforarxiv{#1}\markforarxiv{#2}
 }
 
 \def\cxfigure[#1,#2,#3]{
@@ -642,7 +624,6 @@
 \includegraphics[width=#1]{#2}\\(#3)
 \end{center}
 \end{minipage}
-\markforarxiv{#2}
 }
 
 
