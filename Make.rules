@@ -32,7 +32,7 @@ PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
 
 default: all
 	@echo "Built successfully"
-	@(cd libpaper; git rev-parse @) > .last_good_libpaper_build; git add .last_good_libpaper_build #REMOVE_FOR_ARXIV
+	@(echo ==========; date; uname -a; which pdflatex; pdflatex -v |head -1; pwd; echo $$USER; echo 'paper: '; git rev-parse @; echo  'libpaper: '; cd libpaper; git rev-parse @) >> .last_good_libpaper_build; git add .last_good_libpaper_build #REMOVE_FOR_ARXIV
 
 all: check check_repo $(ALL)
 
