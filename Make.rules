@@ -26,7 +26,9 @@ GENERATED+=$(PDF_TARGETS) $(GENERATED_TEX)
 
 ARXIV_INPUTS=$(ALL_INPUTS) 00README.XXX
 
-PDFLATEX=TEXINPUTS=./:./libpaper//: pdflatex
+PDFLATEX=pdflatex
+
+LATEXMK=TEXINPUTS=./:./libpaper/:./libpaper/acmart-master/: latexmk
 
 .PHONY: test_build clean
 
@@ -36,8 +38,6 @@ default: all
 
 all: check check_repo $(ALL)
 
-# This is aux instead of pdf because we need these before we run latex the first time
-paper.aux:  $(TEX_FILES) $(GRAPHS) $(FIGS) Makefile libpaper/common.bib paper.bib
 
 .PHONY: check_repo
 check_repo:
@@ -64,7 +64,7 @@ test:
 pdf: $(PDF_TARGETS)
 
 %.pdf %.log %.aux: %.tex $(TEX_FILES)
-	latexmk -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*
+	$(LATEXMK) -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*
 
 %.docx: $(TEX_FILES)
 	$(PANDOC) $*.tex -w docx -o $@
@@ -122,7 +122,7 @@ arxiv: paper-arxiv.tgz
 	# define arxiv variables
 	(cd $*-arxiv && echo "\\def\\\arxivbuild{}" >> libpaper_metadata.tex)
 	# build arxiv pdf
-	(cd $*-arxiv && latexmk -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*.tex)
+	(cd $*-arxiv && $(LATEXMK) -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*.tex)
 	# copy over data
 	(grep -q ArxivData $*-arxivdeps.log && mkdir -p $*-arxiv/anc && cat $*-arxivdeps.log | awk -F"[ ',]+" '/ArxivData:/{print $$2 " " $$4}' | xargs -n 2 sh -c 'mkdir -p `dirname $*-arxiv/anc/"$$1"` && cp -Lr "$$0" $*-arxiv/anc/"$$1"' ) || true
 	# remove libpaper checks in arxiv directory Makefile
@@ -137,10 +137,9 @@ arxiv: paper-arxiv.tgz
 .PHONY: clean
 clean:
 	rm -rf *.aux *.log *.bbl *.blg *.out *.toc
-	rm -rf paper_abbrv.bib 
 	rm -rf _test_build
 	rm -rf $(GENERATED)
-	latexmk -CA
+	$(LATEXMK) -CA
 
 .PHONY: check #REMOVE_FOR_ARXIV
 check:
