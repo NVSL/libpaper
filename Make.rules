@@ -28,7 +28,7 @@ ARXIV_INPUTS=$(ALL_INPUTS) 00README.XXX
 
 PDFLATEX=pdflatex
 
-LATEXMK=TEXINPUTS=./:./libpaper/:./libpaper/acmart-master/: latexmk
+LATEXMK=TEXINPUTS=./:./libpaper/:./libpaper/acmart-master/:./libpaper/usenix/: latexmk
 
 .PHONY: test_build clean
 
