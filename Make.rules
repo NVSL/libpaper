@@ -111,7 +111,7 @@ arxiv: paper-arxiv.tgz
 %-arxiv.tgz:  %.pdf %.aux %.log $(TEX_FILES)
 	rm -rf $*-arxiv
 	mkdir -p $*-arxiv
-	# copy over tex files
+	# copy over tex files s
 	$(TAR) cf - Makefile libpaper/Make.rules $(TEX_FILES) $< | (cd $*-arxiv; $(TAR) xf -)
 	# remove comments
 	(cd $*-arxiv; for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
@@ -147,4 +147,4 @@ check:
 
 .PHONY: git-hooks #REMOVE_FOR_ARXIV
 git-hooks: check
-	[ -d libpaper ] && (cd libpaper; git config core.hooksPath git_hooks) #REMOVE_FOR_ARXIV
+	[ -d libpaper ] && git config core.hooksPath libpaper/git_hooks #REMOVE_FOR_ARXIV
