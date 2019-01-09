@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo -ne  /locker create " ";grep input paper.tex | grep -v % | grep -v libpaper | grep -v libpaper_metadata | grep -v bib| grep -v texheader | perl -ne '/\{(.*)\}/; print "$1.tex "'; echo
