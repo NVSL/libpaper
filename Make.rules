@@ -148,3 +148,7 @@ check:
 .PHONY: git-hooks #REMOVE_FOR_ARXIV
 git-hooks: check
 	[ -d libpaper ] && git config core.hooksPath libpaper/git_hooks #REMOVE_FOR_ARXIV
+
+.PHONY: locker
+locker:
+	@bash -c 'echo -ne "/locker create "';; grep input paper.tex | grep -v %| perl -ne '/\{(.*)\}/; print "$$1.tex "'; echo
