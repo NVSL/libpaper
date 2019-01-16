@@ -151,4 +151,4 @@ git-hooks: check
 
 .PHONY: locker
 locker:
-	@bash -c 'echo -ne "/locker create "';; grep input paper.tex | grep -v %| perl -ne '/\{(.*)\}/; print "$$1.tex "'; echo
+	@bash -c 'echo -ne "/locker create "' && grep input paper.tex | grep -v '%'| perl -ne '/\{(.*)\}/; print "$$1.tex "'; echo
