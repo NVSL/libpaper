@@ -1,11 +1,13 @@
 #!/bin/bash
 PAPER_ROOT="$HOME/papers"
 PAPER=$1
-GS_BUCKET="gs://libpaper-autobuild" # Don't add /
+GS_BUCKET="gs://libpaper-autobuild" # Do not add / in the end
 SAVED_PWD=`pwd`
+TS=`date +"%Y%0m%0d_%0H%0M%0S"`
 
 buildonce()
 {
+    git reset --hard # potential conflicts on .last_good_paper_build
     git pull
     make clean
     make
@@ -17,13 +19,13 @@ buildonce()
 cd $PAPER_ROOT
 
 if [ ! -d $PAPER ]; then
-	echo "Cloning repo $PAPER."
+	echo "Cloning repo $PAPER." >> $SAVED_PWD/build.log
 	git clone git@github.com:NVSL/$PAPER.git
 	(cd $PAPER && make)
 fi
 
 cd $PAPER_ROOT/$PAPER
-echo cmdline: $* >> $SAVED_PWD/build.log
+echo [$TS] $* >> $SAVED_PWD/build.log
 
 # Tag rebuild when the paper is being built
 if [ -f .build ]; then
