@@ -126,7 +126,7 @@ arxiv: paper-arxiv.tgz
 	# copy over data
 	(grep -q ArxivData $*-arxivdeps.log && mkdir -p $*-arxiv/anc && cat $*-arxivdeps.log | awk -F"[ ',]+" '/ArxivData:/{print $$2 " " $$4}' | xargs -n 2 sh -c 'mkdir -p `dirname $*-arxiv/anc/"$$1"` && cp -Lr "$$0" $*-arxiv/anc/"$$1"' ) || true
 	# remove libpaper checks in arxiv directory Makefile
-	(cd $*-arxiv; sed -i '' 's/.*REMOVE\_FOR\_ARXIV//g' libpaper/Make.rules)
+	(cd $*-arxiv; sed -i 's/.*REMOVE\_FOR\_ARXIV//g' libpaper/Make.rules)
 	#(cd $*-arxiv; sed -i -e 's/all\: check\ check\_repo/all\:/g' libpaper/Make.rules)
 	#(cd $*-arxiv; sed -i -e 's/.PHONY\:\ libpaper\_metadata.tex//g' libpaper/Make.rules)
 	#(cd $*-arxiv; sed -i -e 's/GENERATED\_TEX+=libpaper\_metadata.tex//g' libpaper/Make.rules)	
