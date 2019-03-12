@@ -198,6 +198,8 @@
 % \item \textsl{amsfonts}, \url{http://www.ctan.org/pkg/amsfonts}
 % \item \textsl{amsmath}, \url{http://www.ctan.org/pkg/amsmath}
 % \item \textsl{binhex}, \url{http://www.ctan.org/pkg/binhex}
+% \item \textsl{balance}, \url{http://www.ctan.org/pkg/balance}
+% \item \textsl{booktabs}, \url{http://www.ctan.org/pkg/booktabs}
 % \item \textsl{caption}, \url{http://www.ctan.org/pkg/caption}
 % \item \textsl{comment}, \url{http://www.ctan.org/pkg/comment}
 % \item \textsl{cm-super}, \url{http://www.ctan.org/pkg/cm-super}
@@ -346,6 +348,11 @@
 % overriden by setting these options to |false| \emph{after}
 % setting |authordraft| to |true|.
 %
+% The option |balance| determines whether the last page in the two
+% column mode has balanced columns.  By default it is |true|; however,
+% it may lead to problems for some documents.  Set it to |false| if
+% you encounter compilation errors.
+%
 % \begin{table}
 %   \centering
 %   \caption{Boolean options}
@@ -371,7 +378,9 @@
 %     footer of each page\\
 %     authordraft & false & Whether author's-draft mode is enabled\\
 %     acmthm & true & Whether to define theorem-like environments, see
-%     Section~\ref{sec:ug_theorems}\\
+%                       Section~\ref{sec:ug_theorems}\\
+%     balance & true & Whether to balance the last page in two column
+%     mode\\ 
 %     \bottomrule
 %   \end{tabularx}
 % \end{table}
@@ -492,8 +501,11 @@
 % \affiliation{...}
 % \email{...}
 % \end{verbatim}
-% Do \emph{not} use the \LaTeX\ \cs{and} macro! Each author deserves
-% his or her own \cs{author} command.
+% Do \emph{not} use the \LaTeX\ \cs{and} macro or commas, or \verb|\\|
+% between the authors! Each author deserves his or
+% her own \cs{author} command.  An attempt to list several authors or
+% their e-mails in one command leads to a warning or an error.  This
+% is not a bug, but the expected behavior.
 %
 % Note that some formats do not typset e-mails or ORCID identifiers.
 % Do not worry: the metadata tools will get them.
@@ -1197,7 +1209,7 @@
 % \DescribeMacro{\Description}%
 % Some readers of ACM publications might be visually challenged.
 % These readers might use a voice-over software to read aloud the
-% papers.  It is important to provided them a description of each
+% papers.  It is important to provide them a description of each
 % image used in the paper.
 %
 % The command \cs{Description}\oarg{short description}\marg{long
@@ -1595,6 +1607,25 @@
 % \cs{NoCaseChange} inside the title may help to prevent extraneous
 % uppercasing.
 %
+%
+%
+%\subsection{Disabled or forbidden commands}
+%\label{sec:ug_disabled}
+%
+% The goal of |acmart| package is to provide a uniform look and feel
+% for ACM publications.  Accordingly, a number of commands is
+% forbidden or disabled in |acmart|.
+%
+% You may \emph{not} put several authors or several e-mails into a
+% \cs{author} or \cs{email} command.  This may lead to errors or
+% warning.
+%
+% You cannot change \cs{baselinestretch} in your document: this
+% produces an erorr.
+%
+% You should not abuse the command \cs{vspace}:  this command may
+% disturb the typesetting of ACM papers.
+%
 %\subsection{A note for wizards: \texttt{acmart-preload-hook.tex}}
 %\label{sec:ug_preload}
 %
@@ -1745,7 +1776,7 @@
 \ProvidesFile{acmart.dtx}
 %</gobble>
 %<class>\ProvidesClass{acmart}
-[2018/11/11 v1.56 Typesetting articles for the Association for
+[2018/12/16 v1.57 Typesetting articles for the Association for
 Computing Machinery]
 %    \end{macrocode}
 %
@@ -1830,6 +1861,7 @@ Computing Machinery]
 % \changes{1.54}{2018/06/17}{Moved footnote stuff before hyperref call
 % (Ross Moore)}
 % \changes{1.56}{2018/11/11}{Documented \cs{Description}}
+% \changes{1.57}{2018/12/16}{Booktabs package is now the default}
 %
 % And the driver code:
 %    \begin{macrocode}
@@ -1874,12 +1906,12 @@ Computing Machinery]
 \RequirePackage{xkeyval}
 %    \end{macrocode}
 %
-% We use |xstring| to check whether user input is integer
+% We use |xstring| to check whether user input is valid
 %    \begin{macrocode}
 \RequirePackage{xstring}
 %    \end{macrocode}
 %
-%
+% 
 %
 % \begin{macro}{format}
 %   The possible formats
@@ -1991,6 +2023,19 @@ Computing Machinery]
 %    \end{macrocode}
 %
 % \end{macro}
+%
+% \begin{macro}{\if@ACM@balance}
+% \changes{v1.57}{2018/12/16}{Added macro}
+% Whether to balance the last page
+%    \begin{macrocode}
+\define@boolkey+{acmart.cls}[@ACM@]{balance}[true]{}{%
+  \PackageError{\@classname}{The option balance can be either true or
+    false}}
+\ExecuteOptionsX{balance}
+%    \end{macrocode}
+% 
+% \end{macro}
+%
 %
 % \begin{macro}{\if@ACM@natbib@override}
 % \changes{v1.12}{2016/05/30}{Added macro}
@@ -2201,6 +2246,11 @@ Computing Machinery]
 \RequirePackage{etoolbox}
 %    \end{macrocode}
 %
+% Booktabs is now the default
+%    \begin{macrocode}
+\RequirePackage{booktabs}
+%    \end{macrocode}
+% 
 %
 % We need |totpages| to calculate the number of pages and
 % |refcount| to use that number
@@ -3737,9 +3787,12 @@ Computing Machinery]
 % \changes{v1.15}{2016/06/25}{Added code for author groups}
 % \changes{v1.46}{2017/08/27}{Started counting authors}
 % \changes{v1.54}{2018/06/23}{Added submission id in anonymous mode}
+% \changes{v1.57}{2018/12/09}{Added warning if \cs{author} has comma}
 %   Adding an author to the list of authors and addresses
 %    \begin{macrocode}
 \renewcommand\author[2][]{%
+  \IfSubStr{#2}{,}{\ClassWarning{\@classname}{Do not put several
+      authors in the same \string\author\space macro!}}{}%
   \global\advance\num@authors by 1\relax
   \if@insideauthorgroup\else
     \global\advance\num@authorgroups by 1\relax
@@ -3844,11 +3897,14 @@ Computing Machinery]
 % \end{macro}
 %
 % \begin{macro}{\email}
+% \changes{v1.57}{2018/12/09}{Added warning if \cs{author} has comma}
 %   The macro \cs{email} mimics \cs{email} from |amsart|.
 %   Again, it has an optional argument that we do not currently need
 %   but keep for possible future use.
 %    \begin{macrocode}
 \renewcommand{\email}[2][]{%
+  \IfSubStr{#2}{,}{\ClassWarning{\@classname}{Do not put several
+      addresses in the same \string\email\space macro!}}{}%
   \if@ACM@anonymous\else
     \g@addto@macro\addresses{\email{#1}{#2}}%
   \fi}
@@ -5509,9 +5565,11 @@ Computing Machinery]
   \fi
   \gdef\and{}}%
   \def\email##1##2{\ifx\@currentaffiliation\@empty
-    \gdef\@currentaffiliation{\nolinkurl{##2}}%
+    \gdef\@currentaffiliation{\bgroup
+      \mathchardef\UrlBreakPenalty=10000\nolinkurl{##2}\egroup}%
   \else
-    \g@addto@macro\@currentaffiliation{\par\nolinkurl{##2}}%
+    \g@addto@macro\@currentaffiliation{\par\bgroup
+      \mathchardef\UrlBreakPenalty=10000\nolinkurl{##2}\egroup}%
   \fi}%
   \def\affiliation##1##2{\ifx\@currentaffiliation\@empty
     \gdef\@currentaffiliation{%
@@ -6592,6 +6650,45 @@ Computing Machinery]
 % \end{macro}
 %
 %
+%
+%\subsection{Balancing columns}
+%\label{sec:balancing}
+%
+% We need balancing only if the user did not disable it, and we use a
+% two column format
+%    \begin{macrocode}
+\AtEndPreamble{%
+  \if@ACM@balance
+    \ifcase\ACM@format@nr
+    \relax % manuscript
+         \global\@ACM@balancefalse
+       \or % acmsmall
+         \global\@ACM@balancefalse
+       \or % acmlarge
+         \global\@ACM@balancefalse
+       \or % acmtog
+          \RequirePackage{balance}%
+       \or % sigconf
+          \RequirePackage{balance}%
+       \or % siggraph
+          \RequirePackage{balance}%
+       \or % sigplan
+          \RequirePackage{balance}%
+       \or % sigchi
+          \RequirePackage{balance}%
+       \or % sigchi-a
+          \global\@ACM@balancefalse  
+    \fi
+  \fi
+}
+\AtEndDocument{%
+  \if@ACM@balance
+  \if@twocolumn
+  \balance
+  \fi\fi}
+%    \end{macrocode}
+% 
+%
 %\subsection{Acknowledgments}
 %\label{sec:acks}
 %
@@ -6661,6 +6758,7 @@ Computing Machinery]
 \fi}
 %    \end{macrocode}
 %
+% 
 %
 %\subsection{Additional bibliography commands}
 %\label{sec:bibliography}
@@ -6687,6 +6785,34 @@ Computing Machinery]
 %\subsection{End of Class}
 %\label{end}
 %
+% \begin{macro}{\vspace}
+% \changes{v1.57}{2018/12/16}{Added warning}
+% We do not disable \cs{vspace}, but add warning to it
+%    \begin{macrocode}
+\apptocmd{\@vspace}{\ClassWarning{\@classname}{\string\vspace\space should
+    only be used to provide space above/below surrounding
+    objects}}{}{} 
+\apptocmd{\@vspacer}{\ClassWarning{\@classname}{\string\vspace\space should
+    only be used to provide space above/below surrounding
+    objects}}{}{} 
+%    \end{macrocode}
+% 
+% \end{macro}
+%
+%
+% \begin{macro}{\ACM@origbaselinestretch}
+% \changes{v1.57}{2018/12/16}{Added check whether the user changed
+% \cs{baselinestretch}}
+% We produce an error if the user tries to change \cs{baselinestretch}
+%    \begin{macrocode}
+\let\ACM@origbaselinestretch\baselinestretch
+\AtEndDocument{\ifx\baselinestretch\ACM@origbaselinestretch\else
+  \ClassError{\@classname}{An attempt to redefine
+    \string\baselinestretch\space detected.  Please do not do this for
+    ACM submissions!}\fi}
+%    \end{macrocode}
+% 
+% \end{macro}
 %
 % \changes{v1.30}{2017/02/10}{Added \cs{frenchspacing}}
 %    \begin{macrocode}
