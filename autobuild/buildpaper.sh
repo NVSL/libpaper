@@ -1,5 +1,5 @@
 #!/bin/bash
-PAPER_ROOT="$HOME/papers"
+PAPER_ROOT="/srv/papers"
 PAPER=$1
 GS_BUCKET="gs://libpaper-autobuild" # Do not add / in the end
 SAVED_PWD=`pwd`
@@ -16,6 +16,7 @@ buildonce()
     gsutil cp paper.pdf $GS_BUCKET/$PAPER.pdf
 }
 
+mkdir -p $PAPER_ROOT
 cd $PAPER_ROOT
 
 if [ ! -d $PAPER ]; then
