@@ -12,7 +12,9 @@ if [ -f "paper.pdf" ]; then
   sed -i "s/VAR-BUILT-TIME/$DATE/g" _watermark.tex
 
   pdflatex _watermark.tex
-  pdftk paper.pdf stamp _watermark.pdf output final.pdf
+  # pdftk can only stamp on all pages
+  #pdftk paper.pdf stamp _watermark.pdf output final.pdf
+  cpdf -stamp-on _watermark.pdf paper.pdf 1 -o final.pdf
   cp final.pdf paper.pdf
   rm -f final.pdf _watermark.pdf _logo.pdf
 fi
