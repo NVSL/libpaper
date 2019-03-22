@@ -13,12 +13,12 @@ def index():
             repo = data['repository']['name']
             # LaTeX unsafe: & % $ # _ { } ~ ^ \
             # sed unsafe / \ &
-            # message = re.sub('[/\&%$#_{}~^]', '', data['head_commit']['message'])
+            message = re.sub('[/\&%$#_{}~^]', '', data['head_commit']['message'])
         except:
             return 'Invalid commit'
 
         print(commit)
-        process = subprocess.Popen(['./buildpaper.sh', repo], stdout=subprocess.PIPE)
+        process = subprocess.Popen(['./buildpaper.sh', repo, commit], stdout=subprocess.PIPE)
         output, error = process.communicate()
 
         print(output)
