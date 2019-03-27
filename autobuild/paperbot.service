@@ -1,0 +1,15 @@
+[Unit]
+Description=NVSL Paperbot
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/paperbot
+ExecStart= /usr/bin/env gunicorn wsgi:app -b 0.0.0.0:9000 --pid /run/paperbot.pid
+ExecReload = /bin/kill -s HUP $MAINPID
+ExecStop = /bin/kill -s TERM $MAINPID
+ExecStopPost = /bin/rm -rf /run/paperbot.pid
+
+[Install]
+WantedBy=multi-user.target

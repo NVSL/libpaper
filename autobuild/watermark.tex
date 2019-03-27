@@ -1,0 +1,44 @@
+\documentclass{letter}
+\usepackage[margin=1in,top=-0.25in,left=4.7in,headheight=5\baselineskip,headsep=1\baselineskip,includehead]{geometry}
+\usepackage{graphicx}
+\usepackage{multirow}
+
+%% some invisible "struts" to help define the structures and row heights.
+%\newcommand{\aevstrut}{\rule{0pt}{2.9ex}}
+%\newcommand{\aehstrut}{\rule{0.45em}{0pt}}
+
+%% set up and width for the tabularx environment to expand and fit to.
+\newlength{\headerwidth}
+\setlength{\headerwidth}{\textwidth}
+\newsavebox{\myheader}
+\begin{lrbox}{\myheader}%
+
+    \begin{minipage}[b]{\headerwidth}
+      \texttt{\scriptsize{
+    \begin{tabular}{r|l}
+      \multirow{4}{*}{\includegraphics[scale=0.15]{_logo.pdf}} & NVSL Paper Bot (VAR-LIBPAPER-VERSION) \\
+    & Repo: VAR-REPO \\
+    & Commit: VAR-COMMIT \\
+    & Time: VAR-BUILT-TIME
+    \end{tabular}
+  }}
+    \end{minipage}
+\end{lrbox}
+%% Setting up the header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\lhead{}
+\chead{\usebox{\myheader}}
+\rhead{}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+\begin{document}
+
+\null
+
+\end{document}
+

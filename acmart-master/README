@@ -206,3 +206,9 @@ Version 1.56    Bug fixes
 		is now period instead of semilcolon (Philip Quinn)
 		New command \Description to describe images for visually
 		impaired users.
+
+Version 1.57    Change of \baselinestretch now produces an error
+		Booktabs is now always loaded
+		Added option `balance' to balance last page in two-column mode
+		E-mail is no longer split in addresses
+		New samples (Stephen Spencer)
