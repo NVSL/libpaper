@@ -108,11 +108,11 @@ arxiv: paper-arxiv.tgz
 	mv paper-arxiv.tgz $(ARXIV_NAME).tgz
 
 .PHONY: 
-%-arxiv.tgz:  %.pdf %.aux %.log $(TEX_FILES)
+%-arxiv.tgz:  %.pdf %.aux %.log $(ARXIV_INPUTS)
 	rm -rf $*-arxiv
 	mkdir -p $*-arxiv
 	# copy over tex files s
-	$(TAR) cf - Makefile libpaper/Make.rules $(TEX_FILES) $< | (cd $*-arxiv; $(TAR) xf -)
+	$(TAR) cf - Makefile libpaper/Make.rules $(ARXIV_INPUTS) $< | (cd $*-arxiv; $(TAR) xf -)
 	# remove comments
 	(cd $*-arxiv; for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -pe 's/(^|[^\\])%.*/\1%/' < $$i.bak > $$i; rm $$i.bak; done)
 	# copy over figs,graphs
@@ -131,12 +131,13 @@ arxiv: paper-arxiv.tgz
 	#(cd $*-arxiv; sed -i -e 's/.PHONY\:\ libpaper\_metadata.tex//g' libpaper/Make.rules)
 	#(cd $*-arxiv; sed -i -e 's/GENERATED\_TEX+=libpaper\_metadata.tex//g' libpaper/Make.rules)	
 	# clean build artifacts
+	(cd $*-arxiv && rm -rf $$(find . -name '*.bib'))
 	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc *.fls *.fdb_latexmk *.bak)
 	$(TAR) czf $@ $*-arxiv
 
 .PHONY: clean
 clean:
-	rm -rf *.aux *.log *.bbl *.blg *.out *.toc
+	rm -rf *.aux *.log  *.bbl *.blg *.out *.toc *.fdb_latexmk
 	rm -rf _test_build
 	rm -rf $(GENERATED)
 	$(LATEXMK) -CA
