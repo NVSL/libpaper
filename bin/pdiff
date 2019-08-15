@@ -11,11 +11,21 @@ else
    fi
 fi
 
+
+
+if [ "$#" = "0" ]; then
+    files=$(latex-tool.py --list-includes paper.tex)
+else
+    files=$*
+fi
+
 (
 echo Diffing against: `git log -n 1 --oneline $REV`
-echo Files:  $*
-git diff --stat --unified=30 --word-diff=porcelain $REV $REV2 $* |
-perl -e'
+echo $#
+echo Files:  $files
+for i in $files; do 
+    git diff --stat --unified=30 --word-diff=porcelain $REV $REV2 $i |
+    perl -e'
 while(<>) {
   if (/^\~$/) {
     next;
@@ -30,5 +40,7 @@ while(<>) {
   }
   print
 }
-') |less -R
+'
+done
+) |less -R
 

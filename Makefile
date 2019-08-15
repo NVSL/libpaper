@@ -7,4 +7,4 @@ setup:
 
 .PHONY: test
 test:
-	$(MAKE) -C test libpaper-test
+	$(MAKE) -C test do-tests

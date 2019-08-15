@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+
+import argparse
+import sys
+import logging as log
+import subprocess
+import inspect
+import re
+
+
+class Check(object):
+    def __init__(self, filename, name):
+        self.filename = filename
+        self.line_number = 0
+        self.found_error = False 
+        self.name = name
+
+    def check_line(self, l, skip=False):
+        self.line_number += 1
+        if not skip:
+            self.do_check(l)
+        else:
+            log.debug(f"Skipped {self.name} check on {self.line_spec()}: {l}")
+        
+    def do_check(self, l):
+        pass
+
+    def line_spec(self):
+        return f"{self.filename}:{self.line_number}"
+
+    def fmt_error(self, s, line):
+        return f"({self.name})  {s}\n\t{self.line_spec()}: {line.strip()}"
+
+    def error(self, s, line, *args, **kwargs):
+        log.error(self.fmt_error(s, line), *args, **kwargs)
+        self.found_error = True
+
+    def warn(self, s, line, *args, **kwargs):
+        log.warn(self.fmt_error(s, line),*args, **kwargs)
+        self.found_error = True
+
+    def info(self, s, line, *args, **kwargs):
+        log.info(self.fmt_error(s, line), *args, **kwargs)
+
+    def debug(self, s, line, *args, **kwargs):
+        log.debug(self.fmt_error(s, line), *args, **kwargs)
+
+    def success(self):
+        return not self.found_error
+
+class check_SIUnits(Check):
+
+    def __init__(self, *args, **kwargs):
+        super(check_SIUnits, self).__init__(*args, **kwargs)
+
+        self.si_units = ["kB",
+                    "MB",
+                    "GB",
+                    "TB",
+                    "MHz",
+                    "GHz",
+                    "kHz",
+                    "ns",
+                    "ms",
+                    "us\{\}"]
+        self.forbidden_units = [
+            "\$\\\\mu\$s",
+            "us\W"]
+
+        self.si_unit_lax_pattern = "|".join(map(lambda x: f"\d[ \~]?{x.upper()}", self.si_units))
+        self.si_unit_strict_pattern = "|".join(map(lambda x: f"\d~{x}", self.si_units))
+        log.debug(f"strict pattern = {self.si_unit_strict_pattern}")
+        log.debug(f"lax pattern = {self.si_unit_lax_pattern}")
+        
+        
+    def do_check(self, l):
+        
+        def strict(x):
+            return f"\d+~{x}"
+        def lax(x):
+            return f"\d+[ \~]*{x.upper()}"
+
+        for p in self.si_units:
+            for m in re.findall(lax(p), l, flags=re.IGNORECASE):
+                log.debug(f"Found match in {l}: '{m}'")
+                if not re.match(strict(p), m):
+                    self.error(f"Poorly formatted unit: {m}.  Should be '<number>~{p}'.",
+                               line=l)
+            
+        for p in self.forbidden_units:
+            for m in re.findall(lax(p), l, flags=re.IGNORECASE):
+                self.error(f"Don't use '{m}'.  Use a \\us{{}}, instead.",
+                           line=l)
+
+class check_Misc(Check):
+    
+    def do_check(self, l):
+        for p in ["let's",
+                  "can't",
+                  "don't",
+                  "wouldn't",
+                  "couldn't",
+                  "shouldn't",
+                  "can not",
+                  ]:
+            if re.search(p, l, flags=re.IGNORECASE):
+                self.error(f"Forbidden pattern: {p}", line=l)
+                  
+#class check_Echo(Check):
+#    def check_line(self, l):
+                #log.debug(f"Got line: {l.strip()}")
+
+def main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("files", nargs="*", default=["paper.pdf"], help="Files to process")
+    parser.add_argument('-v', action='store_true', dest="verbose", help="Be verbose")
+    parser.add_argument('--permissive', action='store_true', help="Don't report failure")
+    cmdline = parser.parse_args(argv)
+
+    log.basicConfig(format="%(levelname)-8s [%(filename)s:%(lineno)d]  %(message)s" if cmdline.verbose else "%(levelname)-8s %(message)s",
+                    level=log.DEBUG if cmdline.verbose else log.WARN)
+    
+
+    checks = inspect.getmembers(sys.modules[__name__], lambda x : inspect.isclass(x) and "check_" in x.__name__)
+    log.debug(f"Found these checks: {checks}")
+
+    success = True
+    for f in cmdline.files:
+        log.info(f"Processing {f}")
+        with open(f) as t:
+            lines = t.readlines()
+            for name, cls in checks:
+                log.info(f"Performing checks for {name} on {f}")
+                check_name = name.replace("check_","")
+                check = cls(f, check_name)
+                for l in lines:
+                    check.check_line(l, skip=re.search(f"%.*ignore\s+{check_name}", l, flags=re.IGNORECASE))
+                success = success and check.success()
+
+    if success or cmdline.permissive:
+        log.debug("Reporting success!")
+        sys.exit(0)
+    else:
+        log.debug("Reporting failure!")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
