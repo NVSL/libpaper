@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+import argparse
+import sys
+import logging as log
+import subprocess
+
+def main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("files", nargs="*", default=["paper.pdf"], help="Files to process")
+    parser.add_argument('-v', action='store_true', dest="verbose", help="Be verbose")
+    cmdline = parser.parse_args(argv)
+    log.basicConfig(level=log.DEBUG if cmdline.verbose else log.WARN)
+
+    for f in cmdline.files:
+        try:
+            subprocess.check_call(f"open -a /Applications/Adobe\ Acrobat\ DC/Adobe\ Acrobat.app {f}", shell=True)
+        except:
+            log.error(f"Failed to open {f}")
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
