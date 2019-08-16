@@ -6,7 +6,9 @@ import logging as log
 import subprocess
 import inspect
 import re
+import collections
 
+Alt = collections.namedtuple("Alt", "pattern instead")
 
 class Check(object):
     def __init__(self, filename, name):
@@ -18,9 +20,12 @@ class Check(object):
     def check_line(self, l, skip=False):
         self.line_number += 1
         if not skip:
+            self.found_error = False
             self.do_check(l)
+            return not self.found_error
         else:
             log.debug(f"Skipped {self.name} check on {self.line_spec()}: {l}")
+            return True
         
     def do_check(self, l):
         pass
@@ -93,18 +98,31 @@ class check_SIUnits(Check):
                            line=l)
 
 class check_Misc(Check):
+    def __init__(self, *args, **kwargs):
+        super(check_Misc, self).__init__(*args, **kwargs)
     
     def do_check(self, l):
-        for p in ["let's",
-                  "can't",
-                  "don't",
-                  "wouldn't",
-                  "couldn't",
-                  "shouldn't",
-                  "can not",
+        for p in [Alt("let's", "let us"),
+                  Alt("can't", "cannot"),
+                  Alt("don't", "do not"),
+                  Alt("wouldn't", "would not"),
+                  Alt("couldn't", "could not"),
+                  Alt("shouldn't", "should not"),
+                  Alt("can not", "cannot"),
+                  Alt("it's", "its or it is"),
+                  Alt("\$?\\\\times$\?", "\\x{}"),
+                  Alt("(^|[ \~])\\\\x{}", "\\x{} (no space before \\x{})"),
+                  #Alt("\\D\\\\x{}", "<number>\\x{}"),
+                  Alt("solid-?state", "solid-state"),
+                  Alt("trade off", "trade-off"),
+                  Alt("run-time", "runtime"),
+                  Alt("non-volatile", "nonvolatile"),
+                  Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
+                  Alt("control-flow", "control flow"),
+                  Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
                   ]:
-            if re.search(p, l, flags=re.IGNORECASE):
-                self.error(f"Forbidden pattern: {p}", line=l)
+            if re.search(p.pattern, l, flags=re.IGNORECASE):
+                self.error(f"Forbidden pattern: {p.pattern}.  Use {p.instead}", line=l)
                   
 #class check_Echo(Check):
 #    def check_line(self, l):
@@ -115,10 +133,13 @@ def main(argv):
     parser.add_argument("files", nargs="*", default=["paper.pdf"], help="Files to process")
     parser.add_argument('-v', action='store_true', dest="verbose", help="Be verbose")
     parser.add_argument('--permissive', action='store_true', help="Don't report failure")
+    parser.add_argument('--expect-failure', action='store_true', help="For testing -- report an error for lines that don't have one and vice versa")
+    parser.add_argument('--ignore-files', default="(.*\.cls)|(.*\.sty)", help="Regex of file names to ignore")
+    
     cmdline = parser.parse_args(argv)
 
     log.basicConfig(format="%(levelname)-8s [%(filename)s:%(lineno)d]  %(message)s" if cmdline.verbose else "%(levelname)-8s %(message)s",
-                    level=log.DEBUG if cmdline.verbose else log.WARN)
+                    level=log.DEBUG if cmdline.verbose else log.INFO)
     
 
     checks = inspect.getmembers(sys.modules[__name__], lambda x : inspect.isclass(x) and "check_" in x.__name__)
@@ -126,18 +147,31 @@ def main(argv):
 
     success = True
     for f in cmdline.files:
+        if re.match(cmdline.ignore_files, f):
+            log.info(f"Ignoring {f}")
+            continue
         log.info(f"Processing {f}")
+        checkers = [(name, cls(f, name.replace("check_",""))) for name, cls in checks]
         with open(f) as t:
             lines = t.readlines()
-            for name, cls in checks:
-                log.info(f"Performing checks for {name} on {f}")
-                check_name = name.replace("check_","")
-                check = cls(f, check_name)
-                for l in lines:
-                    check.check_line(l, skip=re.search(f"%.*ignore\s+{check_name}", l, flags=re.IGNORECASE))
-                success = success and check.success()
+            for l in lines:
+                log.debug(f"Checking '{l.strip()}'")
+                found_error = False
+                for name, check in checkers:
+                    found_error = found_error or not check.check_line(re.sub("%.*", "", l), skip=re.search(f"%.*ignore\s+{check.name}", l, flags=re.IGNORECASE))
+                if found_error:
+                    log.debug("Found some errors")
+                else:
+                    log.debug("Found no errors")
+                    
+                if cmdline.expect_failure:
+                    success = success and found_error
+                else:
+                    success = success and not found_error
 
     if success or cmdline.permissive:
+        if cmdline.expect_failure:
+            log.info("Expected error on everyline. Found them.")
         log.debug("Reporting success!")
         sys.exit(0)
     else:
