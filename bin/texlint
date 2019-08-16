@@ -116,7 +116,7 @@ class check_Misc(Check):
                   Alt("solid-?state", "solid-state"),
                   Alt("trade off", "trade-off"),
                   Alt("run-time", "runtime"),
-                  Alt("non-volatile", "nonvolatile"),
+                  #Alt("non-volatile", "nonvolatile"),
                   Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
                   Alt("control-flow", "control flow"),
                   Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
