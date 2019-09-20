@@ -116,9 +116,22 @@ class check_Misc(Check):
                   Alt("solid-?state", "solid-state"),
                   Alt("trade off", "trade-off"),
                   Alt("run-time", "runtime"),
+                  Alt("stream-line", "streamline"),
+                  Alt("inter-operate", "interoperate"),
+                  Alt("as such", "so, therefore, as a result, etc."),
+                  Alt("[^,]\s+respectively", ", respectively"),
+                  Alt("fixed-size|fix[\- ]size[^d]|fixed[\- ]sized|fixed-size", "fixed size"),
+                  Alt("mmaped", "mmapped"),
+                  Alt("key value", "key-value"),
+                  Alt("data base", "database"),
+                  Alt("syscall", "system call"),
+                  Alt("data[ \-]path", "datapath"),
+                  Alt("\~\\\\ref[stfal]", "No non-breaking space before \reffig, \refsec, \reftab, etc."),
+                  Alt("[^\~]\\\\ref\{", "~\\ref{}"),
+                  Alt("I/O", "IO"),
                   #Alt("non-volatile", "nonvolatile"),
                   Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
-                  Alt("control-flow", "control flow"),
+                  Alt("control-+flow", "control flow"),
                   Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
                   ]:
             if re.search(p.pattern, l, flags=re.IGNORECASE):
@@ -134,7 +147,8 @@ def main(argv):
     parser.add_argument('-v', action='store_true', dest="verbose", help="Be verbose")
     parser.add_argument('--permissive', action='store_true', help="Don't report failure")
     parser.add_argument('--expect-failure', action='store_true', help="For testing -- report an error for lines that don't have one and vice versa")
-    parser.add_argument('--ignore-files', default="(.*\.cls)|(.*\.sty)", help="Regex of file names to ignore")
+    parser.add_argument('--ignore-files-standard', default="(.*\.cls)|(.*\.sty)", help="Regex of file names to ignore")
+    parser.add_argument('--ignore-files', nargs="+", default=[], help="List of additional files to ignore")
     
     cmdline = parser.parse_args(argv)
 
@@ -147,28 +161,38 @@ def main(argv):
 
     success = True
     for f in cmdline.files:
-        if re.match(cmdline.ignore_files, f):
+        if re.match(cmdline.ignore_files_standard, f) or f in cmdline.ignore_files:
             log.info(f"Ignoring {f}")
             continue
         log.info(f"Processing {f}")
         checkers = [(name, cls(f, name.replace("check_",""))) for name, cls in checks]
-        with open(f) as t:
-            lines = t.readlines()
-            for l in lines:
-                log.debug(f"Checking '{l.strip()}'")
-                found_error = False
-                for name, check in checkers:
-                    found_error = found_error or not check.check_line(re.sub("%.*", "", l), skip=re.search(f"%.*ignore\s+{check.name}", l, flags=re.IGNORECASE))
-                if found_error:
-                    log.debug("Found some errors")
-                else:
-                    log.debug("Found no errors")
-                    
-                if cmdline.expect_failure:
-                    success = success and found_error
-                else:
-                    success = success and not found_error
 
+        try:
+            with open(f) as t:
+                try:
+                    lines = t.readlines()
+                except UnicodeDecodeError as e:
+                    log.error(f"Problem parsing {f}: {e}")
+                    sys.exit(1)
+                    
+                for l in lines:
+                    log.debug(f"Checking '{l.strip()}'")
+                    found_error = False
+                    for name, check in checkers:
+                        found_error = found_error or not check.check_line(re.sub("%.*", "", l), skip=re.search(f"%.*ignore\s+{check.name}", l, flags=re.IGNORECASE))
+                    if found_error:
+                        log.debug("Found some errors")
+                    else:
+                        log.debug("Found no errors")
+
+                    if cmdline.expect_failure:
+                        success = success and found_error
+                    else:
+                        success = success and not found_error
+        except Exception as e:
+            log.error(f"Failed to process {f}: {e}")
+            sys.exit(1)
+            
     if success or cmdline.permissive:
         if cmdline.expect_failure:
             log.info("Expected error on everyline. Found them.")
