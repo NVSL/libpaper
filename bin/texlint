@@ -60,7 +60,7 @@ class check_SIUnits(Check):
 
         self.si_units = ["kB",
                     "MB",
-                    "GB",
+                    "GB[^E]",
                     "TB",
                     "MHz",
                     "GHz",

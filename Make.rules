@@ -2,6 +2,8 @@
 ALL=pdf
 OS=$(shell uname -s)
 TAR=tar
+TEXLINT_OPTS=
+
 
 GENERATED_TEX+=libpaper_metadata.tex #REMOVE_FOR_ARXIV
 
@@ -65,7 +67,7 @@ test:
 pdf: $(PDF_TARGETS)
 
 %.pdf %.log %.aux: %.tex $(TEX_FILES)
-	texlint $(TEXLINT_OPTS) $^ --ignore-files $(TEXLINT_IGNORE) 
+	$(LIBPAPER_BIN)/texlint $(TEXLINT_OPTS) $^ --ignore-files $(TEXLINT_IGNORE) 
 	$(LATEXMK) $(LATEXMK_OPTS) -pdf -pdflatex="$(PDFLATEX) $(PDFLATEX_BATCH_OPTIONS)" -use-make $*
 
 %.docx: $(TEX_FILES)
