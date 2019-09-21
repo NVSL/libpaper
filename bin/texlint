@@ -8,7 +8,11 @@ import inspect
 import re
 import collections
 
-Alt = collections.namedtuple("Alt", "pattern instead")
+class Alt():
+    def __init__(self, pattern, instead, pretty_pattern=None):
+        self.pattern = pattern
+        self.instead = instead
+        self.pretty_pattern = pretty_pattern if pretty_pattern else pattern
 
 class Check(object):
     def __init__(self, filename, name):
@@ -97,6 +101,28 @@ class check_SIUnits(Check):
                 self.error(f"Don't use '{m}'.  Use a \\us{{}}, instead.",
                            line=l)
 
+class check_macros(Check):
+    def __init__(self, *args, **kwargs):
+        super(check_macros, self).__init__(*args, **kwargs)
+        
+    def do_check(self, l):
+        def use_macro(n, m=None ):
+            return Alt(f"(\s|^){n}[^\w\-]", f"\\{m if m else n}", pretty_pattern=n)
+
+        for p in list(map(use_macro, ["malloc",
+                                      "free",
+                                      "fdatasync",
+                                      "memset",
+                                      "memcpy",
+                                      "munmap",
+                                      "fsync",
+                                      "mmap",
+                                      "ioctl",
+                                      "nova",
+                                      "xfsDAX"])) + [use_macro("ext4-dax", "extfsDAX")]:
+            if re.search(p.pattern, l, flags=re.IGNORECASE):
+                self.error(f"Use '{p.instead}{{}}' in place of '{p.pretty_pattern}'.", line=l)
+
 class check_Misc(Check):
     def __init__(self, *args, **kwargs):
         super(check_Misc, self).__init__(*args, **kwargs)
@@ -135,7 +161,7 @@ class check_Misc(Check):
                   Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
                   ]:
             if re.search(p.pattern, l, flags=re.IGNORECASE):
-                self.error(f"Forbidden pattern: {p.pattern}.  Use {p.instead}", line=l)
+                self.error(f"Forbidden pattern: {p.pretty_pattern}.  Use {p.instead}", line=l)
                   
 #class check_Echo(Check):
 #    def check_line(self, l):
@@ -179,7 +205,7 @@ def main(argv):
                     log.debug(f"Checking '{l.strip()}'")
                     found_error = False
                     for name, check in checkers:
-                        found_error = found_error or not check.check_line(re.sub("%.*", "", l), skip=re.search(f"%.*ignore\s+{check.name}", l, flags=re.IGNORECASE))
+                        found_error = found_error or not check.check_line(re.sub("([^\\\\]|^)%.*", "", l), skip=re.search(f"%.*ignore\s+{check.name}", l, flags=re.IGNORECASE))
                     if found_error:
                         log.debug("Found some errors")
                     else:
