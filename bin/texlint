@@ -101,6 +101,14 @@ class check_SIUnits(Check):
                 self.error(f"Don't use '{m}'.  Use a \\us{{}}, instead.",
                            line=l)
 
+class check_floats(Check):
+    def __init__(self, *args, **kwargs):
+        super(check_floats, self).__init__(*args, **kwargs)
+
+    def do_check(self, l):
+        if re.search("\\\\begin\{(table|float|figure)\*?\}\[.*\]", l):
+            self.error("Don't use [] directives to force the position of floats until submission or camera time.", l)
+            
 class check_macros(Check):
     def __init__(self, *args, **kwargs):
         super(check_macros, self).__init__(*args, **kwargs)
