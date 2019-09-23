@@ -50,6 +50,8 @@
 \newcommand{\kunal}[1]{{\color{purple}\textbf{#1}}}
 \newcommand{\xiao}[1]{{\color{purple}\textbf{#1}}}
 
+\newcommand{\HOW}[1]{{\color{red}\textbf{HOW:} #1}}
+
 
 
 \newcommand{\note}[2]{\fixme{$\ll$ #1 $\gg$ #2}}
@@ -62,7 +64,10 @@
 \newcommand{\xfs}[1]{\texttt{XFS#1}}% ignore macros
 \newcommand{\xfsDAX}[1]{\xfs{-DAX#1}}% ignore macros
 \newcommand{\csym}[1]{\texttt{#1}}% ignore macros
-\newcommand{\cfunc}[1]{\csym{#1}\texttt{()}}% ignore macros
+
+% mbox prevents linebreaks between the name and the '()'
+\newcommand{\cfunc}[1]{\mbox{\csym{#1}\hspace{-0.1em}\csym{()}}}% ignore macros
+
 \newcommand{\malloc}{\cfunc{malloc}}% ignore macros
 \newcommand{\free}{\cfunc{free}}% ignore macros
 \newcommand{\iowrite}{\cfunc{write}}% ignore macros

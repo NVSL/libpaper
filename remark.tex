@@ -1,6 +1,4 @@
-\newif\ifremark
 \long\def\remark#1{
-\ifremark%
         \begingroup%
         \dimen0=\columnwidth
         \advance\dimen0 by -1in%
@@ -14,4 +12,4 @@
                 \vrule height\dimen1 width 3pt depth\dimen2%
         }%
         \endgroup%
-\fi}
+}
