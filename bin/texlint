@@ -167,6 +167,7 @@ class check_Misc(Check):
                   #Alt("non-volatile", "nonvolatile"),
                   Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
                   Alt("control-+flow", "control flow"),
+                  Alt("In a nut ?shell", "Just cut it.  Also summaries after the fact are generally not useful."),
                   Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
                   ]:
             if re.search(p.pattern, l, flags=re.IGNORECASE):
