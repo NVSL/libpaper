@@ -118,7 +118,7 @@ class check_macros(Check):
             return Alt(f"(\s|^){n}[^\w\-]", f"\\{m if m else n}", pretty_pattern=n)
 
         for p in list(map(use_macro, ["malloc",
-                                      "free",
+                                    # "free", # Jian: too many false positives
                                       "fdatasync",
                                       "memset",
                                       "msync",
