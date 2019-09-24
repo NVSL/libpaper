@@ -4,7 +4,9 @@ import argparse
 import sys
 import logging as log
 import subprocess
-
+import shutil
+import datetime
+import os
 def main(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument("files", nargs="*", default=["paper.pdf"], help="Files to process")
@@ -13,10 +15,14 @@ def main(argv):
     log.basicConfig(level=log.DEBUG if cmdline.verbose else log.WARN)
 
     for f in cmdline.files:
+        new_name = f"annotated_{f}"
+        if os.path.exists(new_name):
+            shutil.move(new_name, f"{datetime.datetime.now().isoformat().replace(' ', '_')}_{new_name}")
         try:
-            subprocess.check_call(f"open -a /Applications/Adobe\ Acrobat\ DC/Adobe\ Acrobat.app {f}", shell=True)
+            shutil.copy(f, new_name)
+            subprocess.check_call(f"open -a /Applications/Adobe\ Acrobat\ DC/Adobe\ Acrobat.app {new_name}", shell=True)
         except:
-            log.error(f"Failed to open {f}")
+            log.error(f"Failed to create or open {new_name}")
 
 if __name__ == "__main__":
     main(sys.argv[1:])
