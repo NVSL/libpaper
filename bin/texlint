@@ -129,6 +129,12 @@ class check_macros(Check):
                                       "ioctl",
                                       "nova",
                                       "xfs",
+                                       "pread",
+                                       "pwrite",
+                                       "writev",
+                                       "readv",
+                                       "preadv",
+                                       "pwritev",
                                       "xfsDAX"])) +
                   [use_macro("ext4-dax", "extfsDAX"),
                    use_macro("ext4", "extfs"),
