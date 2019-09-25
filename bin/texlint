@@ -117,7 +117,7 @@ class check_macros(Check):
         def use_macro(n, m=None ):
             return Alt(f"(\s|^){n}[^\w\-]", f"\\{m if m else n}", pretty_pattern=n)
 
-        for p in list(map(use_macro, ["malloc",
+        for p in (list(map(use_macro, ["malloc",
                                     # "free", # Jian: too many false positives
                                       "fdatasync",
                                       "memset",
@@ -128,7 +128,12 @@ class check_macros(Check):
                                       "mmap",
                                       "ioctl",
                                       "nova",
-                                      "xfsDAX"])) + [use_macro("ext4-dax", "extfsDAX")]:
+                                      "xfs",
+                                      "xfsDAX"])) +
+                  [use_macro("ext4-dax", "extfsDAX"),
+                   use_macro("ext4", "extfs"),
+                   use_macro("xfs-dax", "xfsDAX")] +
+                  [Alt("(Figure|Fig|Table|Listing|Algorithm|Equation|Appendix|Section)[\s\~]*\\\\ref\{", "\ref<something>{}")]):
             if re.search(p.pattern, l, flags=re.IGNORECASE):
                 self.error(f"Use '{p.instead}{{}}' in place of '{p.pretty_pattern}'.", line=l)
 
@@ -155,7 +160,7 @@ class check_Misc(Check):
                   Alt("inter-operate", "interoperate"),
                   Alt("as such", "so, therefore, as a result, etc."),
                   Alt("[^,]\s+respectively", ", respectively"),
-                  Alt("fixed-size|fix[\- ]size[^d]|fixed[\- ]sized|fixed-size", "fixed size"),
+                  Alt("fix[\- ]size|fixed[\- ]sized|fixed-size", "fixed size"),
                   Alt("mmaped", "mmapped"),
                   Alt("key value", "key-value"),
                   Alt("data base", "database"),
@@ -225,6 +230,11 @@ def main(argv):
                         success = success and found_error
                     else:
                         success = success and not found_error
+                    if not success:
+                        log.debug("I'm failing now")
+                    else:
+                        log.debug("I'm still succeeding.")
+                        
         except Exception as e:
             log.error(f"Failed to process {f}: {e}")
             sys.exit(1)

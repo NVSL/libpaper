@@ -16,5 +16,5 @@ libpaper-test: $(PDF_TARGETS) arxiv-arxiv.tgz
 
 .PHONY: texlint-test
 texlint-test:
-	texlint --permissive texlint/lint-errors.tex --expect-failure
-	texlint --permissive texlint/lint-noerrors.tex
+	texlint texlint/lint-errors.tex --expect-failure
+	texlint texlint/lint-noerrors.tex
