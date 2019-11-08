@@ -2,7 +2,7 @@
 ALL=pdf
 OS=$(shell uname -s)
 TAR=tar
-TEXLINT_OPTS=
+TEXLINT_OPTS?=
 
 
 GENERATED_TEX+=libpaper_metadata.tex #REMOVE_FOR_ARXIV
