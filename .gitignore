@@ -33,3 +33,5 @@ paper.pdf
 *.fdb_latexmk
 *.fls
 *.grammarly.txt
+.DS_Store
+

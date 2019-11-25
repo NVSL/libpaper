@@ -20,7 +20,7 @@ def main(argv):
             shutil.move(new_name, f"{datetime.datetime.now().isoformat().replace(' ', '_')}_{new_name}")
         try:
             shutil.copy(f, new_name)
-            subprocess.check_call(f"open -a /Applications/Adobe\ Acrobat\ DC/Adobe\ Acrobat.app {new_name}", shell=True)
+            subprocess.check_call(f"open -a /Applications/Adobe\ Acrobat\ DC/Adobe\ Acrobat.app '{new_name}'", shell=True)
         except:
             log.error(f"Failed to create or open {new_name}")
 
