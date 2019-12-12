@@ -15,10 +15,7 @@ def load_args(argv=None):
     parser.add_argument("--year", required=True, help="Year of target publication. e.g. '2019'")
     parser.add_argument("--force", help="Don't validate paper name info")
     parser.add_argument("--github-user", required=True, help="Your github username")
-    parser.add_argument("--org", required=True, help="Github organization (NVSL or CU-NVM)")
     parser.add_argument("--template", default="git@github.com:NVSL/paper-template.git", help="Git repo to checkout for template file")
-
-
 
     global args
     if argv != None:
@@ -28,7 +25,7 @@ def load_args(argv=None):
 
 def clone(name):
     assert not subprocess.check_call("git clone {git} {name}".format(name=name,git=args.template), shell=True), "Couldn't clone paper template"
-#    assert not subprocess.check_call("make setup", shell=True, cwd=name)
+    assert not subprocess.check_call("make setup", shell=True, cwd=name)
     
 
 def main(argv=None):
@@ -44,7 +41,7 @@ def main(argv=None):
 
     clone(name)
         
-    result = subprocess.check_output("""curl -u {user} https://api.github.com/orgs/{org}/repos -d '{{"name":"{repo}", "private":true}}'""".format(user=args.github_user, org=args.org, repo="{}".format(name)), shell=True)
+    result = subprocess.check_output("""curl -u {user} https://api.github.com/orgs/NVSL/repos -d '{{"name":"{repo}", "private":true}}'""".format(user=args.github_user, repo="{}".format(name)), shell=True)
     r = json.loads(result)
 
     if "id" not in r:
