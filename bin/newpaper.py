@@ -28,7 +28,7 @@ def load_args(argv=None):
 
 def clone(name):
     assert not subprocess.check_call("git clone {git} {name}".format(name=name,git=args.template), shell=True), "Couldn't clone paper template"
-    assert not subprocess.check_call("make setup", shell=True, cwd=name)
+#    assert not subprocess.check_call("make setup", shell=True, cwd=name)
     
 
 def main(argv=None):
