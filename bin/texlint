@@ -159,7 +159,7 @@ class check_Misc(Check):
                   Alt("\$?\\\\times$\?", "\\x{}"),
                   Alt("(^|[ \~])\\\\x{}", "\\x{} (no space before \\x{})"),
                   #Alt("\\D\\\\x{}", "<number>\\x{}"),
-                  Alt("solid-?state", "solid-state"),
+                  Alt("solid state", "solid-state"),    # Juno: Checking "solid-?state" doesn't allow using solid-state
                   Alt("trade off", "trade-off"),
                   Alt("run-time", "runtime"),
                   Alt("stream-line", "streamline"),
