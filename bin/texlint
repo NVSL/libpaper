@@ -151,6 +151,7 @@ class check_Misc(Check):
         for p in [Alt("let's", "let us"),
                   Alt("can't", "cannot"),
                   Alt("don't", "do not"),
+                  Alt("doesn't", "does not"),
                   Alt("wouldn't", "would not"),
                   Alt("couldn't", "could not"),
                   Alt("shouldn't", "should not"),
@@ -182,7 +183,7 @@ class check_Misc(Check):
                   Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
                   ]:
             if re.search(p.pattern, l, flags=re.IGNORECASE):
-                self.error(f"Forbidden pattern: {p.pretty_pattern}.  Use {p.instead}", line=l)
+                self.error(f"Forbidden pattern: '{p.pretty_pattern}'.  Use '{p.instead}'", line=l)
                   
 #class check_Echo(Check):
 #    def check_line(self, l):
