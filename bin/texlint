@@ -14,6 +14,7 @@ class Alt():
         self.instead = instead
         self.pretty_pattern = pretty_pattern if pretty_pattern else pattern
 
+
 class Check(object):
     def __init__(self, filename, name):
         self.filename = filename
@@ -115,31 +116,33 @@ class check_macros(Check):
         
     def do_check(self, l):
         def use_macro(n, m=None ):
-            return Alt(f"(\s|^){n}[^\w\-]", f"\\{m if m else n}", pretty_pattern=n)
+            return Alt(f"(\s|^|{{){n}([^\w\-]|\()", f"\\{m if m else n}", pretty_pattern=n)
 
         for p in (list(map(use_macro, ["malloc",
-                                    # "free", # Jian: too many false positives
-                                      "fdatasync",
-                                      "memset",
-                                      "msync",
-                                      "memcpy",
-                                      "munmap",
-                                      "fsync",
-                                      "mmap",
-                                      "ioctl",
-                                      "nova",
-                                      "xfs",
+                                       # "free", # Jian: too many false positives
+                                       "fdatasync",
+                                       "memset",
+                                       "msync",
+                                       "memcpy",
+                                       "munmap",
+                                       "clflush",
+                                       "clwb",
+                                       "fsync",
+                                       "mmap",
+                                       "ioctl",
+                                       "nova",
+                                       "xfs",
                                        "pread",
                                        "pwrite",
                                        "writev",
                                        "readv",
                                        "preadv",
                                        "pwritev",
-                                      "xfsDAX"])) +
+                                       "xfsDAX"])) +
                   [use_macro("ext4-dax", "extfsDAX"),
                    use_macro("ext4", "extfs"),
                    use_macro("xfs-dax", "xfsDAX")] +
-                  [Alt("(Figure|Fig|Table|Listing|Algorithm|Equation|Appendix|Section)[\s\~]*\\\\ref\{", "\ref<something>{}")]):
+                  [Alt("(Figure|Fig|Table|Listing|Algorithm|Equation|Appendix|Section)[\s\~]*\\\\ref\{", "\\ref<something>{}")]):
             if re.search(p.pattern, l, flags=re.IGNORECASE):
                 self.error(f"Use '{p.instead}{{}}' in place of '{p.pretty_pattern}'.", line=l)
 
@@ -174,7 +177,7 @@ class check_Misc(Check):
                   Alt("syscall", "system call"),
                   Alt("data[ \-]path", "datapath"),
                   Alt("\~\\\\ref[stfal]", "No non-breaking space before \reffig, \refsec, \reftab, etc."),
-                  Alt("[^\~]\\\\ref\{", "~\\ref{}"),
+                  Alt("[^\~]\\\\ref\{", "~\ref{}"),
                   Alt("I/O", "IO"),
                   #Alt("non-volatile", "nonvolatile"),
                   Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
@@ -197,6 +200,7 @@ def main(argv):
     parser.add_argument('--expect-failure', action='store_true', help="For testing -- report an error for lines that don't have one and vice versa")
     parser.add_argument('--ignore-files-standard', default="(.*\.cls)|(.*\.sty)", help="Regex of file names to ignore")
     parser.add_argument('--ignore-files', nargs="+", default=[], help="List of additional files to ignore")
+    parser.add_argument("--fail-fast", default=False, action='store_true', help="Exit on first error")
     
     cmdline = parser.parse_args(argv)
 
@@ -227,7 +231,10 @@ def main(argv):
                     log.debug(f"Checking '{l.strip()}'")
                     found_error = False
                     for name, check in checkers:
-                        found_error = found_error or not check.check_line(re.sub("([^\\\\]|^)%.*", "", l), skip=re.search(f"%.*ignore\s+{check.name}", l, flags=re.IGNORECASE))
+                        found_error = found_error or not check.check_line(re.sub("([^\\\\]|^)%.*", "", l),
+                                                                          skip=re.search(f"%.*ignore\s+{check.name}",
+                                                                                         l,
+                                                                                         flags=re.IGNORECASE))
                     if found_error:
                         log.debug("Found some errors")
                     else:
@@ -237,8 +244,12 @@ def main(argv):
                         success = success and found_error
                     else:
                         success = success and not found_error
+
                     if not success:
                         log.debug("I'm failing now")
+                        if cmdline.fail_fast:
+                            log.error("Exiting on first error")
+                            sys.exit(1)
                     else:
                         log.debug("I'm still succeeding.")
                         
