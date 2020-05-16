@@ -127,6 +127,7 @@ class check_macros(Check):
                                        "memcpy",
                                        "memset",
                                        "mfence",
+                                       "sfence",
                                        "mmap",
                                        "msync",
                                        "munmap",
