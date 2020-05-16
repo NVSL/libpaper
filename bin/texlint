@@ -126,6 +126,8 @@ class check_macros(Check):
                                       "munmap",
                                       "fsync",
                                       "mmap",
+                                      "clwb",
+                                      "mfence",
                                       "ioctl",
                                       "nova",
                                       "xfs",
