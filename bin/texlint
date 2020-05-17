@@ -184,8 +184,10 @@ class check_Misc(Check):
                   #Alt("non-volatile", "nonvolatile"),
                   Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
                   Alt("control-+flow", "control flow"),
+                  Alt(">>", "> > (to avoid geting double angle quotes in the output)"),
+                  Alt("<<", "< < (to avoid geting double angle quotes in the output)"),
                   Alt("In a nut ?shell", "Just cut it.  Also summaries after the fact are generally not useful."),
-                  Alt("\{\\\\tt", "This is old-style tex. You should at least use \texttt{}, but probably you want to use another macro like \csym{}."),
+                  Alt("\{\\\\tt", "This is old-style tex. You should at least use \\texttt{}, but probably you want to use another macro like \csym{}."),
                   Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
                   ]:
             if re.search(p.pattern, l, flags=re.IGNORECASE):
