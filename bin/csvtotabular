@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+import argparse
+import sys
+import logging as log
+import csv
+import re
+import io
+
+# Convert CSV into the body of \begin{tabular}.
+#
+# It does the following:
+#
+# 1.  Handles \multicolumn.
+# 2.  Assumes the last column has the \\ or \\\hline or \\\hline\hline etc.
+#
+# to use, create your foo.csv, then do something like
+#
+# \begin{tabular}
+#  \input{foo.table}
+# \ende{tabular}
+#
+# and in your make file:
+# 
+# foo.table.tex : foo.csv
+#      csvtotabular $< -o $@
+def main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("files", nargs=1, help="File to process")
+    parser.add_argument('-v', action='store_true', dest="verbose", help="Be verbose")
+    parser.add_argument('-o', '--out', required=True, help="Output file")
+    
+    cmdline = parser.parse_args(argv)
+
+    log.basicConfig(format="%(levelname)-8s [%(filename)s:%(lineno)d]  %(message)s" if cmdline.verbose else "%(levelname)-8s %(message)s",
+                    level=log.DEBUG if cmdline.verbose else log.INFO)
+    out  = io.StringIO()
+    
+    with open(cmdline.files[0]) as csvfile:
+        r = csv.reader(csvfile)
+        for row in r:
+            output = []
+            c = 0
+            while c < len(row):
+                output.append(row[c])
+                m = re.search("multicolumn\{(\d+)\}", row[c])
+                if m:
+                    c += int(m.group(1))
+                else:
+                    c += 1
+                
+                #print(c)
+                
+            t = "&".join(output[:-1]) + output[-1]
+            out.write(f"{t}\n")
+
+    with open(cmdline.out, "w") as o:
+        o.write(out.getvalue())
+        
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
