@@ -19,10 +19,10 @@ import io
 #  \input{foo.table}
 # \ende{tabular}
 #
-# and in your make file:
-# 
-# foo.table.tex : foo.csv
-#      csvtotabular $< -o $@
+# and in your Makefile:
+#
+# paper.pdf : foo.table.tex
+# GENERATED_TEX+=foo.table.tex 
 def main(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument("files", nargs=1, help="File to process")
