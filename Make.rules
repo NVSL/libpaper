@@ -73,6 +73,9 @@ pdf: $(PDF_TARGETS)
 %.docx: $(TEX_FILES)
 	$(PANDOC) $*.tex -w docx -o $@
 
+%.table.tex: %.csv
+	csvtotabular $< -o $@
+
 TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 
 %.grammarly.txt: $(TEX_FILES)
