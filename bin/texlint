@@ -31,7 +31,19 @@ class Check(object):
         else:
             log.debug(f"Skipped {self.name} check on {self.line_spec()}: {l}")
             return True
-        
+
+    def check_eof(self, skip=False):
+        if not skip:
+            self.found_error = False
+            self.do_check_eof()
+            return not self.found_error
+        else:
+            log.debug(f"Skipped {self.name} check at eof")
+            return True
+
+    def do_check_eof(self):
+        pass
+    
     def do_check(self, l):
         pass
 
@@ -165,6 +177,7 @@ class check_Misc(Check):
                   Alt("can not", "cannot"),
                   Alt("it's", "its or it is"),
                   Alt("\$?\\\\times$\?", "\\x{}"),
+                  Alt("\d\s*(x|X)", "\\x{}"),
                   Alt("(^|[ \~])\\\\x{}", "\\x{} (no space before \\x{})"),
                   #Alt("\\D\\\\x{}", "<number>\\x{}"),
                   Alt("solid state", "solid-state"),    # Juno: Checking "solid-?state" doesn't allow using solid-state
@@ -259,6 +272,13 @@ def main(argv):
                             sys.exit(1)
                     else:
                         log.debug("I'm still succeeding.")
+                for name, check in checkers:
+                    found_error = check.check_eof()
+                    if found_error:
+                        log.debug("I'm failing now")
+                        if cmdline.fail_fast:
+                            log.error("Exiting on first error")
+                            sys.exit(1)
                         
         except Exception as e:
             log.error(f"Failed to process {f}: {e}")
