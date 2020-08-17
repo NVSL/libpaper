@@ -171,7 +171,7 @@ class check_Misc(Check):
                   Alt("don't", "do not"),
                   Alt("doesn't", "does not"),
                   Alt("wouldn't", "would not"),
-                  Alt("(\W|^)I[\W$]", "We (or rewrite to avoid 1st person pronouns)", reflags=0),
+                  #Alt("(\W|^)I[\W$]", "We (or rewrite to avoid 1st person pronouns)", reflags=0),
                   #Alt("you", "remove it"),
                   Alt("couldn't", "could not"),
                   Alt("shouldn't", "should not"),
