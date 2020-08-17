@@ -9,10 +9,11 @@ import re
 import collections
 
 class Alt():
-    def __init__(self, pattern, instead, pretty_pattern=None):
+    def __init__(self, pattern, instead, pretty_pattern=None, reflags=re.IGNORECASE):
         self.pattern = pattern
         self.instead = instead
         self.pretty_pattern = pretty_pattern if pretty_pattern else pattern
+        self.reflags=reflags
 
 
 class Check(object):
@@ -157,7 +158,7 @@ class check_macros(Check):
                    use_macro("ext4", "extfs"),
                    use_macro("xfs-dax", "xfsDAX")] +
                   [Alt("(Figure|Fig|Table|Listing|Algorithm|Equation|Appendix|Section)[\s\~]*\\\\ref\{", "\\ref<something>{}")]):
-            if re.search(p.pattern, l, flags=re.IGNORECASE):
+            if re.search(p.pattern, l, flags=p.reflags):
                 self.error(f"Use '{p.instead}{{}}' in place of '{p.pretty_pattern}'.", line=l)
 
 class check_Misc(Check):
@@ -170,8 +171,8 @@ class check_Misc(Check):
                   Alt("don't", "do not"),
                   Alt("doesn't", "does not"),
                   Alt("wouldn't", "would not"),
-                  Alt("(\W|^)I[\W$]", "We (or rewrite to avoid 1st person pronouns)"),
-                  Alt("you", "remove it"),
+                  Alt("(\W|^)I[\W$]", "We (or rewrite to avoid 1st person pronouns)", reflags=0),
+                  #Alt("you", "remove it"),
                   Alt("couldn't", "could not"),
                   Alt("shouldn't", "should not"),
                   Alt("can not", "cannot"),
@@ -205,7 +206,7 @@ class check_Misc(Check):
                   Alt("\{\\\\tt", "This is old-style tex. You should at least use \\texttt{}, but probably you want to use another macro like \csym{}."),
                   Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
                   ]:
-            if re.search(p.pattern, l, flags=re.IGNORECASE):
+            if re.search(p.pattern, l, flags=p.reflags):
                 self.error(f"Forbidden pattern: '{p.pretty_pattern}'.  Use '{p.instead}'", line=l)
                   
 #class check_Echo(Check):
