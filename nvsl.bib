@@ -89,7 +89,6 @@ year = {2017},
 volume = {}, 
 number = {}, 
 pages = {1-8}, 
-keywords = {cache storage;cloud computing;computer centres;disc drives;flash memories;hard discs;storage management;virtual machines;virtual storage;AutoTiering;HDDs;SSD-HDD hybrid storage systems;VMware ESXi;all-flash datacenter;all-flash multitier datacenter;all-flash multitier datacenters;all-flash multitier storage systems;all-flash storage systems;automatic data placement manager;backend storage;enterprise datacenters;existing caching;hard disk drives;low-end SSDs;solid state drivers;storage capacity;storage resource;virtual machine disk files;Cloud computing;Optimization;Random access memory;Resource management;Servers;TV;Throughput;All-Flash Datacenter Storage;Big Data;Caching & Tiering Algorithm;Cloud Computing;I/O Workload Evaluation & Prediction;NVMe SSD;Resource Management}, 
 doi = {10.1109/PCCC.2017.8280433}, 
 ISSN = {},
   accept_rate  =  {33\%},
@@ -364,7 +363,7 @@ accept_rate = {19\%},
   NUMBER =        {CS2015-1015},
   INSTITUTION =   {Department of Computer Science and Engineering, University of California, San Diego technical report},
   YEAR  =         {2015},
-  URL   =         {http://csetechrep.ucsd.edu/Dienst/UI/2.0/Describe/ncstrl.ucsd_cse/CS2015-1015},
+  URL   =         {http://csetechrep.ucsd.edu/Dienst/UI/2.0/Describe/ncstrl.ucsd\_cse/CS2015-1015},
   www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/TR-CS2015-1015-Gullfoss.pdf}
 }
 
@@ -428,6 +427,25 @@ www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/2015MSST-NVMApps.pdf}
 www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/TR2015-NVMDB.pdf}
 }
 
+
+@INPROCEEDINGS{breeze,  author={A. {Memaripour} and S. {Swanson}},  booktitle={2018 IEEE 36th International Conference on Computer Design (ICCD)},   title={Breeze: User-Level Access to Non-Volatile Main Memories for Legacy Software},   year={2018},  volume={},  number={},  pages={413-422},}
+@inproceedings{pronto,
+author = {Memaripour, Amirsaman and Izraelevitz, Joseph and Swanson, Steven},
+title = {Pronto: Easy and Fast Persistence for Volatile Data Structures},
+year = {2020},
+isbn = {9781450371025},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3373376.3378456},
+doi = {10.1145/3373376.3378456},
+abstract = {Non-Volatile Main Memories (NVMMs) promise an opportunity for fast, persistent data structures. However, building these data structures is hard because their data must be consistent in the wake of a failure. Existing methods for building persistent data structures require either in-depth code changes to an existing data structure using an NVMM-aware library or rewriting the data structure from scratch. Unfortunately, both of these methods are labor-intensive and error-prone.Pronto is a new NVMM library that reduces the programming effort required to add persistence to volatile data structures using asynchronous semantic logging (ASL). ASL is generic enough to allow programmers to add persistence to the existing volatile data structure (e.g., C++ Standard Template Library containers) with very little programming effort. Furthermore, ASL moves most durability code off the critical path, and our evaluation shows Pronto data structures outperform highly-optimized NVMM data structures written with other libraries by a large margin.},
+booktitle = {Proceedings of the Twenty-Fifth International Conference on Architectural Support for Programming Languages and Operating Systems},
+pages = {789–806},
+numpages = {18},
+keywords = {semantic logging, persistent objects, persistent memory, non-volatile memory, data structures, asynchronous logging, storage systems, snapshots},
+location = {Lausanne, Switzerland},
+series = {ASPLOS '20}
+}
 
 @inproceedings{Mojim,
 author = {Yiying Zhang and  Jian Yang  and Amirsaman Memaripour and Steven Swanson},
@@ -504,7 +522,7 @@ www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/FAST14DCExpress.pdf}
 
 } 
 
-@inproceedings {IOSpec,
+@inproceedings {IOSpec, 
 author = {Michael Wei and Matias Bj{\o}rling and Philippe Bonnet and Steven Swanson},
 title = {I/O Speculation for the Microsecond Era},
 booktitle = {2014 USENIX Annual Technical Conference (USENIX ATC 14)},
@@ -650,7 +668,6 @@ title = {{The Harey Tortoise: Managing Heterogeneous Write Performance in SSDs}}
  year = {2013},
  numpages = {12},
  pages = {1-12},
-accept_rate = {14\%},
  publisher = {USENIX Association},
  address = {Berkeley, CA, USA},
 www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/USENIX2013Tortoise.pdf},
@@ -778,7 +795,7 @@ www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/Oakland2013EarlyEntro
 }
 
 @TECHREPORT{MARSTechReport,
-  AUTHOR =        {Joel Coburn, Trevor Bunker, Rajesh K. Gupta and Steven Swanson},
+  AUTHOR =        {Joel Coburn and Trevor Bunker and Rajesh K. Gupta and Steven Swanson},
   TITLE =         {From ARIES to MARS: Reengineering Transaction Management for Next-Generation, Solid-State Drives},
 
   NUMBER =        {CS2012-0981},
@@ -1584,9 +1601,9 @@ www_pdf_url = {http://nvsl.ucsd.edu/ecc/papers/WOM2.pdf}
  year = {2010},
  month = {September},
  location = {Monticello, IL},
-www_pdf_url = {http://nvsl.ucsd.edu/ecc/papers/Multi_WOM.pdf}
+www_pdf_url = {http://nvsl.ucsd.edu/ecc/papers/Multi\_WOM.pdf}
 
- }
+}
 
 @inproceedings{cmrr3,
  author = {Yaakobi, Eitan and Ma, Jing and Grupp, Laura and Siegel, Paul H. and Swanson, Steven and Wolf, Jack K.},
@@ -1595,7 +1612,7 @@ www_pdf_url = {http://nvsl.ucsd.edu/ecc/papers/Multi_WOM.pdf}
  year = {2010},
  month = {December},
  location = {Miami, Florida},
-www_pdf_url = {http://nvsl.ucsd.edu/ecc/papers/Flash_Characterization.pdf}
+www_pdf_url = {http://nvsl.ucsd.edu/ecc/papers/Flash\_Characterization.pdf}
 
  }
 
@@ -1617,7 +1634,7 @@ month = {April},
 year = {2010},
 booktitle = {2010 Non-Volatile Memories Workshop},
 location = {San Diego, CA, USA},
-www_pdf_url = {http://nvmw.ucsd.edu/2010/documents/Grupp_Laura.pdf}}
+www_pdf_url = {http://nvmw.ucsd.edu/2010/documents/Grupp\_Laura.pdf}}
 
 
 @inproceedings{NVMWMoneta,
@@ -1637,7 +1654,7 @@ month = {March},
 year = {2010},
 booktitle = {2010 Non-Volatile Memories Workshop},
 location = {San Diego, CA, USA},
-www_pdf_url = {http://nvmw.ucsd.edu/2010/documents/Coburn_Joel.pdf}}
+www_pdf_url = {http://nvmw.ucsd.edu/2010/documents/Coburn\_Joel.pdf}}
 
 @inproceedings{NVMWSDSSD,
 author = {Seshadri, Sudharsan and Bhaskaran, Sundaram  and De, Arup  and Jin, Yanqin  and Liu, Robert  and Bunker, Trevor  and Swanson, Steven},
@@ -1655,6 +1672,24 @@ location = {San Diego, CA, USA}}
   booktitle = {In Proceedings of {SYSTOR 2013}: The 6th Annual International Systems and Storage Conference, Haifa, Israel},
   month = {June},
   year = {2013}
+}
+
+@inproceedings{subzero,
+author = {Kim, Juno and Soh, Yun Joon and Izraelevitz, Joseph and Zhao, Jishen and Swanson, Steven},
+title = {SubZero: Zero-Copy IO for Persistent Main Memory File Systems},
+year = {2020},
+isbn = {9781450380690},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3409963.3410489},
+doi = {10.1145/3409963.3410489},
+abstract = {POSIX-style read() and write() have long been the standard interface for accessing data in files. However, the data copy into and out of memory these methods require imposes an unnecessary overhead when files are stored in fast persistent memories (PMEMs). To avoid the copy, PMEM-aware file systems generally provide direct-access (DAX)-based mmap(), but in doing so force the programmer to manage write-atomicity and concurrent accesses to the file.In this work, we propose two new system calls - peek() and patch(), and collectively called SubZero - that read and update PMEM-backed files without any copies. To show its potential, we implemented SubZero in two state-of-the-art PMEM file systems, XFS-DAX and NOVA. Measurements of simple benchmarks show that SubZero can outperform copy-based read() and write() by up to 2x and 2.8x, respectively. At the application level, peek() improves GET performance of the Apache Web Server by 3.6x, and patch() boosts SET performance of Kyoto Cabinet up to 1.3x.},
+booktitle = {Proceedings of the 11th ACM SIGOPS Asia-Pacific Workshop on Systems},
+pages = {1–8},
+numpages = {8},
+keywords = {file systems, persistent memory, direct access, non-volatile memory, DAX},
+location = {Tsukuba, Japan},
+series = {APSys '20}
 }
 
 @inproceedings{corfu,
