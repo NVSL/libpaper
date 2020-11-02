@@ -51,19 +51,54 @@ journal={To appear in Communications of the ACM (CACM)},
 year=2019
 }
 
-@inproceedings{RobotParade,
-title={Reducing Instructor Workload in an Introductory Robotics Course via Computational Design},
-author={Merrill, Devon and Swanson, Steven},
-booktitle  =  {The 50th ACM Technical Symposium on Computer Science Education (to appear)},
-year={2019}
+@inproceedings{pangolin,
+  author    = {Lu Zhang and
+               Steven Swanson},
+  title     = {Pangolin: {A} Fault-Tolerant Persistent Memory Programming Library},
+  booktitle = {2019 {USENIX} Annual Technical Conference, {USENIX} {ATC} 2019, Renton,
+               WA, USA, July 10-12, 2019},
+  pages     = {897--912},
+  year      = {2019},
+  crossref  = {DBLP:conf/usenix/2019},
+  url       = {https://www.usenix.org/conference/atc19/presentation/zhang-lu},
+  timestamp = {Tue, 16 Jul 2019 14:25:46 +0200},
+  biburl    = {https://dblp.org/rec/bib/conf/usenix/ZhangS19},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@inproceedings{robotparade,
+  author    = {Devon J. Merrill and
+               Steven Swanson},
+  title     = {Reducing Instructor Workload in an Introductory Robotics Course via
+               Computational Design},
+  booktitle = {Proceedings of the 50th {ACM} Technical Symposium on Computer Science
+               Education, {SIGCSE} 2019, Minneapolis, MN, USA, February 27 - March
+               02, 2019},
+  pages     = {592--598},
+  year      = {2019},
+  crossref  = {DBLP:conf/sigcse/2019},
+  url       = {https://doi.org/10.1145/3287324.3287506},
+  doi       = {10.1145/3287324.3287506},
+  timestamp = {Mon, 04 Mar 2019 15:45:45 +0100},
+  biburl    = {https://dblp.org/rec/bib/conf/sigcse/MerrillS19},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@inproceedings{quadcopters,
+  author    = {Steven Swanson},
+  title     = {Trial by Flyer: Building Quadcopters From Scratch in a Ten-Week Capstone
+               Course},
+  booktitle = {Proceedings of the 50th {ACM} Technical Symposium on Computer Science
+               Education, {SIGCSE} 2019, Minneapolis, MN, USA, February 27 - March
+               02, 2019},
+  pages     = {146--152},
+  year      = {2019},
+  crossref  = {DBLP:conf/sigcse/2019},
+  url       = {https://doi.org/10.1145/3287324.3287451},
+  doi       = {10.1145/3287324.3287451},
+  timestamp = {Mon, 04 Mar 2019 15:45:45 +0100},
+  biburl    = {https://dblp.org/rec/bib/conf/sigcse/Swanson19},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{Quadcopters,
-title={Trial by Flyer: Building Quadcopters From Scratch in a Ten-Week Capstone Course},
-author={Swanson, Steven},
-booktitle  =  {The 50th ACM Technical Symposium on Computer Science Education (to appear)},
-year={2019}
-}
 
 
 @inproceedings{ISCA2018,
@@ -1777,10 +1812,21 @@ series = {APSys '20}
 }
 
 @inproceedings{Korgaonkar:2019:VVC,
- author = {Kunal Korgaonkar and Joe Izraelevitz and Jishen Zhao and Steven Swanson},
- title = {{Vorpal: Vector Clock-Inspired Ordering for Large Persistent Memory Systems}},
- booktitle = {the Proceedings of the 38th ACM Symposium on Principles of Distributed Computing (PODC)},
- year = {2019}
+  author    = {Kunal Korgaonkar and
+               Joseph Izraelevitz and
+               Jishen Zhao and
+               Steven Swanson},
+  title     = {Vorpal: Vector Clock Ordering For Large Persistent Memory Systems},
+  booktitle = {Proceedings of the 2019 {ACM} Symposium on Principles of Distributed
+               Computing, {PODC} 2019, Toronto, ON, Canada, July 29 - August 2, 2019.},
+  pages     = {435--444},
+  year      = {2019},
+  crossref  = {DBLP:conf/podc/2019},
+  url       = {https://doi.org/10.1145/3293611.3331598},
+  doi       = {10.1145/3293611.3331598},
+  timestamp = {Fri, 19 Jul 2019 08:08:29 +0200},
+  biburl    = {https://dblp.org/rec/bib/conf/podc/KorgaonkarIZS19},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
 @inproceedings{Ogleari:2019:SFA,
@@ -1859,7 +1905,7 @@ series = {APSys '20}
 
 @inproceedings {NVMMEmpirical,
 author = {Jian Yang and Juno Kim and Morteza Hoseinzadeh and Joseph Izraelevitz and Steve Swanson},
-title = {An Empirical Guide to the Behavior and Use of Scalable Persistent Memory},
+title = {An Empirbrical Guide to the Behavior and Use of Scalable Persistent Memory},
 booktitle = {18th {USENIX} Conference on File and Storage Technologies ({FAST} 20)},
 year = {2020},
 isbn = {978-1-939133-12-0},
@@ -1870,14 +1916,6 @@ publisher = {{USENIX} Association},
 month = feb,
 }
 
-@misc{izraelevitz2019basic,
-      title={Basic Performance Measurements of the Intel Optane DC Persistent Memory Module}, 
-      author={Joseph Izraelevitz and Jian Yang and Lu Zhang and Juno Kim and Xiao Liu and Amirsaman Memaripour and Yun Joon Soh and Zixuan Wang and Yi Xu and Subramanya R. Dulloor and Jishen Zhao and Steven Swanson},
-      year={2019},
-      eprint={1903.05714},
-      archivePrefix={arXiv},
-      primaryClass={cs.DC}
-}
 
 @inproceedings {fuzzylog,
 author = {Joshua Lockerman and Jose M. Faleiro and Juno Kim and Soham Sankaran and Daniel J. Abadi and James Aspnes and Siddhartha Sen and Mahesh Balakrishnan},
