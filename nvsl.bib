@@ -1703,6 +1703,24 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%% NOT MINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	@inproceedings{tmichail2019,
+	  author = {Michailidis, Theodore and Delis, Alex and Roussopoulos, Mema},
+	  title = {MEGA: Overcoming Traditional Problems with OS Huge Page Management},
+	  year = {2019},
+	  isbn = {9781450367493},
+	  publisher = {Association for Computing Machinery},
+	  address = {New York, NY, USA},
+	  url = {https://doi.org/10.1145/3319647.3325839},
+	  doi = {10.1145/3319647.3325839},
+	  abstract = {Modern computer systems now feature memory banks whose aggregate size ranges from tens to hundreds of GBs. In this context, contemporary workloads can and do often consume vast amounts of main memory. This upsurge in memory consumption routinely results in increased virtual-to-physical address translations, and consequently and more importantly, more translation misses. Both of these aspects collectively do hamper the performance of workload execution. A solution aimed at dramatically reducing the number of address translation misses has been to provide hardware support for pages with bigger sizes, termed huge pages. In this paper, we empirically demonstrate the benefits and drawbacks of using such huge pages. In particular, we show that it is essential for modern OS to refine their software mechanisms to more effectively manage huge pages. Based on our empirical observations, we propose and implement MEGA, a framework for huge page support for the Linux kernel. MEGA deploys basic tracking mechanisms and a novel memory compaction algorithm that jointly provide for the effective management of huge pages. We experimentally evaluate MEGA using an array of both synthetic and real workloads and demonstrate that our framework tackles known problems associated with huge pages including increased page fault latency, memory bloating as well as memory fragmentation, while at the same time it delivers all huge pages benefits.},
+	  booktitle = {Proceedings of the 12th ACM International Conference on Systems and Storage},
+	  pages = {121–131},
+	  numpages = {11},
+	  keywords = {memory compaction, huge pages, address translation},
+	  location = {Haifa, Israel},
+	  series = {SYSTOR '19}
+	}
 
 	@article{smith2019,
 	  author={TJ {Smith} and A. {Broome} and D. {Stanley} and J. {Westberg} and G. {Wysocki} and K. {Sengupta}},
