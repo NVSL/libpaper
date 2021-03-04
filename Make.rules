@@ -4,6 +4,11 @@ OS=$(shell uname -s)
 TAR=tar
 TEXLINT_OPTS?=
 
+FORCE?=no
+
+ifeq ($(FORCE),yes)
+TEXLINT_OPTS=--permissive
+endif
 
 GENERATED_TEX+=libpaper_metadata.tex #REMOVE_FOR_ARXIV
 

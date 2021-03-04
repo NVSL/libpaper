@@ -1,4 +1,32 @@
 % Encoding: UTF-8
+@inproceedings {filemr,
+author = {Jian Yang and Joseph Izraelevitz and Steven Swanson},
+title = {FileMR: Rethinking {RDMA} Networking for Scalable Persistent Memory },
+booktitle = {17th {USENIX} Symposium on Networked Systems Design and Implementation ({NSDI} 20)},
+year = {2020},
+isbn = {978-1-939133-13-7},
+address = {Santa Clara, CA},
+pages = {111--125},
+url = {https://www.usenix.org/conference/nsdi20/presentation/yang},
+publisher = {{USENIX} Association},
+month = feb,
+}
+
+@inproceedings{orion,
+author = {Yang, Jian and Izraelevitz, Joseph and Swanson, Steven},
+title = {Orion: A Distributed File System for Non-Volatile Main Memories and RDMA-Capable Networks},
+year = {2019},
+isbn = {9781931971485},
+publisher = {USENIX Association},
+address = {USA},
+abstract = {High-performance, byte-addressable non-volatile main memories (NVMMs) force system designers to rethink tradeoffs throughout the system stack, often leading to dramatic changes in system architecture. Conventional distributed file systems are a prime example. When faster NVMM replaces block-based storage, the dramatic improvement in storage performance makes networking and software overhead a critical bottleneck.In this paper, we present Orion, a distributed file system for NVMM-based storage. By taking a clean slate design and leveraging the characteristics of NVMM and high-speed, RDMA-based networking, Orion provides high-performance metadata and data access while maintaining the byte addressability of NVMM. Our evaluation shows Orion achieves performance comparable to local NVMM file systems and outperforms existing distributed file systems by a large margin.},
+booktitle = {Proceedings of the 17th USENIX Conference on File and Storage Technologies},
+pages = {221–234},
+numpages = {14},
+location = {Boston, MA, USA},
+series = {FAST'19}
+}
+
 @inproceedings{clobbernvm,
 title={Clobber-NVM: Log Less, Re-execute More},
 author={Xu, Yi and Izraelevitz, Joseph and Swanson, Steven},
@@ -1939,7 +1967,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 
 @inproceedings {NVMMEmpirical,
 author = {Jian Yang and Juno Kim and Morteza Hoseinzadeh and Joseph Izraelevitz and Steve Swanson},
-title = {An Empirbrical Guide to the Behavior and Use of Scalable Persistent Memory},
+title = {An Empirical Guide to the Behavior and Use of Scalable Persistent Memory},
 booktitle = {18th {USENIX} Conference on File and Storage Technologies ({FAST} 20)},
 year = {2020},
 isbn = {978-1-939133-12-0},
