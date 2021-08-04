@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-
+import click
 import biblib.bib
-import argparse
 import sys
 import json
 import biblib.algo
@@ -19,7 +18,6 @@ short_bibentry = Template("""
 {% endif %}
 <span class='bib_title'>{{e.title}}</span> 
 <span class='bib_author'>{{e.author}}</span>
-<span class='bib_meta_block'>
 {% if e.type == 'inproceedings' %}
 <span class='bib_meta'>{{e.venue}}</span>
 {% elif e.type == 'article' %}
@@ -41,7 +39,7 @@ short_bibentry = Template("""
 </div>
 """);
 
-full_bibentry = Template("""
+web_bibentry = Template("""
 <div class='bib_entry {{e.type}}'>
 {% if e.paper_pdf %}
 <a href={{e.paper_pdf}}>
@@ -50,7 +48,6 @@ full_bibentry = Template("""
 {% endif %}
 <span class='bib_title'>{{e.title}}</span> 
 <span class='bib_author'>{{e.author}}</span>
-<span class='bib_meta_block'>
 
 {% if e.type == 'inproceedings' %}
 <span class='bib_meta'>In {{e.booktitle}}. {{e.publisher}}{% if e.location %}, {{e.location}}{% endif %}{% if e.pages %}, {{e.pages}}{% endif %}.</span>
@@ -70,6 +67,31 @@ full_bibentry = Template("""
 {% elif e.url %}
 </a>
 {% endif %}
+</div>
+""");
+
+formal_bibentry = Template("""
+
+<div class='bib_entry {{e.type}}'>
+{% if number %}
+{{number}}.   
+{% endif %}
+<span class='bib_author'>{{e.author}}</span>
+<span class='bib_title'>{{e.title}}</span> 
+
+{% if e.type == 'inproceedings' %}
+<span class='bib_meta'>In {{e.booktitle}}, {{e.year}}{% if e.pages %},  pages {{e.pages}}{% endif %} {% if e.accept_rate %}({{e.accept_rate}}){% endif %}.</span>
+{% elif e.type == 'article' %}
+<span class='bib_meta'>{{e.journal}} {{e.volume}}, {{e.number}} ({{e.year}}){%if e.pages %} pages {{e.pages}}{% endif %}. </span>
+{% elif e.type == 'techreport' %}
+<span class='bib_meta'>{{e.institution}}. Technical Report {{e.number}}</span>
+{% elif e.type == 'phdthesis' %}
+<span class='bib_meta'>Ph.D. Dissertation. {% if e.school %}{{e.school}}{% endif %}. Advised by {{e.advisor}}.</span>
+{% elif e.typee == 'mastersthesis' %}
+<span class='bib_meta'>Masters Thesis. {{e.school}}. Advisor(s) {{e.advisor}}.</span>
+{% endif %}
+
+</span>
 </div>
 """);
 
@@ -141,13 +163,18 @@ def load_bibs(bib, min_crossrefs):
     except biblib.messages.InputError:
         raise click.ClickException(f"Couldn't load bib files: {bib}")
 
-@click.command(help='generate html of bib entries')
+@click.command()
 @click.option('--out','-o', default="-", type=click.File('w'), help='OUtput file')
-@click.argument('bib', nargs="-1", required=True, type=click.File('r'), help='.bib file(s) to process')
-def bib2html(bib=None, out =None):
+@click.option('--number', type=int,  help='Number items starting here')
+@click.argument('bib', nargs=-1, required=True, type=click.File('r'))#, help='.bib file(s) to process')
+def bib2html(bib=None, out =None, number=None):
+    """
+    generate html of bib entries
+    """
     db = load_bibs(bib, None)
 
     entries = []
+
     for ent in db.values():
         try:
             key = ent.key
@@ -155,23 +182,28 @@ def bib2html(bib=None, out =None):
             e = {x:biblib.algo.tex_to_unicode(ent.get(x, ""),pos=ent.field_pos[x]) for x in ent}
             e.update(dict(key=key,type=type))
             e['author'] = fix_authors(e['author'])
-            entries.append((int(e['year']),full_bibentry.render(e=e)))
+            entries.append((type, int(e['year']),e))
         except Exception as e:
             click.secho(f"Problem processing item with key '{ent}'", fg="red")
             raise
 
-    entries.sort()
-    for year, html in entries:
-        out.write(html)
+    entries.sort(key=lambda x: x[0:1])
+    n = number
+    for typ, year, entry in entries:
+        out.write(formal_bibentry.render(e=entry, number=n))
+        if n is not None:
+            n += 1
         
-@click.command(help='Flatten macros, combine, and pretty-print .bib database(s)')
-@click.argument('bib', nargs="-1", required=True, type=click.File('r'), help='.bib file(s) to process')
+@click.command()
+@click.argument('bib', nargs=-1, required=True, type=click.File('r'))#), help='.bib file(s) to process')
 @click.option('--out','-o', default="-", type=click.File('w'), help='OUtput file')
 @click.option("--min-crossrefs", type=int, default=None, help='minimum number of cross-referencing entries'
                             ' required to expand a crossref; if omitted, no'
                             ' expansion occurs')
 def bib2json(bib=None, min_crossrefs=None, out=None):
-
+    """
+    Flatten macros, combine, and pretty-print .bib database(s)
+    """
     db = load_bibs(bib, min_crossrefs)
     # Pretty-print entries
     entries = dict()
@@ -190,7 +222,7 @@ def bib2json(bib=None, min_crossrefs=None, out=None):
             e['venue'] = short_venue(e)
 
             entries[key] = dict(short=short_bibentry.render(e=e),
-                                full=full_bibentry.render(e=e),
+                                full=web_bibentry.render(e=e),
                                 raw=e)
         except Exception as e:
             click.secho(f"Problem processing item with key '{ent}'", fg="red")

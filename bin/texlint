@@ -248,7 +248,8 @@ def main(argv):
                     lines = t.readlines()
                 except UnicodeDecodeError as e:
                     log.error(f"Problem parsing {f}: {e}")
-                    sys.exit(1)
+                    found_error = True
+                    continue
                     
                 for l in lines:
                     log.debug(f"Checking '{l.strip()}'")
@@ -285,7 +286,7 @@ def main(argv):
                         
         except Exception as e:
             log.error(f"Failed to process {f}: {e}")
-            sys.exit(1)
+            found_error = True
             
     if success or cmdline.permissive:
         if cmdline.expect_failure:

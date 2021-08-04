@@ -1,165 +1,7 @@
-% Encoding: UTF-8
-@inproceedings {filemr,
-author = {Jian Yang and Joseph Izraelevitz and Steven Swanson},
-title = {FileMR: Rethinking {RDMA} Networking for Scalable Persistent Memory },
-booktitle = {17th {USENIX} Symposium on Networked Systems Design and Implementation ({NSDI} 20)},
-year = {2020},
-isbn = {978-1-939133-13-7},
-address = {Santa Clara, CA},
-pages = {111--125},
-url = {https://www.usenix.org/conference/nsdi20/presentation/yang},
-publisher = {{USENIX} Association},
-month = feb,
-}
-
-@inproceedings{orion,
-author = {Yang, Jian and Izraelevitz, Joseph and Swanson, Steven},
-title = {Orion: A Distributed File System for Non-Volatile Main Memories and RDMA-Capable Networks},
-year = {2019},
-isbn = {9781931971485},
-publisher = {USENIX Association},
-address = {USA},
-abstract = {High-performance, byte-addressable non-volatile main memories (NVMMs) force system designers to rethink tradeoffs throughout the system stack, often leading to dramatic changes in system architecture. Conventional distributed file systems are a prime example. When faster NVMM replaces block-based storage, the dramatic improvement in storage performance makes networking and software overhead a critical bottleneck.In this paper, we present Orion, a distributed file system for NVMM-based storage. By taking a clean slate design and leveraging the characteristics of NVMM and high-speed, RDMA-based networking, Orion provides high-performance metadata and data access while maintaining the byte addressability of NVMM. Our evaluation shows Orion achieves performance comparable to local NVMM file systems and outperforms existing distributed file systems by a large margin.},
-booktitle = {Proceedings of the 17th USENIX Conference on File and Storage Technologies},
-pages = {221–234},
-numpages = {14},
-location = {Boston, MA, USA},
-series = {FAST'19}
-}
-
-@inproceedings{clobbernvm,
-title={Clobber-NVM: Log Less, Re-execute More},
-author={Xu, Yi and Izraelevitz, Joseph and Swanson, Steven},
-booktitle={To appear in the Proceedings of International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)},
-year=2021
-}
-
-@inproceedings{corundum,
-title={Corundum: Statically-Enforced Persistent Memory Safety},
-author={Hoseinzadeh, Morteza and Swanson, Steven},
-booktitle={To appear in the Proceedings of International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)},
-year=2021
-}
-
-
-@inproceedings{lensvans,
-author={Zixuan Wang and Xiao Liu and Jian Yang and Theodore Michailidis and Steven Swanson and Jishen Zhao},
-title={Characterizing and Modeling Non-Volatile Memory Systems},
- booktitle = {Proceedings of the 53rd Annual IEEE/ACM International Symposium on Microarchitecture},
- series = {MICRO '20},
- year = {2020},
- paper_pdf={MICRO20-LensVans.pdf}
-}
-@article{aepperf,
-  author    = {Joseph Izraelevitz and
-               Jian Yang and
-               Lu Zhang and
-               Juno Kim and
-               Xiao Liu and
-               Amirsaman Memaripour and
-               Yun Joon Soh and
-               Zixuan Wang and
-               Yi Xu and
-               Subramanya R. Dulloor and
-               Jishen Zhao and
-               Steven Swanson},
-  title     = {Basic Performance Measurements of the Intel Optane {DC} Persistent
-               Memory Module},
-  journal   = {CoRR},
-  volume    = {abs/1903.05714},
-  year      = {2019},
-  paper_pdf      = {2019arXiv-AEP.pdf},
-  archivePrefix = {arXiv},
-  eprint    = {1903.05714},
-
-  timestamp = {Sun, 31 Mar 2019 19:01:24 +0200},
-  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1903-05714},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
-}
-
-@inproceedings{NVMMAPPs,
-author = {Xu, Jian and Kim, Juno and Memaripour, Amirsaman and Swanson, Steven},
-title = {Finding and Fixing Performance Pathologies in Persistent Memory Software Stacks},
-year = {2019},
-isbn = {9781450362405},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3297858.3304077},
-doi = {10.1145/3297858.3304077},
-abstract = {Emerging fast, non-volatile memories will enable systems with large amounts of non-volatile main memory (NVMM) attached to the CPU memory bus, bringing the possibility of dramatic performance gains for IO-intensive applications. This paper analyzes the impact of state-of-the-art NVMM storage systems on some of these applications and explores how those applications can best leverage the performance that NVMMs offer. Our analysis leads to several conclusions about how systems and applications should adapt to NVMMs. We propose FiLe Emulation with DAX (FLEX), a technique for moving file operations into user space, and show it and other simple changes can dramatically improve application performance. We examine the scalability of NVMM file systems in light of the rising core counts and pronounced NUMA effects in modern systems, and propose changes to Linux's virtual file system (VFS) to improve scalability. We also show that adding NUMA-aware interfaces to an NVMM file system can significantly improve performance.},
-booktitle = {Proceedings of the Twenty-Fourth International Conference on Architectural Support for Programming Languages and Operating Systems},
-pages = {427–439},
-numpages = {13},
-keywords = {persistent memory, non-volatile memory, file systems, DAX, scalability, direct access},
-location = {Providence, RI, USA},
-series = {ASPLOS '19}
-}
-
-@article{cacmndp,
-title={The beginning of a new era of programmable solid-state storage in cloud data centers},
-author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
-	journal={To appear in Communications of the ACM (CACM)},
-	year=2019
-	}
-
-	@inproceedings{pangolin,
-	  author    = {Lu Zhang and
-		       Steven Swanson},
-	  title     = {Pangolin: {A} Fault-Tolerant Persistent Memory Programming Library},
-	  booktitle = {2019 {USENIX} Annual Technical Conference, {USENIX} {ATC} 2019, Renton,
-		       WA, USA, July 10-12, 2019},
-	  pages     = {897--912},
-	  year      = {2019},
-	  crossref  = {DBLP:conf/usenix/2019},
-	  url       = {https://www.usenix.org/conference/atc19/presentation/zhang-lu},
-	  timestamp = {Tue, 16 Jul 2019 14:25:46 +0200},
-	  biburl    = {https://dblp.org/rec/bib/conf/usenix/ZhangS19},
-	  bibsource = {dblp computer science bibliography, https://dblp.org}
-	}
-	@inproceedings{robotparade,
-	  author    = {Devon J. Merrill and
-		       Steven Swanson},
-	  title     = {Reducing Instructor Workload in an Introductory Robotics Course via
-		       Computational Design},
-	  booktitle = {Proceedings of the 50th {ACM} Technical Symposium on Computer Science
-		       Education, {SIGCSE} 2019, Minneapolis, MN, USA, February 27 - March
-		       02, 2019},
-	  pages     = {592--598},
-	  year      = {2019},
-	  crossref  = {DBLP:conf/sigcse/2019},
-	  url       = {https://doi.org/10.1145/3287324.3287506},
-	  doi       = {10.1145/3287324.3287506},
-	  timestamp = {Mon, 04 Mar 2019 15:45:45 +0100},
-	  biburl    = {https://dblp.org/rec/bib/conf/sigcse/MerrillS19},
-	  bibsource = {dblp computer science bibliography, https://dblp.org}
-	}
-	@inproceedings{quadcopters,
-	  author    = {Steven Swanson},
-	  title     = {Trial by Flyer: Building Quadcopters From Scratch in a Ten-Week Capstone
-		       Course},
-	  booktitle = {Proceedings of the 50th {ACM} Technical Symposium on Computer Science
-		       Education, {SIGCSE} 2019, Minneapolis, MN, USA, February 27 - March
-		       02, 2019},
-	  pages     = {146--152},
-	  year      = {2019},
-	  crossref  = {DBLP:conf/sigcse/2019},
-	  url       = {https://doi.org/10.1145/3287324.3287451},
-	  doi       = {10.1145/3287324.3287451},
-	  timestamp = {Mon, 04 Mar 2019 15:45:45 +0100},
-	  biburl    = {https://dblp.org/rec/bib/conf/sigcse/Swanson19},
-	  bibsource = {dblp computer science bibliography, https://dblp.org}
-	}
+%<% Encoding: UTF-8 %>
 
 
 
-	@inproceedings{ISCA2018,
-	title = {Density Tradeoffs of Non-Volatile Memory as a Replacement for SRAM based Last Level Cache},
-	author = {Korgaonkar, Kunal and Bhati, Ishwar and Liu, Huichu and Gaur, Jayesh and Manipatruni, Sasikanth and Subramoney, Sreenivas and Karnik, Tanay and Swanson, Steven and Young, Ian A. and Wang, Hong},
-	booktitle  =  {43rd International Symposium on Computer Architecture},
-	series = {ISCA 2018},
-	year = {2018},
-	  accept_rate = {16.9\%},
-	}
 
 
 	@inproceedings{Liu:2018:GUC:3178487.3178512,
@@ -496,6 +338,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	volume = {57},
 	issue = {3},
 	pages = {181-198},
+	year={2014},
 	www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/ITIT2014-Variability.pdf}
 	}
 
@@ -549,24 +392,6 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	}
 
 
-	@INPROCEEDINGS{breeze,  author={A. {Memaripour} and S. {Swanson}},  booktitle={2018 IEEE 36th International Conference on Computer Design (ICCD)},   title={Breeze: User-Level Access to Non-Volatile Main Memories for Legacy Software},   year={2018},  volume={},  number={},  pages={413-422},}
-	@inproceedings{pronto,
-	author = {Memaripour, Amirsaman and Izraelevitz, Joseph and Swanson, Steven},
-	title = {Pronto: Easy and Fast Persistence for Volatile Data Structures},
-	year = {2020},
-	isbn = {9781450371025},
-	publisher = {Association for Computing Machinery},
-	address = {New York, NY, USA},
-	url = {https://doi.org/10.1145/3373376.3378456},
-	doi = {10.1145/3373376.3378456},
-	abstract = {Non-Volatile Main Memories (NVMMs) promise an opportunity for fast, persistent data structures. However, building these data structures is hard because their data must be consistent in the wake of a failure. Existing methods for building persistent data structures require either in-depth code changes to an existing data structure using an NVMM-aware library or rewriting the data structure from scratch. Unfortunately, both of these methods are labor-intensive and error-prone.Pronto is a new NVMM library that reduces the programming effort required to add persistence to volatile data structures using asynchronous semantic logging (ASL). ASL is generic enough to allow programmers to add persistence to the existing volatile data structure (e.g., C++ Standard Template Library containers) with very little programming effort. Furthermore, ASL moves most durability code off the critical path, and our evaluation shows Pronto data structures outperform highly-optimized NVMM data structures written with other libraries by a large margin.},
-	booktitle = {Proceedings of the Twenty-Fifth International Conference on Architectural Support for Programming Languages and Operating Systems},
-	pages = {789–806},
-	numpages = {18},
-	keywords = {semantic logging, persistent objects, persistent memory, non-volatile memory, data structures, asynchronous logging, storage systems, snapshots},
-	location = {Lausanne, Switzerland},
-	series = {ASPLOS '20}
-	}
 
 	@inproceedings{Mojim,
 	author = {Yiying Zhang and  Jian Yang  and Amirsaman Memaripour and Steven Swanson},
@@ -846,6 +671,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	    title = {{Latency-Optimized Networks for Clustering FPGAs}},
 	    accept_rate = {17\%},
 	pages = {1-8},
+	year={2013},
 	www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/FCCM2013Network.pdf}
 	}
 
@@ -910,6 +736,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	author = {Keaton Mowery and Michael Wei and David Kohlbrenner and Hovav Shacham and Steven Swanson},
 	title = {Welcome to the Entropics: Boot-Time Entropy in Embedded Devices},
 	pages = {1-15},
+	year={2013},
 	booktitle = {IEEE Symposium on Security and Privacy (Oakland 2013)},
 	accept_rate = {12\%},
 	www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/Oakland2013EarlyEntropy.pdf}
@@ -1048,6 +875,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	}
 
 	@inproceedings{allerton2011,
+	year={2011},
 	author = {Ryan Gabrys and Laura Grupp and Steven Swanson and Lara Dolecek},
 	title = {Tackling Temporal Variability in Multilevel Flash: New Error-Control Code Design and Architectural Validation},
 	booktitle = {Invited Talk, Forty-Ninth Annual Allerton Conference}
@@ -1057,6 +885,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	title = "Destroying Flash Memory-Based Storage Devices",
 	number = "cs2011-0968",
 	author = "Steven Swanson",
+	year={2011},
 	institution = "Unviersity of California, San Diego Computer Science \& Engineering",
 	www_pdf_url = {http://cseweb.ucsd.edu/users/swanson/papers/TR-cs2011-0968-Grind.pdf}
 	}
@@ -1145,6 +974,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 
 	@techreport{safe,
 	title = "SAFE: Fast, Verifiable Sanitization for SSDs",
+	year={2011},
 	number = "cs2011-0963",
 	author = "Michael Wei and Steven Swanson",
 	institution = "Unviersity of California, San Diego Computer Science \& Engineering",
@@ -1237,6 +1067,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	Emerging Memory Technologies (ACTEMT 2010)},
 	address = {Miami, Florida, USA},
 	pages = {1-5},
+	year={2010},
 	addstract = {In this work, we use an extensive empirical database of errors induced by
 	write, read, and erase operations to develop a comprehensive understanding
 	of the error behavior of flash memories. Error characterization of MLC and
@@ -1255,6 +1086,7 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	title = {Beyond the Datasheet: Using Test Beds to Probe {Non-Volatile} Memories'
 	Dark Secrets},
 	pages = {1-6},
+	year={2010},
 	booktitle = {IEEE Globecom 2010 Workshop on Application of Communication Theory to
 	Emerging Memory Technologies (ACTEMT 2010)},
 	address = {Miami, Florida, USA},
@@ -1824,23 +1656,6 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	  year = {2013}
 	}
 
-	@inproceedings{subzero,
-	author = {Kim, Juno and Soh, Yun Joon and Izraelevitz, Joseph and Zhao, Jishen and Swanson, Steven},
-	title = {SubZero: Zero-Copy IO for Persistent Main Memory File Systems},
-	year = {2020},
-	isbn = {9781450380690},
-	publisher = {Association for Computing Machinery},
-	address = {New York, NY, USA},
-	url = {https://doi.org/10.1145/3409963.3410489},
-	doi = {10.1145/3409963.3410489},
-	abstract = {POSIX-style read() and write() have long been the standard interface for accessing data in files. However, the data copy into and out of memory these methods require imposes an unnecessary overhead when files are stored in fast persistent memories (PMEMs). To avoid the copy, PMEM-aware file systems generally provide direct-access (DAX)-based mmap(), but in doing so force the programmer to manage write-atomicity and concurrent accesses to the file.In this work, we propose two new system calls - peek() and patch(), and collectively called SubZero - that read and update PMEM-backed files without any copies. To show its potential, we implemented SubZero in two state-of-the-art PMEM file systems, XFS-DAX and NOVA. Measurements of simple benchmarks show that SubZero can outperform copy-based read() and write() by up to 2x and 2.8x, respectively. At the application level, peek() improves GET performance of the Apache Web Server by 3.6x, and patch() boosts SET performance of Kyoto Cabinet up to 1.3x.},
-	booktitle = {Proceedings of the 11th ACM SIGOPS Asia-Pacific Workshop on Systems},
-	pages = {1–8},
-	numpages = {8},
-	keywords = {file systems, persistent memory, direct access, non-volatile memory, DAX},
-	location = {Tsukuba, Japan},
-	series = {APSys '20}
-	}
 
 	@inproceedings{corfu,
 	 author = {Balakrishnan, Mahesh and Malkhi, Dahlia and Prabhakaran, Vijayan and Wobber, Ted and Wei, Michael and Davis, John D.},
@@ -1891,23 +1706,6 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
 	 year = {2019}
 	}
 
-	@inproceedings{Korgaonkar:2019:VVC,
-	  author    = {Kunal Korgaonkar and
-		       Joseph Izraelevitz and
-		       Jishen Zhao and
-		       Steven Swanson},
-	  title     = {Vorpal: Vector Clock Ordering For Large Persistent Memory Systems},
-	  booktitle = {Proceedings of the 2019 {ACM} Symposium on Principles of Distributed
-		       Computing, {PODC} 2019, Toronto, ON, Canada, July 29 - August 2, 2019.},
-	  pages     = {435--444},
-	  year      = {2019},
-	  crossref  = {DBLP:conf/podc/2019},
-	  url       = {https://doi.org/10.1145/3293611.3331598},
-	  doi       = {10.1145/3293611.3331598},
-	  timestamp = {Fri, 19 Jul 2019 08:08:29 +0200},
-	  biburl    = {https://dblp.org/rec/bib/conf/podc/KorgaonkarIZS19},
-	  bibsource = {dblp computer science bibliography, https://dblp.org}
-	}
 
 	@inproceedings{Ogleari:2019:SFA,
 	 author = {Matheus A. Ogleari and Ye Yu and Chen Qian and Ethan L. Miller and Jishen Zhao},
@@ -1983,18 +1781,6 @@ author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
  year = {2019}
 }
 
-@inproceedings {NVMMEmpirical,
-author = {Jian Yang and Juno Kim and Morteza Hoseinzadeh and Joseph Izraelevitz and Steve Swanson},
-title = {An Empirical Guide to the Behavior and Use of Scalable Persistent Memory},
-booktitle = {18th {USENIX} Conference on File and Storage Technologies ({FAST} 20)},
-year = {2020},
-isbn = {978-1-939133-12-0},
-address = {Santa Clara, CA},
-pages = {169--182},
-url = {https://www.usenix.org/conference/fast20/presentation/yang},
-publisher = {{USENIX} Association},
-month = feb,
-}
 
 
 @inproceedings {fuzzylog,
@@ -2011,14 +1797,6 @@ month = oct,
 
 }
 
-@inproceedings{zheng2019ziggurat,
-  title={Ziggurat: a tiered file system for non-volatile main memories and disks},
-  author={Zheng, Shengan and Hoseinzadeh, Morteza and Swanson, Steven},
-  booktitle={17th {USENIX} Conference on File and Storage Technologies ({FAST} 19)},
-  pages={207--219},
-  year={2019}
-}
-
 @inproceedings{hoseinzadeh2014reducing,
   title={Reducing access latency of MLC PCMs through line striping},
   author={Hoseinzadeh, Morteza and Arjomand, Mohammad and Sarbazi-Azad, Hamid},
@@ -2027,38 +1805,7 @@ month = oct,
   year={2014}
 }
 
-@inproceedings{merrill2019echidna,
-  title={Echidna: mixed-domain computational implementation via decision trees},
-  author={Merrill, Devon J and Garza, Jorge and Swanson, Steven},
-  booktitle={Proceedings of the ACM Symposium on Computational Fabrication},
-  pages={1--12},
-  year={2019}
-}
 
-@inproceedings{garza2019amalgam,
-  title={Amalgam: Hardware Hacking for Web Developers with Style (Sheets)},
-  author={Garza, Jorge and Merrill, Devon J and Swanson, Steven},
-  booktitle={International Conference on Web Engineering},
-  pages={315--330},
-  year={2019},
-  organization={Springer}
-}
-
-@inproceedings{garza2020appliancizer,
-  title={Appliancizer: Transforming Web Pages into Electronic Gadgets},
-  author={Garza, Jorge and Merrill, Devon J and Swanson, Steven},
-  booktitle={Adjunct Publication of the 33rd Annual ACM Symposium on User Interface Software and Technology},
-  pages={142--144},
-  year={2020}
-}
-
-@inproceedings{garza2021appliancizer,
-  title={Appliancizer: Transforming Web Pages into Electronic Devices},
-  author={Garza, Jorge and Merrill, Devon J and Swanson, Steven},
-  booktitle={Proceedings of the 2021 chi conference on human factors in computing systems},
-  pages={142--144},
-  year={2021}
-}
 
 @inproceedings{yavits2020wolfram,
   title={WoLFRaM: Enhancing wear-leveling and fault tolerance in resistive memories using programmable address decoders},
@@ -2084,3 +1831,316 @@ month = oct,
   pages={81--89},
   year={2019}
 }
+
+%%%% 2021 Review
+
+@inproceedings{ISCA2018,
+	title = {Density Tradeoffs of Non-Volatile Memory as a Replacement for SRAM based Last Level Cache},
+	author = {Korgaonkar, Kunal and Bhati, Ishwar and Liu, Huichu and Gaur, Jayesh and Manipatruni, Sasikanth and Subramoney, Sreenivas and Karnik, Tanay and Swanson, Steven and Young, Ian A. and Wang, Hong},
+	booktitle  =  {43rd International Symposium on Computer Architecture},
+	series = {ISCA 2018},
+	year = {2018},
+	  accept_rate = {16.9\%},
+	  	  www_pdf_url = {ISCA.2018.00035.pdf}
+	}
+
+	@INPROCEEDINGS{breeze,
+		       author={A. {Memaripour} and S. {Swanson}},
+		       booktitle={2018 IEEE 36th International Conference on Computer Design (ICCD)},
+		       title={Breeze: User-Level Access to Non-Volatile Main Memories for Legacy Software},
+		       year={2018},
+		       volume={},
+		       number={},
+		       pages={413-422},
+		       	accept_rate = {28.5\%}, 
+	}
+
+@inproceedings{orion,
+author = {Yang, Jian and Izraelevitz, Joseph and Swanson, Steven},
+title = {Orion: A Distributed File System for Non-Volatile Main Memories and RDMA-Capable Networks},
+year = {2019},
+isbn = {9781931971485},
+publisher = {USENIX Association},
+address = {USA},
+abstract = {High-performance, byte-addressable non-volatile main memories (NVMMs) force system designers to rethink tradeoffs throughout the system stack, often leading to dramatic changes in system architecture. Conventional distributed file systems are a prime example. When faster NVMM replaces block-based storage, the dramatic improvement in storage performance makes networking and software overhead a critical bottleneck.In this paper, we present Orion, a distributed file system for NVMM-based storage. By taking a clean slate design and leveraging the characteristics of NVMM and high-speed, RDMA-based networking, Orion provides high-performance metadata and data access while maintaining the byte addressability of NVMM. Our evaluation shows Orion achieves performance comparable to local NVMM file systems and outperforms existing distributed file systems by a large margin.},
+booktitle = {Proceedings of the 17th USENIX Conference on File and Storage Technologies},
+pages = {221–234},
+numpages = {14},
+location = {Boston, MA, USA},
+series = {FAST'19},
+accept_rate = {18\%}
+}
+
+@article{aepperf,
+  author    = {Joseph Izraelevitz and
+               Jian Yang and
+               Lu Zhang and
+               Juno Kim and
+               Xiao Liu and
+               Amirsaman Memaripour and
+               Yun Joon Soh and
+               Zixuan Wang and
+               Yi Xu and
+               Subramanya R. Dulloor and
+               Jishen Zhao and
+               Steven Swanson},
+  title     = {Basic Performance Measurements of the Intel Optane {DC} Persistent
+               Memory Module},
+  journal   = {CoRR},
+  volume    = {abs/1903.05714},
+  year      = {2019},
+  paper_pdf      = {2019arXiv-AEP.pdf},
+  archivePrefix = {arXiv},
+  eprint    = {1903.05714},
+
+  timestamp = {Sun, 31 Mar 2019 19:01:24 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1903-0574},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+
+@inproceedings{NVMMAPPs,
+    author = {Xu, Jian and Kim, Juno and Memaripour, Amirsaman and Swanson, Steven},
+title = {Finding and Fixing Performance Pathologies in Persistent Memory Software Stacks},
+year = {2019},
+isbn = {9781450362405},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3297858.3304077},
+doi = {10.1145/3297858.3304077},
+abstract = {Emerging fast, non-volatile memories will enable systems with large amounts of non-volatile main memory (NVMM) attached to the CPU memory bus, bringing the possibility of dramatic performance gains for IO-intensive applications. This paper analyzes the impact of state-of-the-art NVMM storage systems on some of these applications and explores how those applications can best leverage the performance that NVMMs offer. Our analysis leads to several conclusions about how systems and applications should adapt to NVMMs. We propose FiLe Emulation with DAX (FLEX), a technique for moving file operations into user space, and show it and other simple changes can dramatically improve application performance. We examine the scalability of NVMM file systems in light of the rising core counts and pronounced NUMA effects in modern systems, and propose changes to Linux's virtual file system (VFS) to improve scalability. We also show that adding NUMA-aware interfaces to an NVMM file system can significantly improve performance.},
+booktitle = {Proceedings of the Twenty-Fourth International Conference on Architectural Support for Programming Languages and Operating Systems},
+pages = {427–439},
+numpages = {13},
+keywords = {persistent memory, non-volatile memory, file systems, DAX, scalability, direct access},
+location = {Providence, RI, USA},
+series = {ASPLOS '19},
+accept_rate={18.5\%}
+
+}
+
+@article{cacmndp,
+title={The beginning of a new era of programmable solid-state storage in cloud data centers},
+author={Do, Jaeyoung and Sengupta, Sudipta and Swanson, Steven},
+	journal={To appear in Communications of the ACM (CACM)},
+	year={2019}
+	}
+
+
+	@inproceedings{pangolin,
+	  author    = {Lu Zhang and
+		       Steven Swanson},
+	  title     = {Pangolin: {A} Fault-Tolerant Persistent Memory Programming Library},
+	  booktitle = {2019 {USENIX} Annual Technical Conference, {USENIX} {ATC} 2019, Renton,
+		       WA, USA, July 10-12, 2019},
+	  pages     = {897--912},
+	  year      = {2019},
+
+	  url       = {https://www.usenix.org/conference/atc19/presentation/zhang-lu},
+	  timestamp = {Tue, 16 Jul 2019 14:25:46 +0200},
+	  biburl    = {https://dblp.org/rec/bib/conf/usenix/ZhangS19},
+	  bibsource = {dblp computer science bibliography, https://dblp.org},
+	  accept_rate = {19.9\%}
+	  
+	}
+	@inproceedings{robotparade,
+	  author    = {Devon J. Merrill and
+		       Steven Swanson},
+	  title     = {Reducing Instructor Workload in an Introductory Robotics Course via
+		       Computational Design},
+	  booktitle = {Proceedings of the 50th {ACM} Technical Symposium on Computer Science
+		       Education, {SIGCSE} 2019, Minneapolis, MN, USA, February 27 - March
+		       02, 2019},
+	  pages     = {592--598},
+	  year      = {2019},
+
+	  url       = {https://doi.org/10.1145/3287324.3287506},
+	  doi       = {10.1145/3287324.3287506},
+	  timestamp = {Mon, 04 Mar 2019 15:45:45 +0100},
+	  biburl    = {https://dblp.org/rec/bib/conf/sigcse/MerrillS19},
+	  bibsource = {dblp computer science bibliography, https://dblp.org},
+	  accept_rate = {32.1\%}
+	}
+	@inproceedings{quadcopters,
+	  author    = {Steven Swanson},
+	  title     = {Trial by Flyer: Building Quadcopters From Scratch in a Ten-Week Capstone
+		       Course},
+	  booktitle = {Proceedings of the 50th {ACM} Technical Symposium on Computer Science
+		       Education, {SIGCSE} 2019, Minneapolis, MN, USA, February 27 - March
+		       02, 2019},
+	  pages     = {146--152},
+	  year      = {2019},
+
+	  url       = {https://doi.org/10.1145/3287324.3287451},
+	  doi       = {10.1145/3287324.3287451},
+	  timestamp = {Mon, 04 Mar 2019 15:45:45 +0100},
+	  biburl    = {https://dblp.org/rec/bib/conf/sigcse/Swanson19},
+	  bibsource = {dblp computer science bibliography, https://dblp.org},
+	  accept_rate = {32.1\%}
+	}
+
+
+
+	@inproceedings{Korgaonkar:2019:VVC,
+	  author    = {Kunal Korgaonkar and
+		       Joseph Izraelevitz and
+		       Jishen Zhao and
+		       Steven Swanson},
+	  title     = {Vorpal: Vector Clock Ordering For Large Persistent Memory Systems},
+	  booktitle = {Proceedings of the 2019 {ACM} Symposium on Principles of Distributed
+		       Computing, {PODC} 2019, Toronto, ON, Canada, July 29 - August 2, 2019.},
+	  pages     = {435--444},
+	  year      = {2019},
+	  crossref  = {DBLP:conf/podc/2019},
+	  url       = {https://doi.org/10.1145/3293611.3331598},
+	  doi       = {10.1145/3293611.3331598},
+	  timestamp = {Fri, 19 Jul 2019 08:08:29 +0200},
+	  biburl    = {https://dblp.org/rec/bib/conf/podc/KorgaonkarIZS19},
+	  bibsource = {dblp computer science bibliography, https://dblp.org},
+	  accept_rate = {27.7\%}
+	}
+
+@inproceedings{zheng2019ziggurat,
+  title={Ziggurat: a tiered file system for non-volatile main memories and disks},
+  author={Zheng, Shengan and Hoseinzadeh, Morteza and Swanson, Steven},
+  booktitle={17th {USENIX} Conference on File and Storage Technologies ({FAST} 19)},
+  pages={207--219},
+  year={2019},
+  accept_rate={14.9\%}
+}
+
+
+@inproceedings{merrill2019echidna,
+  title={Echidna: mixed-domain computational implementation via decision trees},
+  author={Merrill, Devon J and Garza, Jorge and Swanson, Steven},
+  booktitle={Proceedings of the ACM Symposium on Computational Fabrication},
+  pages={1--12},
+  year={2019}
+}
+    % https://www.openresearch.org/wiki/ICWE#:~:text=International%20Conference%20on%20Web%20Engineering%20(ICWE)%20has%20an,average%20acceptance%20rate%20of%2022.7%25%20.
+@inproceedings{garza2019amalgam,
+  title={Amalgam: Hardware Hacking for Web Developers with Style (Sheets)},
+  author={Garza, Jorge and Merrill, Devon J and Swanson, Steven},
+  booktitle={International Conference on Web Engineering},
+  pages={315--330},
+  year={2019},
+  organization={Springer},
+    accept_rate={22.7\%}
+
+
+}
+
+@inproceedings {filemr,
+author = {Jian Yang and Joseph Izraelevitz and Steven Swanson},
+title = {FileMR: Rethinking {RDMA} Networking for Scalable Persistent Memory },
+booktitle = {17th {USENIX} Symposium on Networked Systems Design and Implementation ({NSDI} 20)},
+year = {2020},
+isbn = {978-1-939133-13-7},
+address = {Santa Clara, CA},
+pages = {111--125},
+url = {https://www.usenix.org/conference/nsdi20/presentation/yang},
+publisher = {{USENIX} Association},
+month = feb,
+  accept_rate={18.4\%}
+}
+
+@inproceedings{lensvans,
+author={Zixuan Wang and Xiao Liu and Jian Yang and Theodore Michailidis and Steven Swanson and Jishen Zhao},
+title={Characterizing and Modeling Non-Volatile Memory Systems},
+ booktitle = {Proceedings of the 53rd Annual IEEE/ACM International Symposium on Microarchitecture},
+ series = {MICRO '20},
+ year = {2020},
+ paper_pdf={MICRO20-LensVans.pdf},
+   accept_rate={19.4\%}
+
+ 
+}
+
+@ARTICLE{lensvanstopicpics,  author={Wang, Zixuan and Liu, Xiao and Yang, Jian and Michailidis, Theodore and Swanson, Steven and Zhao, Jishen},  journal={IEEE Micro},   title={Characterizing and Modeling Nonvolatile Memory Systems},   year={2021},  volume={41},  number={3},  pages={63-70},  doi={10.1109/MM.2021.3065305}}
+
+@inproceedings{pronto,
+	author = {Memaripour, Amirsaman and Izraelevitz, Joseph and Swanson, Steven},
+	title = {Pronto: Easy and Fast Persistence for Volatile Data Structures},
+	year = {2020},
+	isbn = {9781450371025},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3373376.3378456},
+	doi = {10.1145/3373376.3378456},
+	abstract = {Non-Volatile Main Memories (NVMMs) promise an opportunity for fast, persistent data structures. However, building these data structures is hard because their data must be consistent in the wake of a failure. Existing methods for building persistent data structures require either in-depth code changes to an existing data structure using an NVMM-aware library or rewriting the data structure from scratch. Unfortunately, both of these methods are labor-intensive and error-prone.Pronto is a new NVMM library that reduces the programming effort required to add persistence to volatile data structures using asynchronous semantic logging (ASL). ASL is generic enough to allow programmers to add persistence to the existing volatile data structure (e.g., C++ Standard Template Library containers) with very little programming effort. Furthermore, ASL moves most durability code off the critical path, and our evaluation shows Pronto data structures outperform highly-optimized NVMM data structures written with other libraries by a large margin.},
+	booktitle = {Proceedings of the Twenty-Fifth International Conference on Architectural Support for Programming Languages and Operating Systems},
+	pages = {789–806},
+	numpages = {18},
+	keywords = {semantic logging, persistent objects, persistent memory, non-volatile memory, data structures, asynchronous logging, storage systems, snapshots},
+	location = {Lausanne, Switzerland},
+	series = {ASPLOS '20},
+	accept_rate = {17.7\%}
+	}
+
+	@inproceedings{subzero,
+	author = {Kim, Juno and Soh, Yun Joon and Izraelevitz, Joseph and Zhao, Jishen and Swanson, Steven},
+	title = {SubZero: Zero-Copy IO for Persistent Main Memory File Systems},
+	year = {2020},
+	isbn = {9781450380690},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3409963.3410489},
+	doi = {10.1145/3409963.3410489},
+	abstract = {POSIX-style read() and write() have long been the standard interface for accessing data in files. However, the data copy into and out of memory these methods require imposes an unnecessary overhead when files are stored in fast persistent memories (PMEMs). To avoid the copy, PMEM-aware file systems generally provide direct-access (DAX)-based mmap(), but in doing so force the programmer to manage write-atomicity and concurrent accesses to the file.In this work, we propose two new system calls - peek() and patch(), and collectively called SubZero - that read and update PMEM-backed files without any copies. To show its potential, we implemented SubZero in two state-of-the-art PMEM file systems, XFS-DAX and NOVA. Measurements of simple benchmarks show that SubZero can outperform copy-based read() and write() by up to 2x and 2.8x, respectively. At the application level, peek() improves GET performance of the Apache Web Server by 3.6x, and patch() boosts SET performance of Kyoto Cabinet up to 1.3x.},
+	booktitle = {Proceedings of the 11th ACM SIGOPS Asia-Pacific Workshop on Systems},
+	pages = {1–8},
+	numpages = {8},
+	keywords = {file systems, persistent memory, direct access, non-volatile memory, DAX},
+	location = {Tsukuba, Japan},
+	series = {APSys '20},
+	accept_rate = {39\%}
+	}
+
+@inproceedings {NVMMEmpirical,
+author = {Jian Yang and Juno Kim and Morteza Hoseinzadeh and Joseph Izraelevitz and Steve Swanson},
+title = {An Empirical Guide to the Behavior and Use of Scalable Persistent Memory},
+booktitle = {18th {USENIX} Conference on File and Storage Technologies ({FAST} 20)},
+year = {2020},
+isbn = {978-1-939133-12-0},
+address = {Santa Clara, CA},
+pages = {169--182},
+url = {https://www.usenix.org/conference/fast20/presentation/yang},
+publisher = {{USENIX} Association},
+month = feb,
+	accept_rate = {16.6\%}
+}
+
+@inproceedings{garza2020appliancizer,
+  title={Appliancizer: Transforming Web Pages into Electronic Gadgets},
+  author={Garza, Jorge and Merrill, Devon J and Swanson, Steven},
+  booktitle={Adjunct Publication of the 33rd Annual ACM Symposium on User Interface Software and Technology},
+  pages={142--144},
+  year={2020}
+}
+
+@inproceedings{garza2021appliancizer,
+  title={Appliancizer: Transforming Web Pages into Electronic Devices},
+  author={Garza, Jorge and Merrill, Devon J and Swanson, Steven},
+  booktitle={Proceedings of the 2021 chi conference on human factors in computing systems},
+  pages={142--144},
+  year={2021},
+  	accept_rate = {26.2\%}
+}
+
+@inproceedings{clobbernvm,
+title={Clobber-NVM: Log Less, Re-execute More},
+author={Xu, Yi and Izraelevitz, Joseph and Swanson, Steven},
+booktitle={To appear in the Proceedings of International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)},
+year=2021,
+  	accept_rate = {18.8\%}
+}
+
+@inproceedings{corundum,
+title={Corundum: Statically-Enforced Persistent Memory Safety},
+author={Hoseinzadeh, Morteza and Swanson, Steven},
+booktitle={To appear in the Proceedings of International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)},
+year=2021,
+  	accept_rate = {18.8\%}
+}
+
+@ARTICLE{8649763,  author={Swanson, Steven},  journal={IEEE Micro},   title={Redesigning File Systems for Nonvolatile Main Memory},   year={2019},  volume={39},  number={1},  pages={62-64},  doi={10.1109/MM.2018.2886443}}

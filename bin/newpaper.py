@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from __future__ import print_function
 import argparse
@@ -46,6 +46,7 @@ def main(argv=None):
 
     if "id" not in r:
         print("Creation Failed:\n{}".format(result))
+        subprocess.check_call(f"rm -rf {name}")
         sys.exit(1)
     print("Created Repo!")
 
