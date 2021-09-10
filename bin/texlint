@@ -197,7 +197,7 @@ class check_Misc(Check):
                   Alt("syscall", "system call"),
                   Alt("data[ \-]path", "datapath"),
                   Alt("\~\\\\ref[stfal]", "No non-breaking space before \reffig, \refsec, \reftab, etc."),
-                  Alt("[^\~]\\\\ref\{", "~\ref{}"),
+                  Alt("[^\-\~]\\\\ref\{", "~\ref{}"),
                   Alt("I/O", "IO"),
                   #Alt("non-volatile", "nonvolatile"),
                   Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
