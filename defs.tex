@@ -37,7 +37,7 @@
 \newcommand{\reftab}[1]{Table~\ref{#1}}% ignore macros
 \newcommand{\refapp}[1]{Appendix~\ref{#1}}% ignore macros
 \newcommand{\refln}[1]{Line~\ref{#1}}% ignore macros
-\newcommand{\reflns}[2]{Lines~\ref{#1}-\ref{#2}}% ignore macros
+\newcommand{\reflns}[2]{Lines~\hyperref[#1]{\ref*{#1}-\ref*{#2}}}% ignore macros
 \newcommand{\us}{$\mu$s}
 \newcommand{\x}[1]{$\times$}
 \newcommand{\figtitle}[1]{\textbf{#1}}
