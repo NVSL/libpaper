@@ -1,17 +1,17 @@
 %%
-%% This is file `sample-acmtog.tex',
+%% This is file `sample-acmsmall-submission.tex',
 %% generated with the docstrip utility.
 %%
 %% The original source files were:
 %%
-%% samples.dtx  (with options: `acmtog')
+%% samples.dtx  (with options: `acmsmall-submission')
 %% 
 %% IMPORTANT NOTICE:
 %% 
 %% For the copyright see the source file.
 %% 
 %% Any modified versions of this file must be renamed
-%% with new filenames distinct from sample-acmtog.tex.
+%% with new filenames distinct from sample-acmsmall-submission.tex.
 %% 
 %% For distribution of the original source see the terms
 %% for copying and modification in the file samples.dtx.
@@ -35,7 +35,7 @@
 %%
 %%
 %% The first command in your LaTeX source must be the \documentclass command.
-\documentclass[acmtog]{acmart}
+\documentclass[acmsmall,screen,review]{acmart}
 
 %%
 %% \BibTeX command to typeset BibTeX logo in the docs
@@ -56,7 +56,7 @@
 
 %%
 %% These commands are for a JOURNAL article.
-\acmJournal{TOG}
+\acmJournal{JACM}
 \acmVolume{37}
 \acmNumber{4}
 \acmArticle{111}
@@ -77,7 +77,9 @@
 %% If you are preparing content for an event
 %% sponsored by ACM SIGGRAPH, you must use the "author year" style of
 %% citations and references.
-\citestyle{acmauthoryear}
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
 
 %%
 %% end of the preamble, start of the body of the document source.
@@ -310,7 +312,7 @@ Frequently-used parameters, or combinations of parameters, include:
 This document uses the following string as the first command in the
 source file:
 \begin{verbatim}
-\documentclass[acmtog]{acmart}
+\documentclass[acmsmall,screen,review]{acmart}
 \end{verbatim}
 
 \section{Modifications}
@@ -762,4 +764,4 @@ massa et mattis lacinia.
 \end{document}
 \endinput
 %%
-%% End of file `sample-acmtog.tex'.
+%% End of file `sample-acmsmall-submission.tex'.

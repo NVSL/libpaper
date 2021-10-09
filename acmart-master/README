@@ -187,7 +187,7 @@ Version 1.52    Another rewording of licenses
 
 Version 1.53    New journals: PACMCGIT, TIOT, TDSCI
 
-Version 1.54    New option: 'noacm' (Gabriel Scherer)
+Version 1.54    New option: 'nonacm' (Gabriel Scherer)
                 Deleted indent for subsubsection (suggested by Ross Moore)
                 Suppressed some obscurious warning in BibTeX processing
                 Suppressed hyperrerf warnings (Paolo G. Giarrusso)
@@ -197,18 +197,104 @@ Version 1.54    New option: 'noacm' (Gabriel Scherer)
                 Bug fixes
 
 Version 1.55    Bug fixes
-		Font changes for SIGCHI table captions
-
+                Font changes for SIGCHI table captions
 
 Version 1.56    Bug fixes
-		Added \flushbottom to two column formats (Philip Quinn)
-		The final punctuation for the list of concepts
-		is now period instead of semilcolon (Philip Quinn)
-		New command \Description to describe images for visually
-		impaired users.
+                Added \flushbottom to two column formats (Philip Quinn)
+                The final punctuation for the list of concepts
+                is now a period instead of a semicolon (Philip Quinn)
+                New command \Description to describe images for visually
+                impaired users.
 
 Version 1.57    Change of \baselinestretch now produces an error
-		Booktabs is now always loaded
-		Added option `balance' to balance last page in two-column mode
-		E-mail is no longer split in addresses
-		New samples (Stephen Spencer)
+                Booktabs is now always loaded
+                Added option `balance' to balance last page in two-column mode
+                E-mail is no longer split in addresses
+                New samples (Stephen Spencer)
+
+Version 1.58    Suppressed spurious warnings.
+		New journal:  HEALTH.
+		TDSCI is renamed to TDS.
+
+Version 1.59    Now a journal format can be used for conference proceedings
+		All samples are now generated from the same .dtx file
+		Bug fixes
+
+version 1.60    New option: urlbreakonhyphens (thanks to Peter Kemp)
+		Smaller header size for acmsmall
+
+Version 1.61    Bug fixes
+                New bibtex types for artifacts
+
+Version 1.62    Documentation update
+		New journal: TELO
+		Bug fixes
+
+Version 1.63	New journals: TQUANT, FACMP
+
+Version 1.63a   Moved TQUANT to TQC
+
+Version 1.64    Produce error if abstract is entered after maketitle
+		(previously abstract was silently dropped)
+		Bug fixes for line numbering
+
+Version 1.65   Bug fixes
+	       New journal: DGOV
+	       DTRAP and HEALTH are now using acmlarge format
+
+Version 1.66   Bug fixes
+	       BibTeX change:  location is now a synonym for city (Feras Saad) 
+	       ACM reference format is now mandatory for papers over one page.
+	       CCS concepts and keywords are now mandatory for
+	       papers over two pages.
+	       Authors' addresses are mandatory for journal articles.
+
+Version 1.67   Urgent bug fixes:
+	       BibTeX style bug fixed (Michael D. Adams)
+	       Sigplan special section bugfix
+
+Version 1.68   Bug fixes
+               BST now recognizes words `Paper' or 'Article' in
+	       eid or articleno
+
+Version 1.69   Bug fixes
+	       Compatibility with LaTeX 2020-02-02 release
+
+Version 1.70   Title change for ACM/IMS Transactions on Data Science
+               Bug fixes for bibliography
+
+
+Version 1.71   Bug fixes
+               Formats sigchi and sigchi-a are retired
+	       Bibliography formatting changes for @inproceedings entries
+	       having both series and volume
+	       LuaLaTeX now uses the same OTF fonts as XeLaTeX
+
+Version 1.72   Bug fixes.  Better handling of metadata.
+
+Version 1.73   Bug fixes
+	       The elements institution, city and country are now obligatory
+	       for affiliations
+
+Version 1.74   Bug fixes.  A regression introduced in the font changes
+	       is reverted.
+
+Version 1.75.  \country is now obligatory for addresses.
+	       Added \AtBeginMaketitle
+
+Version 1.76.  Added many journal abbreviations to the bst.
+	       New experimental option: pbalance
+	       ORCID linking code
+
+Version 1.77.  Changed the way to typeset multiple affiliations (Christoph Sommer)
+
+Version 1.78.  Documentation update.
+	       Magic texcount comments for samples.
+	       Title page now is split if there are too many authors
+	       Bug fixes.
+
+Version 1.79.  Fixed pages with index
+	       (https://github.com/borisveytsman/acmart/issues/440)
+	       Updated information for TAP, TCPS, TEAC
+
+Version 1.80.  New journals: DLT, FAC
