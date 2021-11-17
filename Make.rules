@@ -147,6 +147,10 @@ arxiv: paper-arxiv.tgz
 	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc *.fls *.fdb_latexmk *.bak)
 	$(TAR) czf $@ $*-arxiv
 
+.PHONY: watch
+watch:
+	@when-changed -h >/dev/null 2>&1 || (echo "ERROR: when-changed not install. Run pip install when-changed."; exit 1)
+	@when-changed -s `bash -c '( GLOBIGNORE="libpaper_metadata.tex"; ls *.tex )'` -c 'make'
 
 .PHONY: clean
 clean:
