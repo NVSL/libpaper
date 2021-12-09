@@ -129,7 +129,7 @@ class check_macros(Check):
         
     def do_check(self, l):
         def use_macro(n, m=None ):
-            return Alt(f"(\s|^|{{){n}([^\w\-\\]|\()", f"\\{m if m else n}", pretty_pattern=n)
+            return Alt(f"(\s|^|{{){n}([^\w\-\\\\]|\()", f"\\{m if m else n}", pretty_pattern=n)
 
         for p in (list(map(use_macro, ["malloc",
                                        "clflush",
