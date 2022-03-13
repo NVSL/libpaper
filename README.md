@@ -10,6 +10,20 @@ By default, `Make.rules` builds `paper.pdf` but you can have it build anything e
 
 Use `make watch` to automatically build `paper.pdf` when any of the tex files are updated.
 
+### Ignoring rules in a region
+Ignore a checker for a region by marking it up in pragma:
+```latex
+%%pragma texlint push
+%%pragma texlint ignored check_macros
+
+Writing malloc instead of \malloc{} would not throw an error here
+
+%%pragma texlint pop
+```
+
+Look in `libpaper/bin/texlint` for checker name
+
+
 ## Submitting to ArXiv
 
 To prepare a paper for submission to the ArXiv (or for distribution to companies, etc.)

@@ -250,15 +250,35 @@ def main(argv):
                     log.error(f"Problem parsing {f}: {e}")
                     found_error = True
                     continue
-                    
+
+                pragma_stack = []
+                push_mode = False
+                
                 for l in lines:
+                    if push_mode:
+                        toks = l.replace("%%pragma", "%% pragma").strip().split(" ")
+                        if toks[:-1] == "%% pragma texlint ignored".split(" "):
+                            pragma_stack.append(toks[-1])
+                        push_mode = False
+
+                    if l.replace("%%pragma", "%% pragma").strip().split(" ") == "%% pragma texlint push".split(" "):
+                        push_mode = True
+
+                    if l.replace("%%pragma", "%% pragma").strip().split(" ") == "%% pragma texlint pop".split(" "):
+                        del pragma_stack[-1]
+                        push_mode = False
+
+                        
                     log.debug(f"Checking '{l.strip()}'")
                     found_error = False
                     for name, check in checkers:
-                        found_error = found_error or not check.check_line(re.sub("([^\\\\]|^)%.*", "", l),
-                                                                          skip=re.search(f"%.*ignore\s+{check.name}",
-                                                                                         l,
-                                                                                         flags=re.IGNORECASE))
+                        if name not in pragma_stack:
+                            found_error = found_error or not check.check_line(re.sub("([^\\\\]|^)%.*", "", l),
+                                                                              skip=re.search(f"%.*ignore\s+{check.name}",
+                                                                                             l,
+                                                                                             flags=re.IGNORECASE))
+                        else:
+                            log.warn(f"Checker '{name}' ignored")
                     if found_error:
                         log.debug("Found some errors")
                     else:
