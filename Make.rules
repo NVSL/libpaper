@@ -151,7 +151,7 @@ arxiv: paper-arxiv.tgz
 .PHONY: watch
 watch:
 	@when-changed -h >/dev/null 2>&1 || (echo "ERROR: when-changed not install. Run pip install when-changed."; exit 1)
-	@when-changed -s `bash -c '( GLOBIGNORE="libpaper_metadata.tex"; ls *.tex )'` -c 'make'
+	@when-changed -s `bash -c '( GLOBIGNORE="libpaper_metadata.tex"; ls *.tex Figures/* Graphs/* )'` -c 'make'
 
 .PHONY: clean
 clean:
