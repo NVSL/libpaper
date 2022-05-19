@@ -104,6 +104,8 @@ libpaper_metadata.tex:
 .PHONY: release
 release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
 
+diff:
+	@$(LIBPAPER_BIN)/diff
 
 %-release.pdf:
 	@if $(LIBPAPER_BIN)/check_release > /dev/null; then $(MAKE) default; else echo "Commit changes first"; false ;fi
