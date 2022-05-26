@@ -16,7 +16,7 @@ TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*.cls l
 FIGS+=$(shell find ./Figures -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
 GRAPHS+=$(shell find ./Graphs -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
 DATA+=$(wildcard ./Data/*.csv)
-TEXLINT_IGNORE?=__none__
+TEXLINT_IGNORE?=diff.tex new.tex old.tex
 
 LIBPAPER_BIN='./libpaper/bin/'
 

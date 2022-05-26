@@ -99,6 +99,9 @@ printf "Compiling diff.pdf..."
 printf '\\providecommand{\\DIFdel}[1]{}\n\\providecommand{\\DIFadd}[1]{{\\protect\\color{ForestGreen}#1}}\n' > diff.tex
 { latexdiff old.tex new.tex --flatten >> diff.tex 2>>"$diff_log_f"; }
 pdflatex -interaction=nonstopmode diff.tex >> "$diff_log_f" 2>&1
+biblatex diff
+pdflatex -interaction=nonstopmode diff.tex >> "$diff_log_f" 2>&1
+pdflatex -interaction=nonstopmode diff.tex >> "$diff_log_f" 2>&1
 printf "done\n"
 
 printf "\nDiff generated in diff.pdf\n"
