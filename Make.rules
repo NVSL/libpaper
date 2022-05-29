@@ -24,7 +24,7 @@ ALL_INPUTS=$(TEX_FILES) $(FIGS) $(GRAPHS)
 
 PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode -halt-on-error $(EXTRA_TEX_OPTIONS)
 
-PANDOC=pandoc
+PANDOC ?= pandoc
 
 PDF_TARGETS ?= paper.pdf
 TEX_TARGETS = $(patsubst %.pdf,%.tex,$(PDF_TARGETS))
@@ -51,11 +51,13 @@ all: check check_repo $(ALL)
 check_repo:
 	#(cd $(LIBPAPER_BIN); ./check_repo) #REMOVE_FOR_ARXIV
 
+.PHONY: check_pandoc
+check_pandoc:
+	@if ! command -v $(PANDOC) >/dev/null; then echo You need to install pandoc;  false; fi;
 
 .PHONY: wc
-wc:
-	@if ! which -s $(PANDOC); then echo You need to install $(PANDOC);  false; fi;
-	@$(PANDOC)  $(TEX_TARGETS)  -w plain -o - |wc
+wc: paper.grammarly.txt
+	wc -w $<
 
 singlefile.tex: $(filter-out singlefile.tex,$(TEX_FILES))
 	echo "" > singlefile.tex
@@ -83,7 +85,7 @@ pdf: $(PDF_TARGETS)
 
 TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 
-%.grammarly.txt: $(TEX_FILES)
+%.grammarly.txt: check_pandoc $(TEX_FILES)
 	rm -rf $(TEMP_DIR)
 	mkdir -p $(TEMP_DIR)
 	$(TAR) cf - $(ALL_INPUTS) paper.bbl | (cd $(TEMP_DIR); $(TAR) xf -)
