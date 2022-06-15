@@ -198,6 +198,8 @@ class check_Misc(Check):
                   Alt("data[ \-]path", "datapath"),
                   Alt("\~\\\\ref[stfal]", "No non-breaking space before \reffig, \refsec, \reftab, etc."),
                   Alt("[^\-\~]\\\\ref\{", "~\ref{}"),
+#                  Alt(" ~", "no space before ~"),
+#                  Alt("^~", "no  ~ at the start of a line."),
                   Alt("I/O", "IO"),
                   #Alt("non-volatile", "nonvolatile"),
                   Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
