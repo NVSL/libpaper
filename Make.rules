@@ -16,7 +16,7 @@ TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*.cls l
 FIGS+=$(shell find ./Figures -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
 GRAPHS+=$(shell find ./Graphs -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
 DATA+=$(wildcard ./Data/*.csv)
-TEXLINT_IGNORE?=__none__
+TEXLINT_IGNORE?=diff.tex new.tex old.tex
 
 LIBPAPER_BIN='./libpaper/bin/'
 
@@ -24,7 +24,7 @@ ALL_INPUTS=$(TEX_FILES) $(FIGS) $(GRAPHS)
 
 PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode -halt-on-error $(EXTRA_TEX_OPTIONS)
 
-PANDOC=pandoc
+PANDOC ?= pandoc
 
 PDF_TARGETS ?= paper.pdf
 TEX_TARGETS = $(patsubst %.pdf,%.tex,$(PDF_TARGETS))
@@ -51,11 +51,13 @@ all: check check_repo $(ALL)
 check_repo:
 	#(cd $(LIBPAPER_BIN); ./check_repo) #REMOVE_FOR_ARXIV
 
+.PHONY: check_pandoc
+check_pandoc:
+	@if ! command -v $(PANDOC) >/dev/null; then echo You need to install pandoc;  false; fi;
 
 .PHONY: wc
-wc:
-	@if ! which -s $(PANDOC); then echo You need to install $(PANDOC);  false; fi;
-	@$(PANDOC)  $(TEX_TARGETS)  -w plain -o - |wc
+wc: paper.grammarly.txt
+	wc -w $<
 
 singlefile.tex: $(filter-out singlefile.tex,$(TEX_FILES))
 	echo "" > singlefile.tex
@@ -83,7 +85,7 @@ pdf: $(PDF_TARGETS)
 
 TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 
-%.grammarly.txt: $(TEX_FILES)
+%.grammarly.txt: check_pandoc $(TEX_FILES)
 	rm -rf $(TEMP_DIR)
 	mkdir -p $(TEMP_DIR)
 	$(TAR) cf - $(ALL_INPUTS) paper.bbl | (cd $(TEMP_DIR); $(TAR) xf -)
@@ -104,6 +106,8 @@ libpaper_metadata.tex:
 .PHONY: release
 release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
 
+diff:
+	@$(LIBPAPER_BIN)/diff
 
 %-release.pdf:
 	@if $(LIBPAPER_BIN)/check_release > /dev/null; then $(MAKE) default; else echo "Commit changes first"; false ;fi
@@ -151,7 +155,7 @@ arxiv: paper-arxiv.tgz
 .PHONY: watch
 watch:
 	@when-changed -h >/dev/null 2>&1 || (echo "ERROR: when-changed not install. Run pip install when-changed."; exit 1)
-	@when-changed -s `bash -c '( GLOBIGNORE="libpaper_metadata.tex"; ls *.tex )'` -c 'make'
+	@when-changed -s `bash -c '( GLOBIGNORE="libpaper_metadata.tex"; ls *.tex Figures/* Graphs/* )'` -c 'make'
 
 .PHONY: clean
 clean:

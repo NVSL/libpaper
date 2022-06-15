@@ -23,6 +23,17 @@ Writing malloc instead of \malloc{} would not throw an error here
 
 Look in `libpaper/bin/texlint` for checker name
 
+### Generating PDF of commit diffs
+libpaper includes scripts to generate pdf of the diff using git commits.
+To generate the pdf, run:
+```shell
+make diff
+```
+
+Next, choose the commits you want to generate the diff for (commit ids, tags or branches).
+
+Script is in `libpaper/bin/diff`.
+
 
 ## Submitting to ArXiv
 
