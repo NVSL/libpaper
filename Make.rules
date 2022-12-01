@@ -4,6 +4,11 @@ OS=$(shell uname -s)
 TAR=tar
 TEXLINT_OPTS?=
 
+FORCE?=no
+
+ifeq ($(FORCE),yes)
+TEXLINT_OPTS=--permissive
+endif
 
 GENERATED_TEX+=libpaper_metadata.tex #REMOVE_FOR_ARXIV
 
@@ -11,7 +16,7 @@ TEX_FILES+=$(wildcard *.tex *.sty libpaper/*.tex libpaper/*.sty libpaper/*.cls l
 FIGS+=$(shell find ./Figures -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
 GRAPHS+=$(shell find ./Graphs -name '*.pdf' -o -name '*.jpg' -o -name '*.png' 2>/dev/null )
 DATA+=$(wildcard ./Data/*.csv)
-TEXLINT_IGNORE?=__none__
+TEXLINT_IGNORE?=diff.tex new.tex old.tex
 
 LIBPAPER_BIN='./libpaper/bin/'
 
@@ -19,7 +24,7 @@ ALL_INPUTS=$(TEX_FILES) $(FIGS) $(GRAPHS)
 
 PDFLATEX_BATCH_OPTIONS=-interaction=errorstopmode -halt-on-error $(EXTRA_TEX_OPTIONS)
 
-PANDOC=pandoc
+PANDOC ?= pandoc
 
 PDF_TARGETS ?= paper.pdf
 TEX_TARGETS = $(patsubst %.pdf,%.tex,$(PDF_TARGETS))
@@ -46,11 +51,13 @@ all: check check_repo $(ALL)
 check_repo:
 	#(cd $(LIBPAPER_BIN); ./check_repo) #REMOVE_FOR_ARXIV
 
+.PHONY: check_pandoc
+check_pandoc:
+	@if ! command -v $(PANDOC) >/dev/null; then echo You need to install pandoc;  false; fi;
 
 .PHONY: wc
-wc:
-	@if ! which -s $(PANDOC); then echo You need to install $(PANDOC);  false; fi;
-	@$(PANDOC)  $(TEX_TARGETS)  -w plain -o - |wc
+wc: paper.grammarly.txt
+	wc -w $<
 
 singlefile.tex: $(filter-out singlefile.tex,$(TEX_FILES))
 	echo "" > singlefile.tex
@@ -78,11 +85,14 @@ pdf: $(PDF_TARGETS)
 
 TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 
-%.grammarly.txt: $(TEX_FILES)
+%.grammarly.txt: check_pandoc $(TEX_FILES)
 	rm -rf $(TEMP_DIR)
 	mkdir -p $(TEMP_DIR)
 	$(TAR) cf - $(ALL_INPUTS) paper.bbl | (cd $(TEMP_DIR); $(TAR) xf -)
 	(cd $(TEMP_DIR); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -ne 's/\~\\(footnote|cite)/\\$$1/g;print;' < $$i.bak > $$i;done)
+	(cd $(TEMP_DIR); sed -i '/\\begin{abstract}/d' *.tex)
+	(cd $(TEMP_DIR); sed -i '/\\end{abstract}/d' *.tex)
+	(cd $(TEMP_DIR); sed -i '/\LetLtxMacro/,+2 d' libpaper/macros.tex)
 	(cd $(TEMP_DIR); $(PANDOC) $*.tex -w plain -o - --wrap=none) > $@
 
 %.txt: $(TEX_FILES)
@@ -98,6 +108,8 @@ libpaper_metadata.tex:
 .PHONY: release
 release: $(patsubst %.pdf,%-release.pdf,$(PDF_TARGETS))
 
+diff:
+	@$(LIBPAPER_BIN)/diff
 
 %-release.pdf:
 	@if $(LIBPAPER_BIN)/check_release > /dev/null; then $(MAKE) default; else echo "Commit changes first"; false ;fi
@@ -142,6 +154,10 @@ arxiv: paper-arxiv.tgz
 	(cd $*-arxiv && rm -rf *.aux *.log *.blg *.out *.toc *.fls *.fdb_latexmk *.bak)
 	$(TAR) czf $@ $*-arxiv
 
+.PHONY: watch
+watch:
+	@when-changed -h >/dev/null 2>&1 || (echo "ERROR: when-changed not install. Run pip install when-changed."; exit 1)
+	@when-changed -s `bash -c '( GLOBIGNORE="libpaper_metadata.tex"; ls *.tex Figures/* Graphs/* )'` -c 'make'
 
 .PHONY: clean
 clean:

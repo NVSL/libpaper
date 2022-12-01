@@ -8,6 +8,33 @@ If you need to modify something for your specific paper, you could create a bran
 
 By default, `Make.rules` builds `paper.pdf` but you can have it build anything else by setting `PDF_TARGETS` in your paper's make file.
 
+Use `make watch` to automatically build `paper.pdf` when any of the tex files are updated.
+
+### Ignoring rules in a region
+Ignore a checker for a region by marking it up in pragma:
+```latex
+%%pragma texlint push
+%%pragma texlint ignored check_macros
+
+Writing malloc instead of \malloc{} would not throw an error here
+
+%%pragma texlint pop
+```
+
+Look in `libpaper/bin/texlint` for checker name
+
+### Generating PDF of commit diffs
+libpaper includes scripts to generate pdf of the diff using git commits.
+To generate the pdf, run:
+```shell
+make diff
+```
+
+Next, choose the commits you want to generate the diff for (commit ids, tags or branches).
+
+Script is in `libpaper/bin/diff`.
+
+
 ## Submitting to ArXiv
 
 To prepare a paper for submission to the ArXiv (or for distribution to companies, etc.)

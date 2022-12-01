@@ -1,22 +1,3 @@
-%%% ====================================================================
-%%%  BibTeX-file{
-%%%     author          = "Gerry Murray",
-%%%     version         = "1.2",
-%%%     date            = "2 April 2012",
-%%%     filename        = "acmsmall-sample-bibfile.bib",
-%%%     address         = "ACM, NY",
-%%%     email           = "murray at hq.acm.org",
-%%%     codetable       = "ISO/ASCII",
-%%%     keywords        = "ACM Reference Format, bibliography, citation, references",
-%%%     supported       = "yes",
-%%%     docstring       = "This BibTeX database file contains 'bibdata' entries
-%%%                        that 'match' the examples provided in the Specifications Document
-%%%                        AND, also, 'legacy'-type bibs. It should assist authors in
-%%%                        choosing the 'correct' at-bibtype and necessary bib-fields
-%%%                        so as to obtain the appropriate ACM Reference Format output.
-%%%                        It also contains many 'Standard Abbreviations'. "
-%%%  }
-%%% ====================================================================
 
 % Journals
 
@@ -234,16 +215,15 @@
   author        = "Sarah Cohen and Werner Nutt and Yehoshua Sagic",
   title         = "Deciding equivalances among conjunctive aggregate queries",
   journal       = JACM,
-  articleno     = "5",
-  numpages      = "50",
-  volume        = "54",
-  number        = "2",
+  articleno     = 5,
+  numpages      = 50,
+  volume        = 54,
+  number        = 2,
   month         = apr,
-  year          = "2007",
+  year          = 2007,
   doi           = "10.1145/1219092.1219093",
   url           = "http://doi.acm.org/10.1145/1219092.1219093",
-  acmid         = "1219093",
-  note          = "",
+  acmid         = 1219093,
 }
 
 
@@ -511,59 +491,38 @@ Editors= "Z. Ghahramani and R. Cowell"
 
 @Inproceedings{VanGundy07,
   author =       "Matthew Van Gundy and Davide Balzarotti and Giovanni Vigna",
-  year =         "2007",
+  year =         2007,
   title =        "Catch me, if you can: Evading network signatures with web-based polymorphic worms",
   booktitle =    "Proceedings of the first USENIX workshop on Offensive Technologies",
   series =       "WOOT '07",
   publisher =    "USENIX Association",
   address =      "Berkley, CA",
-  articleno =    "7",
-  numpages =     "9",
-  editor =       "",
-  volume =       "",
-  number =       "",
-  pages =        "",
-  month =        "",
-  organization = "",
-  note =         "",
+  articleno =    {Paper 7},
+  numpages =     9,
 }
 
 @Inproceedings{VanGundy08,
   author =       "Matthew Van Gundy and Davide Balzarotti and Giovanni Vigna",
-  year =         "2008",
+  year =         2008,
   title =        "Catch me, if you can: Evading network signatures with web-based polymorphic worms",
   booktitle =    "Proceedings of the first USENIX workshop on Offensive Technologies",
   series =       "WOOT '08",
   publisher =    "USENIX Association",
   address =      "Berkley, CA",
-  articleno =    "7",
-  numpages =     "2",
-  editor =       "",
-  volume =       "",
-  number =       "",
+  articleno =    7,
+  numpages =     2,
   pages =        "99-100",
-  month =        "",
-  organization = "",
-  note =         "",
 }
 
 @Inproceedings{VanGundy09,
   author =       "Matthew Van Gundy and Davide Balzarotti and Giovanni Vigna",
-  year =         "2009",
+  year =         2009,
   title =        "Catch me, if you can: Evading network signatures with web-based polymorphic worms",
   booktitle =    "Proceedings of the first USENIX workshop on Offensive Technologies",
   series =       "WOOT '09",
   publisher =    "USENIX Association",
   address =      "Berkley, CA",
-  articleno =    "",
-  numpages =     "",
-  editor =       "",
-  volume =       "",
-  number =       "",
   pages =        "90--100",
-  month =        "",
-  organization = "",
-  note =         "",
 }
 
 @Inproceedings{Andler79,
@@ -706,7 +665,7 @@ year = {2003},
   note =         "",
 }
 
-@article{Rous08,
+@article{rous08,
   author =       "Bernard Rous",
   year =         "2008",
   title =        "The Enabling of Digital Libraries",
@@ -714,7 +673,7 @@ year = {2003},
   volume =       "12",
   number =       "3",
   month =        jul,
-  articleno =    "5",
+  articleno =    "Article~5",
   doi =          "",
   url =          "",
   howpublished = "",
@@ -739,14 +698,14 @@ year = {2003},
  author = {Werneck, Renato and Setubal, Jo\~{a}o and da Conceic\~{a}o, Arlindo},
  title = {(new) Finding minimum congestion spanning trees},
  journal = {J. Exp. Algorithmics},
- volume = {5},
+ volume = 5,
  month = dec,
- year = {2000},
+ year = 2000,
  issn = {1084-6654},
- articleno = {11},
+ articleno = 11,
  url = {http://portal.acm.org/citation.cfm?id=351827.384253},
  doi = {10.1145/351827.384253},
- acmid = {384253},
+ acmid = 384253,
  publisher = {ACM},
  address = {New York, NY, USA},
 }
@@ -915,7 +874,7 @@ year = {2003},
 }
 
 % div book
-@book{Mullender:1993:DS(:302430,
+@book{Mullender:1993:DS:302430,
  editor = {Mullender, Sape},
  title = {Distributed systems (2nd Ed.)},
  year = {1993},
@@ -1475,7 +1434,7 @@ month = jul,
 year = 1984,
 pages = "380--401"}
 
-@book{lamport:latex,
+@book{Lamport:LaTeX,
 author = "Leslie Lamport",
 title = "\it {\LaTeX}: A Document Preparation System",
 publisher = "Addison-Wesley",
@@ -1620,4 +1579,63 @@ pages = "24--31"}
   month =        {April},
   year =         2015,
   note =         {\url{http://www.ctan.org/pkg/amsthm}}
+}
+
+@ArtifactSoftware{R,
+    title = {R: A Language and Environment for Statistical Computing},
+    author = {{R Core Team}},
+    organization = {R Foundation for Statistical Computing},
+    address = {Vienna, Austria},
+    year = {2019},
+    url = {https://www.R-project.org/},
+}
+
+@ArtifactDataset{UMassCitations,
+ author    =  {Sam Anzaroot and Andrew McCallum},
+ title     =  {{UMass} Citation Field Extraction Dataset},
+ year      = 2013,
+ url       =
+    {http://www.iesl.cs.umass.edu/data/data-umasscitationfield},
+ lastaccessed = {May 27, 2019}
+}
+
+@Eprint{Bornmann2019,
+       author = {Bornmann, Lutz and Wray, K. Brad and Haunschild,
+                  Robin},
+        title = {Citation concept analysis {(CCA)}---A new form of
+                  citation analysis revealing the usefulness of
+                  concepts for other researchers illustrated by two
+                  exemplary case studies including classic books by
+                  {Thomas S.~Kuhn} and {Karl R.~Popper}},
+     keywords = {Computer Science - Digital Libraries},
+         year = 2019,
+        month = "May",
+          eid = {arXiv:1905.12410},
+archivePrefix = {arXiv},
+       eprint = {1905.12410},
+ primaryClass = {cs.DL},
+}
+
+@Eprint{AnzarootPBM14,
+  author    = {Sam Anzaroot and
+               Alexandre Passos and
+               David Belanger and
+               Andrew McCallum},
+  title     = {Learning Soft Linear Constraints with Application to
+                  Citation Field Extraction},
+  year      = {2014},
+  archivePrefix = {arXiv},
+  eprint    = {1403.1349},
+}
+
+@inproceedings{Hagerup1993,
+title        = {Maintaining Discrete Probability Distributions Optimally},
+author       = {Hagerup, Torben and Mehlhorn, Kurt and Munro, J. Ian},
+booktitle    = {Proceedings of the 20th International Colloquium on Automata, Languages and Programming},
+series       = {Lecture Notes in Computer Science},
+volume       = {700},
+pages        = {253--264},
+year         = {1993},
+publisher    = {Springer-Verlag},
+address      = {Berlin},
 }

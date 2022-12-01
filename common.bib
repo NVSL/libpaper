@@ -1,3 +1,7 @@
+@misc{taulbee2019,
+title={2019 Taulbee Survey},
+author ={Zweben, Stuart and Bizot, Betsy},
+year={2019}}
 
 @inproceedings{Gunawi:2008:SDF:1855741.1855751,
  author = {Gunawi, Haryadi S. and Rajimwale, Abhishek and Arpaci-Dusseau, Andrea C. and Arpaci-Dusseau, Remzi H.},
@@ -245,7 +249,6 @@ note={\url{https://www.sqlite.org}}
  doi = {10.1145/1807128.1807152},
  acmid = {1807152},
  publisher = {ACM},
- address = {New York, NY, USA},
  keywords = {benchmarking, cloud serving database},
 } 
 
@@ -4289,12 +4292,6 @@ note={http://fuse.sourceforge.net/},
 key={kfuse}
 }
 
-@inproceedings{orion,
-author={Jian Yang and Joseph Izraelevitz and Steven Swanson},
-booktitle={Proceedings of the 17th USENIX Conference on File and Storage Technologies (FAST ’19)},
-title={Orion: A Distributed File System for Non-Volatile Main Memory and {RDMA}-Capable Networks},
-year=2019,
-}
 
 @inproceedings {WSP,
 author       = {Dushyanth Narayanan and Orion Hodson},
@@ -4541,8 +4538,11 @@ ISSN={1089-795X},}
 @article{softWrAP,
   title={Software Support for Atomicity and Persistence in Non-volatile Memory},
   author={Giles, Ellis and Doshi, Kshitij and Varman, Peter},
-  year={2013}
+  year={2013},
+  booktitle={Memory Organization and Architecture Workshop (MeaoW'13)},
+  organization={Memory Organization and Architecture Workshop}
 }
+
 
 @inproceedings{memorage,
  author = {Jung, Ju-Young and Cho, Sangyeun},
@@ -6817,7 +6817,6 @@ publisher = {{USENIX} Association},
  doi = {10.1145/2660193.2660224},
  acmid = {2660224},
  publisher = {ACM},
- address = {New York, NY, USA},
  keywords = {consistency semantics, durability, locks, logging, non-volatile memory, persistence, transactions},
 }
 
@@ -6970,17 +6969,6 @@ note={\url{https://httpd.apache.org/docs/2.4/en/programs/ab.html}}
  keywords = {DAX, direct access, file systems, non-volatile memory, persistent memory, scalability},
 } 
 
-@inproceedings{onyx,
- author = {Akel, Ameen and Caulfield, Adrian M. and Mollov, Todor I. and Gupta, Rajesh K. and Swanson, Steven},
- title = {Onyx: A Protoype Phase Change Memory Storage Array},
- booktitle = {Proceedings of the 3rd USENIX Conference on Hot Topics in Storage and File Systems},
- series = {HotStorage'11},
- year = {2011},
- location = {Portland, OR},
- url = {http://dl.acm.org/citation.cfm?id=2002218.2002220},
- acmid = {2002220},
- address = {Berkeley, CA, USA},
-} 
 
 @inproceedings{espresso,
  author = {Wu, Mingyu and Zhao, Ziming and Li, Haoyu and Li, Heting and Chen, Haibo and Zang, Binyu and Guan, Haibing},
@@ -7008,18 +6996,18 @@ note={\url{https://httpd.apache.org/docs/2.4/en/programs/ab.html}}
   year={2019}
 }
 
-@inproceedings{pronto,
-  title={Pronto: Easy and Fast Persistence for Volatile Data Structures},
-  author={Memaripour, Amirsaman and Izraelevitz, Joseph and Swanson, Steven},
-  booktitle={Proceedings of the Twenty-Fifth International Conference on Architectural Support for Programming Languages and Operating Systems},
-  pages={789--806},
-  year={2020}
-}
-
-@inproceedings{pangolin,
-  title={Pangolin: A fault-tolerant persistent memory programming library},
-  author={Zhang, Lu and Swanson, Steven},
-  booktitle={2019 $\{$USENIX$\}$ Annual Technical Conference ($\{$USENIX$\}$$\{$ATC$\}$ 19)},
-  pages={897--912},
-  year={2019}
+@article {Theobald6476,
+	author = {Theobald, Elli J. and Hill, Mariah J. and Tran, Elisa and Agrawal, Sweta and Arroyo, E. Nicole and Behling, Shawn and Chambwe, Nyasha and Cintr{\'o}n, Dianne Laboy and Cooper, Jacob D. and Dunster, Gideon and Grummer, Jared A. and Hennessey, Kelly and Hsiao, Jennifer and Iranon, Nicole and Jones, Leonard and Jordt, Hannah and Keller, Marlowe and Lacey, Melissa E. and Littlefield, Caitlin E. and Lowe, Alexander and Newman, Shannon and Okolo, Vera and Olroyd, Savannah and Peecook, Brandon R. and Pickett, Sarah B. and Slager, David L. and Caviedes-Solis, Itzue W. and Stanchak, Kathryn E. and Sundaravardan, Vasudha and Valdebenito, Camila and Williams, Claire R. and Zinsli, Kaitlin and Freeman, Scott},
+	title = {Active learning narrows achievement gaps for underrepresented students in undergraduate science, technology, engineering, and math},
+	volume = {117},
+	number = {12},
+	pages = {6476--6483},
+	year = {2020},
+	doi = {10.1073/pnas.1916903117},
+	publisher = {National Academy of Sciences},
+	abstract = {Achievement gaps increase income inequality and decrease workplace diversity by contributing to the attrition of underrepresented students from science, technology, engineering, and mathematics (STEM) majors. We collected data on exam scores and failure rates in a wide array of STEM courses that had been taught by the same instructor via both traditional lecturing and active learning, and analyzed how the change in teaching approach impacted underrepresented minority and low-income students. On average, active learning reduced achievement gaps in exam scores and passing rates. Active learning benefits all students but offers disproportionate benefits for individuals from underrepresented groups. Widespread implementation of high-quality active learning can help reduce or eliminate achievement gaps in STEM courses and promote equity in higher education.We tested the hypothesis that underrepresented students in active-learning classrooms experience narrower achievement gaps than underrepresented students in traditional lecturing classrooms, averaged across all science, technology, engineering, and mathematics (STEM) fields and courses. We conducted a comprehensive search for both published and unpublished studies that compared the performance of underrepresented students to their overrepresented classmates in active-learning and traditional-lecturing treatments. This search resulted in data on student examination scores from 15 studies (9,238 total students) and data on student failure rates from 26 studies (44,606 total students). Bayesian regression analyses showed that on average, active learning reduced achievement gaps in examination scores by 33\% and narrowed gaps in passing rates by 45\%. The reported proportion of time that students spend on in-class activities was important, as only classes that implemented high-intensity active learning narrowed achievement gaps. Sensitivity analyses showed that the conclusions are robust to sampling bias and other issues. To explain the extensive variation in efficacy observed among studies, we propose the heads-and-hearts hypothesis, which holds that meaningful reductions in achievement gaps only occur when course designs combine deliberate practice with inclusive teaching. Our results support calls to replace traditional lecturing with evidence-based, active-learning course designs across the STEM disciplines and suggest that innovations in instructional strategies can increase equity in higher education.},
+	issn = {0027-8424},
+	URL = {https://www.pnas.org/content/117/12/6476},
+	eprint = {https://www.pnas.org/content/117/12/6476.full.pdf},
+	journal = {Proceedings of the National Academy of Sciences}
 }

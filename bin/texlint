@@ -129,7 +129,7 @@ class check_macros(Check):
         
     def do_check(self, l):
         def use_macro(n, m=None ):
-            return Alt(f"(\s|^|{{){n}([^\w\-]|\()", f"\\{m if m else n}", pretty_pattern=n)
+            return Alt(f"(\s|^|{{){n}([^\w\-\\\\]|\()", f"\\{m if m else n}", pretty_pattern=n)
 
         for p in (list(map(use_macro, ["malloc",
                                        "clflush",
@@ -172,6 +172,7 @@ class check_Misc(Check):
                   Alt("don't", "do not"),
                   Alt("doesn't", "does not"),
                   Alt("wouldn't", "would not"),
+                  Alt("we'll", "we will"),
                   #Alt("(\W|^)I[\W$]", "We (or rewrite to avoid 1st person pronouns)", reflags=0),
                   #Alt("you", "remove it"),
                   Alt("couldn't", "could not"),
@@ -188,6 +189,8 @@ class check_Misc(Check):
                   Alt("stream-line", "streamline"),
                   Alt("inter-operate", "interoperate"),
                   Alt("as such", "so, therefore, as a result, etc."),
+                  Alt("non-trivial", "<don't use this, it's vauge>"),
+                  Alt("nontrivial", "<don't use this, it's vauge>"),
                   Alt("[^,]\s+respectively", ", respectively"),
                   Alt("fix[\- ]size|fixed[\- ]sized|fixed-size", "fixed size"),
                   Alt("mmaped", "mmapped"),
@@ -196,13 +199,13 @@ class check_Misc(Check):
                   Alt("syscall", "system call"),
                   Alt("data[ \-]path", "datapath"),
                   Alt("\~\\\\ref[stfal]", "No non-breaking space before \reffig, \refsec, \reftab, etc."),
-                  Alt("[^\~]\\\\ref\{", "~\ref{}"),
+                  Alt("[^\-\~]\\\\ref\{", "~\ref{}"),
                   Alt("I/O", "IO"),
                   #Alt("non-volatile", "nonvolatile"),
                   Alt("\\\\cite\{[,\s]*\}", "a descriptive dummy citation instead (E.g., '\cite{apaperaboutbtrees}')"),
                   Alt("control-+flow", "control flow"),
-                  Alt(">>", "> > (to avoid geting double angle quotes in the output)"),
-                  Alt("<<", "< < (to avoid geting double angle quotes in the output)"),
+                  Alt(">>", "{>}> (to avoid geting double angle quotes in the output)"),
+                  Alt("<<", "{<}< (to avoid geting double angle quotes in the output)"),
                   Alt("In a nut ?shell", "Just cut it.  Also summaries after the fact are generally not useful."),
                   Alt("\{\\\\tt", "This is old-style tex. You should at least use \\texttt{}, but probably you want to use another macro like \csym{}."),
                   Alt("[^~]\\\\cite", "~\\cite{} (non-breaking space before \\cite)")
@@ -247,16 +250,37 @@ def main(argv):
                     lines = t.readlines()
                 except UnicodeDecodeError as e:
                     log.error(f"Problem parsing {f}: {e}")
-                    sys.exit(1)
-                    
+                    found_error = True
+                    continue
+
+                pragma_stack = []
+                push_mode = False
+                
                 for l in lines:
+                    if push_mode:
+                        toks = l.replace("%%pragma", "%% pragma").strip().split(" ")
+                        if toks[:-1] == "%% pragma texlint ignored".split(" "):
+                            pragma_stack.append(toks[-1])
+                        push_mode = False
+
+                    if l.replace("%%pragma", "%% pragma").strip().split(" ") == "%% pragma texlint push".split(" "):
+                        push_mode = True
+
+                    if l.replace("%%pragma", "%% pragma").strip().split(" ") == "%% pragma texlint pop".split(" "):
+                        del pragma_stack[-1]
+                        push_mode = False
+
+                        
                     log.debug(f"Checking '{l.strip()}'")
                     found_error = False
                     for name, check in checkers:
-                        found_error = found_error or not check.check_line(re.sub("([^\\\\]|^)%.*", "", l),
-                                                                          skip=re.search(f"%.*ignore\s+{check.name}",
-                                                                                         l,
-                                                                                         flags=re.IGNORECASE))
+                        if name not in pragma_stack:
+                            found_error = found_error or not check.check_line(re.sub("([^\\\\]|^)%.*", "", l),
+                                                                              skip=re.search(f"%.*ignore\s+{check.name}",
+                                                                                             l,
+                                                                                             flags=re.IGNORECASE))
+                        else:
+                            log.warn(f"Checker '{name}' ignored")
                     if found_error:
                         log.debug("Found some errors")
                     else:
@@ -284,7 +308,7 @@ def main(argv):
                         
         except Exception as e:
             log.error(f"Failed to process {f}: {e}")
-            sys.exit(1)
+            found_error = True
             
     if success or cmdline.permissive:
         if cmdline.expect_failure:

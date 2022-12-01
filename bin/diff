@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+# Description: Generates diff.pdf with all the additions highlighted
+# Author: Suyash Mahar
+
+DIFF_LAST_COMMIT_COUNT=20
+
+diff_log_f=`mktemp`
+diff_base_dir_loc=`mktemp -d`
+diff_updated_dir_loc=`mktemp -d`
+
+backtrace() {
+    local deptn=${#FUNCNAME[@]}
+
+    printf "Trapped on error, stacktrace:\n"
+    
+    for ((i=1; i<$deptn; i++)); do
+        local func="${FUNCNAME[$i]}"
+        local line="${BASH_LINENO[$((i-1))]}"
+        local src="${BASH_SOURCE[$((i-1))]}"
+        printf "\t%2d: " "$((i-1))"
+        echo "$func(), $src, line $line"
+    done
+
+    printf "\n# Log written to ${diff_log_f}\n"
+    printf "# Base directory at ${diff_base_dir_loc}\n"
+    printf "# New directory at ${diff_updated_dir_loc}\n"
+}
+
+set -eu
+set -o pipefail
+
+set -o errtrace
+trap 'backtrace' ERR
+
+checkout_commit() {
+    Dir="$1"
+    CommitId="$2"
+    Source="$3"
+
+    git clone "$Source" "$Dir"
+    ln -s `pwd`/../libpaper "$Dir"/libpaper
+    cd "$Dir"
+    git checkout $CommitId
+    cd -
+}
+
+show_pick_commits_header() {
+    git log --oneline | head -n${DIFF_LAST_COMMIT_COUNT} | sed 's/^/\t* /g' || { :; }
+    printf "> "
+}
+
+pick_commit() {
+    read temp_read
+    echo "$temp_read"
+}
+
+expand_main() {
+    SrcDir="$1"
+    OutF="$2"
+    wd=$(pwd)
+
+    echo "writing to ${wd}/$OutF"
+
+    cd "$SrcDir" && latexpand paper.tex > "${wd}/$OutF"
+    cd -
+}
+
+printf "# Writing logs to ${diff_log_f}\n"
+
+printf "# Using directory $(pwd) for generating diff\n"
+printf "* Pick the first (old) commit. Listing last ${DIFF_LAST_COMMIT_COUNT} commits:\n"
+show_pick_commits_header
+first_commit_id=$(pick_commit)
+
+printf "# Using commit '${first_commit_id}' as base\n"
+
+printf "Checking out the commit in a temporary directory ($diff_base_dir_loc)..."
+checkout_commit "$diff_base_dir_loc" "${first_commit_id}" "$(pwd)" >> "$diff_log_f" 2>&1
+printf "done\n"
+
+
+printf "* Pick the second (new) commit. Listing last ${DIFF_LAST_COMMIT_COUNT} commits:\n"
+show_pick_commits_header
+second_commit_id=$(pick_commit)
+
+printf "Checking out the commit in a temporary directory ($diff_updated_dir_loc)..."
+checkout_commit "$diff_updated_dir_loc" "${second_commit_id}" "$(pwd)" >> "$diff_log_f" 2>&1
+printf "done\n"
+
+printf "Expanding to old.tex..."
+expand_main "${diff_base_dir_loc}" "old.tex" >> "$diff_log_f" 2>&1
+printf "done\n"
+
+printf "Expanding to new.tex..."
+expand_main "${diff_updated_dir_loc}" "new.tex" >> "$diff_log_f" 2>&1
+printf "done\n"
+
+printf "Compiling diff.pdf..."
+printf '\\providecommand{\\DIFdel}[1]{}\n\\providecommand{\\DIFadd}[1]{{\\protect\\color{ForestGreen}#1}}\n' > diff.tex
+{ latexdiff old.tex new.tex --flatten >> diff.tex 2>>"$diff_log_f"; }
+pdflatex -interaction=nonstopmode diff.tex >> "$diff_log_f" 2>&1
+biblatex diff
+pdflatex -interaction=nonstopmode diff.tex >> "$diff_log_f" 2>&1
+pdflatex -interaction=nonstopmode diff.tex >> "$diff_log_f" 2>&1
+printf "done\n"
+
+printf "\nDiff generated in diff.pdf\n"
+

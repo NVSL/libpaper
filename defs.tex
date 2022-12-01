@@ -21,7 +21,7 @@
 \newcommand{\DAXmmapd}{DAX-mapped}
 \newcommand{\DAXmmap}{DAX-\mmap{}}
 
-\newcommand{\boldparagraph}[1]{\vspace*{1ex}\noindent\textbf{#1}\hspace{1em}}
+\newcommand{\boldparagraph}[1]{\vspace*{0.5ex}\noindent\textbf{#1}\hspace{1em}}
 \newcommand{\caveatdaxor}{\emph{caveat DAXor}}
 \newcommand{\etal}{\textit{et al.}}
 \newcommand{\ignore}[1]{}
@@ -36,7 +36,9 @@
 \newcommand{\refsec}[1]{Section~\ref{#1}}% ignore macros
 \newcommand{\reftab}[1]{Table~\ref{#1}}% ignore macros
 \newcommand{\refapp}[1]{Appendix~\ref{#1}}% ignore macros
-\newcommand{\us}{$\mu$s}
+\newcommand{\refln}[1]{Line~\ref{#1}}% ignore macros
+\newcommand{\reflns}[2]{Lines~\hyperref[#1]{\ref*{#1}-\ref*{#2}}}% ignore macros
+\newcommand{\us}{\textmu{}s}
 \newcommand{\x}[1]{$\times$}
 \newcommand{\figtitle}[1]{\textbf{#1}}
 
@@ -45,13 +47,18 @@
 \newcommand{\jian}[1]{{\color{jiancolor}\textbf{[Jian: #1]}}}
 \newcommand{\lu}[1]{{\color{orange}\textbf{#1}}}
 \newcommand{\juno}[1]{{\color{red}\textbf{#1}}}
+\newcommand{\george}[1]{{\color{red}\textbf{#1}}}
 \newcommand{\shengan}[1]{{\color{blue}\textbf{#1}}}
 \newcommand{\joe}[1]{{\color{blue}\textbf{[Joe: #1]}}}
-\newcommand{\morteza}[1]{{\color{yellow}\textbf{#1}}}
+\newcommand{\morteza}[1]{{\color{yellow}\textbf{[Morteza: #1]}}}
 \newcommand{\saman}[1]{{\color{purple}\textbf{#1}}}
-\newcommand{\steve}[1]{{\color{mygreen}\textbf{#1}}}
+\newcommand{\steve}[1]{{\color{mygreen}\textbf{[Steve: #1]}}}
 \newcommand{\kunal}[1]{{\color{purple}\textbf{#1}}}
 \newcommand{\xiao}[1]{{\color{purple}\textbf{#1}}}
+\newcommand{\smahar}[1]{{{\textcolor{cyan}{\textbf{\sffamily $\blacktriangleright$ Suyash: #1 $\blacktriangleleft$}}}}}
+\newcommand{\yi}[1]{{\color{purple}\textbf{#1}}}
+\newcommand{\mingyao}[1]{{\color{purple}\textbf{#1}}}
+\newcommand{\tj}[1]{{\color{blue}\textbf{[TJ: #1]}}}
 
 \newcommand{\HOW}[1]{{\color{red}\textbf{HOW:} #1}}
 
@@ -93,6 +100,8 @@
 
 \newcommand{\malloc}{\cfunc{malloc}}% ignore macros
 \newcommand{\free}{\cfunc{free}}% ignore macros
+\newcommand{\ioopen}{\cfunc{open}}% ignore macros
+\newcommand{\ioclose}{\cfunc{close}}% ignore macros
 \newcommand{\iowrite}{\cfunc{write}}% ignore macros
 \newcommand{\ioread}{\cfunc{read}}% ignore macros
 \newcommand{\ioctl}{\cfunc{ioctl}}% ignore macros
@@ -114,8 +123,10 @@
 \newcommand{\clflushopt}{\csym{clflushopt}}% ignore macros
 \newcommand{\mfence}{\csym{mfence}}% ignore macros
 \newcommand{\sfence}{\csym{sfence}}% ignore macros
+\newcommand{\sbrk}{\cfunc{sbrk}}% ignore macros
 
 \newcommand{\eg}{e.g.}
+\newcommand{\Eg}{E.g.}
 
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
             \node[shape=circle,draw,inner sep=1.05pt] (char) {#1};}}
