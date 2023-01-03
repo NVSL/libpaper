@@ -34,6 +34,10 @@ Next, choose the commits you want to generate the diff for (commit ids, tags or 
 
 Script is in `libpaper/bin/diff`.
 
+## Extended abstracts
+To generate extended abstract, edit the file `extended-abstract.tex` and run the command `make extended-abstract.tex`. The makefile will generate `extended-abstract.pdf`
+
+To generate `extended-abstract.grammarly.txt`, run `make extended-abstract.grammarly.txt`.
 
 ## Submitting to ArXiv
 
