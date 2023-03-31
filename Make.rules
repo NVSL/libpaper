@@ -90,6 +90,8 @@ TEMP_DIR=/tmp/$(shell basename $(CURDIR))
 	mkdir -p $(TEMP_DIR)
 	$(TAR) cf - $(ALL_INPUTS) paper.bbl | (cd $(TEMP_DIR); $(TAR) xf -)
 	(cd $(TEMP_DIR); for i in $$(find . -name '*.tex'); do mv $$i $$i.bak; perl -ne 's/\~\\(footnote|cite)/\\$$1/g;print;' < $$i.bak > $$i;done)
+	(cd $(TEMP_DIR); sed -i '/\\begin{abstract}/d' *.tex)
+	(cd $(TEMP_DIR); sed -i '/\\end{abstract}/d' *.tex)
 	(cd $(TEMP_DIR); sed -i '/\LetLtxMacro/,+2 d' libpaper/macros.tex)
 	(cd $(TEMP_DIR); $(PANDOC) $*.tex -w plain -o - --wrap=none) > $@
 
