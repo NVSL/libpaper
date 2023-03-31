@@ -210,7 +210,7 @@
 	}
 
 
-	@inproceedings{Morpheus,
+	@inproceedings{morpheus,
 	title = {Morpheus: Creating Application Objects Efficiently for Heterogeneous Computing},
 	author = {Hung-Wei Tseng and Qianchen Zhao and Yuxiao Zhou and Mark Gahagan and Steven Swanson},
 	booktitle  =  {43rd Internional Symposium on Computer Architecture},
@@ -1854,6 +1854,23 @@ month = oct,
 		       	accept_rate = {28.5\%}, 
 	}
 
+@inproceedings{10.1145/3230543.3230572,
+author = {Kim, Daehyeok and Memaripour, Amirsaman and Badam, Anirudh and Zhu, Yibo and Liu, Hongqiang Harry and Padhye, Jitu and Raindel, Shachar and Swanson, Steven and Sekar, Vyas and Seshan, Srinivasan},
+title = {Hyperloop: Group-Based NIC-Offloading to Accelerate Replicated Transactions in Multi-Tenant Storage Systems},
+year = {2018},
+isbn = {9781450355674},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3230543.3230572},
+doi = {10.1145/3230543.3230572},
+abstract = {Storage systems in data centers are an important component of large-scale online services. They typically perform replicated transactional operations for high data availability and integrity. Today, however, such operations suffer from high tail latency even with recent kernel bypass and storage optimizations, and thus affect the predictability of end-to-end performance of these services. We observe that the root cause of the problem is the involvement of the CPU, a precious commodity in multi-tenant settings, in the critical path of replicated transactions. In this paper, we present HyperLoop, a new framework that removes CPU from the critical path of replicated transactions in storage systems by offloading them to commodity RDMA NICs, with non-volatile memory as the storage medium. To achieve this, we develop new and general NIC offloading primitives that can perform memory operations on all nodes in a replication group while guaranteeing ACID properties without CPU involvement. We demonstrate that popular storage applications can be easily optimized using our primitives. Our evaluation results with microbenchmarks and application benchmarks show that HyperLoop can reduce 99th percentile latency ≈ 800X with close to 0% CPU consumption on replicas.},
+booktitle = {Proceedings of the 2018 Conference of the ACM Special Interest Group on Data Communication},
+pages = {297–312},
+numpages = {16},
+keywords = {RDMA, distributed storage systems, replicated transactions, NIC-offloading},
+location = {Budapest, Hungary},
+series = {SIGCOMM '18}
+}
 @inproceedings{orion,
 author = {Yang, Jian and Izraelevitz, Joseph and Swanson, Steven},
 title = {Orion: A Distributed File System for Non-Volatile Main Memories and RDMA-Capable Networks},
@@ -2150,4 +2167,81 @@ pages = {429–442},
 numpages = {14}
 }
 
-@ARTICLE{8649763,  author={Swanson, Steven},  journal={IEEE Micro},   title={Redesigning File Systems for Nonvolatile Main Memory},   year={2019},  volume={39},  number={1},  pages={62-64},  doi={10.1109/MM.2018.2886443}}
+@ARTICLE{8649763,
+author={Swanson, Steven},  journal={IEEE Micro},   title={Redesigning File Systems for Nonvolatile Main Memory},   year={2019},  volume={39},  number={1},  pages={62-64},  doi={10.1109/MM.2018.2886443}}
+
+
+@article{10.1145/3580280,
+author = {Zheng, Shengan and Hoseinzadeh, Morteza and Swanson, Steven and Huang, Linpeng},
+title = {TPFS: A High-Performance Tiered File System for Persistent Memories and Disks},
+year = {2023},
+issue_date = {May 2023},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {19},
+number = {2},
+issn = {1553-3077},
+url = {https://doi.org/10.1145/3580280},
+doi = {10.1145/3580280},
+abstract = {Emerging fast, byte-addressable persistent memory (PM) promises substantial storage performance gains compared with traditional disks. We present TPFS, a tiered file system that combines PM and slow disks to create a storage system with near-PM performance and large capacity. TPFS steers incoming file input/output (I/O) to PM, dynamic random access memory (DRAM), or disk depending on the synchronicity, write size, and read frequency. TPFS profiles the application’s access stream online to predict the behavior of file access. In the background, TPFS estimates the “temperature” of file data and migrates the write-cold and read-hot file data from PM to disks. To fully utilize disk bandwidth, TPFS coalesces data blocks into large, sequential writes. Experimental results show that with a small amount of PM and a large solid-state drive (SSD), TPFS achieves up to 7.3\texttimes{} and 7.9\texttimes{} throughput improvement compared with EXT4 and XFS running on an SSD alone, respectively. As the amount of PM grows, TPFS’s performance improves until it matches the performance of a PM-only file system.},
+journal = {ACM Trans. Storage},
+month = {mar},
+articleno = {20},
+numpages = {28},
+keywords = {File system, persistent memory, data migration}
+}
+
+@inproceedings{blaze,
+author = {Kim, Juno and Swanson, Steven},
+title = {Blaze: Fast Graph Processing on Fast SSDs},
+year = {2022},
+isbn = {9784665454445},
+publisher = {IEEE Press},
+abstract = {Out-of-core graph processing is an attractive solution for processing very large graphs that do not fit in the memory of a single machine. The new class of ultra-low-latency SSDs should expand the impact and utility of out-of-core graph processing systems. However, current out-of-core systems cannot fully leverage the high IOPS these devices can deliver.We introduce Blaze, a new out-of-core graph processing system optimized for ultra-low-latency SSDs. Blaze offers high-performance out-of-core graph analytics by constantly saturating these fast SSDs with a new scatter-gather technique called online binning that allows value propagation among graph vertices without atomic synchronization. Blaze offers succinct APIs to allow programmers to write efficient out-of-core graph algorithms without the burden to manage complex IO executions. Our evaluation shows that Blaze outperforms current out-of-core systems by a wide margin on seven datasets and a set of representative graph queries on Intel Optane SSD.},
+booktitle = {Proceedings of the International Conference on High Performance Computing, Networking, Storage and Analysis},
+articleno = {44},
+numpages = {15},
+keywords = {high performance computing, network theory (graphs), data analysis, parallel processing},
+location = {Dallas, Texas},
+series = {SC '22}
+}
+@inproceedings{pmassive,
+author = {Batsoyol, Narangerelt and Pullman, Benjamin and Wang, Mingxun and Bandeira, Nuno and Swanson, Steven},
+title = {P-Massive: A Real-Time Search Engine for a Multi-Terabyte Mass Spectrometry Database},
+year = {2022},
+isbn = {9784665454445},
+publisher = {IEEE Press},
+abstract = {Queries of multi-TB Mass Spectrometry (MS) repositories provide deep insights into biological processes and pose challenging data processing problems. The key bottleneck for running these queries is the number of small random reads. Byte-addressable persistent main memory (PMEM) technologies enable real-time MS search systems by delivering low-latency, high-bandwidth storage.This work presents P-Massive, real-time multi-terabyte scale MS search system. P-Massive takes advantage of PMEM and the underlying nature of its data access patterns to maximize performance. We evaluate P-Massive across various storage hierarchies and project forward over the next decade to understand how MS query systems might evolve.Our evaluation shows that P-Massive offers a cost-effective solution that achieves near-DRAM performance. A single query takes 1.7 seconds in P-Massive, 69\texttimes{} faster than state-of-the-art implementation. In an end-to-end, user-facing application, P-Massive delivers a 90% shorter wait time than the latest MS search tool, returning results within seconds rather than minutes.},
+booktitle = {Proceedings of the International Conference on High Performance Computing, Networking, Storage and Analysis},
+articleno = {9},
+numpages = {15},
+keywords = {indexing, mass spectrometry, bioinformatics, nonvolatile memory, search engines},
+location = {Dallas, Texas},
+series = {SC '22}
+}
+
+@INPROCEEDINGS{9458605,
+  author={Wang, Jianguo and Lin, Chunbin and Papakonstantinou, Yannis and Swanson, Steven},
+  booktitle={2021 IEEE 37th International Conference on Data Engineering (ICDE)}, 
+  title={Evaluating List Intersection on SSDs for Parallel I/O Skipping}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1823-1828},
+  doi={10.1109/ICDE51399.2021.00161}}
+
+@inproceedings{ayudante,
+title={Ayudante: A Deep Reinforcement Learning Approach to Assist Persistent Memory Programming},
+author={Huang, Hanxian and Wang, Zixuan and Kim, Juno and Swanson, Steven and Zhao, Jishen},
+booktitle = {2021 {USENIX} Annual Technical Conference, {USENIX} {ATC} 2021},
+publisher = {{USENIX} Association},
+ year      = {2021}}
+
+
+@inproceeds{nvleak,
+title={NVLeak: Off-Chip Side-Channel Attacks via Non-Volatile Memory Systems},
+author={Wang, Zixuan and Taram, Mohammadkazem and Moghimi, Daniel and Swanson, Steven and Tullsen, Dean and Zha, Jishen},
+booktitle = {32st USENIX Security Symposium (USENIX Security 23)},
+year = {2023},
+publisher = {USENIX Association},
+month = aug}
