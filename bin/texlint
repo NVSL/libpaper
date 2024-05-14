@@ -133,6 +133,7 @@ class check_macros(Check):
 
         for p in (list(map(use_macro, ["malloc",
                                        "clflush",
+                                       "clflushopt",
                                        "clwb",
                                        "fdatasync",
                                        "fsync",
