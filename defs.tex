@@ -33,7 +33,11 @@
 \newcommand{\refeq}[1]{(Equation~\ref{#1})}% ignore macros
 \newcommand{\reffig}[1]{Figure~\ref{#1}}% ignore macros
 \newcommand{\reflst}[1]{Listing~\ref{#1}}% ignore macros
-\newcommand{\refsec}[1]{Section~\ref{#1}}% ignore macros
+\ifdefined\libpaperFancyRefSec
+  \newcommand{\refsec}[1]{\S~\ref{#1}}% ignore macros
+\else
+  \newcommand{\refsec}[1]{Section~\ref{#1}}% ignore macros
+\fi
 \newcommand{\reftab}[1]{Table~\ref{#1}}% ignore macros
 \newcommand{\refapp}[1]{Appendix~\ref{#1}}% ignore macros
 \newcommand{\refln}[1]{Line~\ref{#1}}% ignore macros
